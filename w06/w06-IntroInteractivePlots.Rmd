@@ -1,0 +1,248 @@
+---
+title: "What Is Interactive Visualization?"
+author: "Cheng Peng"
+date: "West Chester University "
+output:
+  pdf_document: 
+    toc: yes
+    toc_depth: 4
+    fig_caption: yes
+    number_sections: yes
+    fig_width: 5
+    fig_height: 4
+  html_document: 
+    toc: yes
+    toc_depth: 4
+    toc_float: yes
+    fig_width: 6
+    number_sections: yes
+    theme: readable
+    fig_height: 4
+---
+<style type="text/css">
+
+div#TOC li {
+    list-style:none;
+    background-color:lightgray;
+    background-image:none;
+    background-repeat:none;
+    background-position:0;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #780c0c;
+}
+
+/* mouse over link */
+div#TOC a:hover {
+  color: red;
+}
+
+/* unvisited link */
+div#TOC a:link {
+  color: blue;
+}
+
+
+
+h1.title {
+  font-size: 24px;
+  color: Darkblue;
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+  font-variant-caps: normal;
+}
+h4.author { 
+    font-size: 18px;
+  font-family: "Times New Roman", Times, serif;
+  color: DarkRed;
+  text-align: center;
+}
+h4.date { 
+  font-size: 18px;
+  font-family: "Times New Roman", Times, serif;
+  color: DarkBlue;
+  text-align: center;
+}
+h1 {
+    font-size: 22px;
+    font-family: "Times New Roman", Times, serif;
+    color: darkred;
+    text-align: center;
+}
+h2 { /
+    font-size: 18px;
+    font-family: "Times New Roman", Times, serif;
+    color: navy;
+    text-align: left;
+}
+
+h3 { 
+    font-size: 15px;
+    font-family: "Times New Roman", Times, serif;
+    color: navy;
+    text-align: left;
+}
+
+h4 { /* Header 4 - and the author and data headers use this too  */
+    font-size: 18px;
+    font-family: "Times New Roman", Times, serif;
+    color: darkred;
+    text-align: left;
+}
+
+/* unvisited link */
+a:link {
+  color: green;
+}
+
+/* visited link */
+a:visited {
+  color: green;
+}
+
+/* mouse over link */
+a:hover {
+  color: red;
+}
+
+/* selected link */
+a:active {
+  color: yellow;
+}
+
+</style>
+
+
+```{r setup, include=FALSE}
+# code chunk specifies whether the R code, warnings, and output 
+# will be included in the output files.
+if (!require("tidyverse")) {
+   install.packages("tidyverse")
+   library(tidyverse)
+}
+if (!require("knitr")) {
+   install.packages("knitr")
+   library(knitr)
+}
+if (!require("cowplot")) {
+   install.packages("cowplot")
+   library(cowplot)
+}
+if (!require("latex2exp")) {
+   install.packages("latex2exp")
+   library(latex2exp)
+}
+if (!require("plotly")) {
+   install.packages("plotly")
+   library(plotly)
+}
+if (!require("gapminder")) {
+   install.packages("gapminder")
+   library(gapminder)
+}
+if (!require("png")) {
+    install.packages("png")             # Install png package
+    library("png")
+}
+if (!require("RCurl")) {
+    install.packages("RCurl")             # Install RCurl package
+    library("RCurl")
+}
+if (!require("colourpicker")) {
+    install.packages("colourpicker")              
+    library("colourpicker")
+}
+if (!require("gifski")) {
+    install.packages("gifski")              
+    library("gifski")
+}
+if (!require("magick")) {
+    install.packages("magick")              
+    library("magick")
+}
+if (!require("grDevices")) {
+    install.packages("grDevices")              
+    library("grDevices")
+}
+### ggplot and extensions
+if (!require("ggplot2")) {
+    install.packages("ggplot2")              
+    library("ggplot2")
+}
+if (!require("gganimate")) {
+    install.packages("gganimate")              
+    library("gganimate")
+}
+if (!require("ggridges")) {
+    install.packages("ggridges")              
+    library("ggridges")
+}
+# knitr::opts_knit$set(root.dir = "C:/Users/75CPENG/OneDrive - West Chester University of PA/Documents")
+# knitr::opts_knit$set(root.dir = "C:\\STA490\\w05")
+
+knitr::opts_chunk$set(echo = TRUE,       
+                      warning = FALSE,   
+                      result = TRUE,   
+                      message = FALSE)
+```
+
+\
+
+# Introduction
+
+Unlike the plots the base R plots and ggplots that users read passively, interactive plots allow users to interact directly with them by exploring different types of information from different perspectives. 
+
+Essentially, interactive data visualization has an advantage over static representations of data in that it offers tools for engaging with the information shown in real time, allowing the end user to see more details, generate new insights and questions, and squeeze more juice out of the available data sets.
+
+
+# Strategies for Creating Interactive DataViz
+
+To develop effective interactive maps, charts, and graphs, there are several factors we need to consider when we plan the design stage. 
+
+* Availability of sufficient data available to design an ideal visualization. 
+* Tools and skills to make the visualization comprehensible and easy to navigate.
+* Capability of generating valuable insights one can act upon.
+
+Typically, interactive data visualization will be structured around identifying the desired goals, understanding the challenges stemming from the restrictions posed by data sets, and designing a model in which data can be quickly iterated and reviewed.
+
+Once the design concept takes shape, we can move on to complex data modeling aimed at thoroughly charting every piece of data and meta-data involved. Next up is the design of the user interface and the development of core technology which can be achieved with the help of various data visualization tools.
+
+With these steps completed, it’s time to user-test for compatibility, functionality, security, UI, and performance. Put some finishing touches by introducing any improvements that may be required and you’re ready to go live with your target audience.
+
+
+# Benefits of Interactive DataViz
+
+
+Interactive visualizations allow viewers to interface with the information presented in ways not possible with static charts and maps. Interactivity is the way to go especially when dealing with complex data.
+
+Among the benefits of interactive data visualization are:
+
+
+* **Identifying trends faster** – Humans are way better at processing visual data than just plain text. Being able to see and directly rearrange data makes it easier to acquire information and act on it accordingly.
+
+
+* **Identifying relationships more efficiently** – The opportunity to focus on particular metrics allows users to discern cause-and-effect relationships throughout definable time frames.
+
+
+* **Valuable data storytelling** – The presentation of a data story works best with humans when it’s served in a clear, linear fashion. Interactive data visualization allowing you to zoom in and out, highlight relevant information, filter, and change the parameters will lead to a better understanding of the information.
+
+* **Simplifying complex data** – A huge data set with many interconnected pieces may at first glance look very chaotic. Adding in interactive controls like zooming and filtering will introduce the much-needed order and generate valuable insights.
+
+
+Editable data visualizations are extremely useful in that they optimize the way information is shown. Dashboards with long tables, tons of numbers and text simply aren’t as practical. A chart you can engage with allows for a better understanding of whatever topic is being presented due to its ability to group data and create hierarchies. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
