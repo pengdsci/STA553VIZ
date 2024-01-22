@@ -1,0 +1,281 @@
+---
+title: "Scatter Maps with Mapview()"
+author: "Cheng Peng"
+date: "West Chester University "
+output:
+  html_document: 
+    toc: yes
+    toc_depth: 4
+    toc_float: yes
+    fig_width: 6
+    number_sections: yes
+    theme: readable
+    fig_height: 4
+  pdf_document: 
+    toc: yes
+    toc_depth: 4
+    fig_caption: yes
+    number_sections: yes
+    fig_width: 5
+    fig_height: 4
+---
+<style type="text/css">
+
+div#TOC li {
+    list-style:none;
+    background-color:lightgray;
+    background-image:none;
+    background-repeat:none;
+    background-position:0;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #780c0c;
+}
+
+/* mouse over link */
+div#TOC a:hover {
+  color: red;
+}
+
+/* unvisited link */
+div#TOC a:link {
+  color: blue;
+}
+
+
+
+h1.title {
+  font-size: 24px;
+  color: Darkblue;
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+  font-variant-caps: normal;
+}
+h4.author { 
+    font-size: 18px;
+  font-family: "Times New Roman", Times, serif;
+  color: DarkRed;
+  text-align: center;
+}
+h4.date { 
+  font-size: 18px;
+  font-family: "Times New Roman", Times, serif;
+  color: DarkBlue;
+  text-align: center;
+}
+h1 {
+    font-size: 22px;
+    font-family: "Times New Roman", Times, serif;
+    color: darkred;
+    text-align: center;
+}
+h2 { /
+    font-size: 18px;
+    font-family: "Times New Roman", Times, serif;
+    color: navy;
+    text-align: left;
+}
+
+h3 { 
+    font-size: 15px;
+    font-family: "Times New Roman", Times, serif;
+    color: navy;
+    text-align: left;
+}
+
+h4 { /* Header 4 - and the author and data headers use this too  */
+    font-size: 18px;
+    font-family: "Times New Roman", Times, serif;
+    color: darkred;
+    text-align: left;
+}
+
+/* unvisited link */
+a:link {
+  color: green;
+}
+
+/* visited link */
+a:visited {
+  color: green;
+}
+
+/* mouse over link */
+a:hover {
+  color: red;
+}
+
+/* selected link */
+a:active {
+  color: yellow;
+}
+
+</style>
+
+
+```{r setup, include=FALSE}
+# code chunk specifies whether the R code, warnings, and output 
+# will be included in the output files.
+if (!require("tidyverse")) {
+   install.packages("tidyverse")
+   library(tidyverse)
+}
+if (!require("knitr")) {
+   install.packages("knitr")
+   library(knitr)
+}
+if (!require("plotly")) {
+   install.packages("plotly")
+   library(plotly)
+}
+if (!require("gapminder")) {
+   install.packages("gapminder")
+   library(gapminder)
+}
+if (!require("RCurl")) {
+    install.packages("RCurl")             # Install RCurl package
+    library("RCurl")
+}
+if (!require("colourpicker")) {
+    install.packages("colourpicker")              
+    library("colourpicker")
+}
+if (!require("gganimate")) {
+    install.packages("gganimate")              
+    library("gganimate")
+}
+if (!require("gifski")) {
+    install.packages("gifski")              
+    library("gifski")
+}
+if (!require("magick")) {
+    install.packages("magick")              
+    library("magick")
+}
+if (!require("grDevices")) {
+    install.packages("grDevices")              
+    library("grDevices")
+}
+if (!require("leaflet")) {
+    install.packages("leaflet")              
+    library("leaflet")
+}
+if (!require("maps")) {
+    install.packages("maps")              
+    library("maps")
+}
+if (!require("htmltools")) {
+    install.packages("htmltools")              
+    library("htmltools")
+}
+if (!require("leaflegend")) {
+    install.packages("leaflegend")              
+    library("leaflegend")
+}
+if (!require("geojsonio")) {
+    install.packages("geojsonio")              
+    library("geojsonio")
+}
+if (!require("stringi")) {
+    install.packages("stringi")              
+    library("stringi")
+}
+if (!require("RColorBrewer")) {
+    install.packages("RColorBrewer")              
+    library("RColorBrewer")
+}
+if (!require("tigris")) {
+    install.packages("tigris")              
+    library("tigris")
+}
+if (!require("leafpop")) {
+    install.packages("leafpop")              
+    library("leafpop")
+}
+if (!require("leafem")) {
+    install.packages("leafem")              
+    library("leafem")
+}
+if (!require("tmap")) {
+    install.packages("tmap")              
+    library("tmap")
+}
+if (!require("tmaptools")) {
+    install.packages("tmaptools")              
+    library("tmaptools")
+}
+if (!require("readxl")) {
+    install.packages("readxl")              
+    library("readxl")
+}
+# knitr::opts_knit$set(root.dir = "C:/Users/75CPENG/OneDrive - West Chester University of PA/Documents")
+# knitr::opts_knit$set(root.dir = "C:\\STA490\\w05"
+knitr::opts_chunk$set(echo = TRUE,       
+                      warning = FALSE,   
+                      result = TRUE,   
+                      message = FALSE)
+```
+
+
+#  Scatter Map with `mapview`
+
+We now use `state capital` with longitude and latitude and plot the capital of each state. The idea is similar to that of `ggplot`: we make the scatter plots on the existing choropleth map using the geocode in the new `sf` object defined based on the new data set.
+
+```{r results=FALSE}
+library(tigris)
+library(mapview)
+library(dplyr)
+library(sf)
+#invisible({capture.output({
+## Download shapefile for all states into R in tigris
+## states() is a function in library {tigris}
+us_geo <- states(cb = F, resolution = '20m')
+```
+
+
+```{r}
+## load the location data
+capitals <- read.csv("https://raw.githubusercontent.com/pengdsci/sta553/main/data/us-state-capitals.csv")
+##
+capitals_geo <- st_as_sf(capitals, 
+                         coords = c("longitude", "latitude"), 
+                         crs = 4326)
+## caution: need to tell R that GEOIS should be a character variable since
+## the same GEOID is character variable in the shape file us_geo with
+## some leading zeros!
+pop_data <- read.csv("https://raw.githubusercontent.com/pengdsci/sta553/main/data/state_population_data.csv", colClasses = c(GEOID = "character"))
+## merger two data use the primary key: GEOID.
+all_data <- inner_join(us_geo, pop_data, by = c("GEOID" = "GEOID")) 
+## we add the above layer to the previously created map
+mapview(all_data, zcol = "PctChange10_20", layer.name = "Per Chg") + capitals_geo
+```
+
+
+
+
+# Scatter Map Without Using `sf` Object
+
+We can also use `mapview()` to make a scatter plot directly on the basemap without using a choropleth map as the background. This simply uses the data with longitude and latitude to make the scatter map without converting the data to an `sf' object.
+
+The set to be used is a regular R data frame with longitude and latitude. Two new variables were added to the merged data set to make more information geographic representation of the change to the population from 2010 to 2020.
+
+```{r}
+library(mapview)
+library(sf)
+pop_data <- read.csv("https://raw.githubusercontent.com/pengdsci/sta553/main/data/state_population_data.csv", colClasses = c(GEOID = "character"))
+capitals <- read.csv("https://raw.githubusercontent.com/pengdsci/sta553/main/data/us-state-capitals.csv")
+## inner join the above two data frames
+state.pop.geo <- inner_join(pop_data, capitals, by = "State")
+state.pop.geo$chg.size <- abs(state.pop.geo$PctChange10_20)
+chg.dir <- rep("increase", dim(state.pop.geo)[1])
+chg.dir[which(state.pop.geo$PctChange10_20 < 0)] = "decrease"
+state.pop.geo$chg.dir = chg.dir
+#
+mapview(state.pop.geo, xcol = "longitude", ycol = "latitude", 
+        crs = 4269, 
+        grid = FALSE, 
+        na.col ="red",
+        zcol = "chg.dir",
+        cex = "chg.size",
+        popup = TRUE, 
+        legend = TRUE)
+```

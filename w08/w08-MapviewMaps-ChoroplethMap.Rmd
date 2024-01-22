@@ -1,0 +1,281 @@
+---
+title: "Choropleth Maps with  Mapview()"
+author: "Cheng Peng"
+date: "West Chester University "
+output:
+  html_document: 
+    toc: yes
+    toc_depth: 4
+    toc_float: yes
+    fig_width: 6
+    number_sections: yes
+    theme: readable
+    fig_height: 4
+  pdf_document: 
+    toc: yes
+    toc_depth: 4
+    fig_caption: yes
+    number_sections: yes
+    fig_width: 5
+    fig_height: 4
+---
+<style type="text/css">
+
+div#TOC li {
+    list-style:none;
+    background-color:lightgray;
+    background-image:none;
+    background-repeat:none;
+    background-position:0;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #780c0c;
+}
+
+/* mouse over link */
+div#TOC a:hover {
+  color: red;
+}
+
+/* unvisited link */
+div#TOC a:link {
+  color: blue;
+}
+
+
+
+h1.title {
+  font-size: 24px;
+  color: Darkblue;
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+  font-variant-caps: normal;
+}
+h4.author { 
+    font-size: 18px;
+  font-family: "Times New Roman", Times, serif;
+  color: DarkRed;
+  text-align: center;
+}
+h4.date { 
+  font-size: 18px;
+  font-family: "Times New Roman", Times, serif;
+  color: DarkBlue;
+  text-align: center;
+}
+h1 {
+    font-size: 22px;
+    font-family: "Times New Roman", Times, serif;
+    color: darkred;
+    text-align: center;
+}
+h2 { /
+    font-size: 18px;
+    font-family: "Times New Roman", Times, serif;
+    color: navy;
+    text-align: left;
+}
+
+h3 { 
+    font-size: 15px;
+    font-family: "Times New Roman", Times, serif;
+    color: navy;
+    text-align: left;
+}
+
+h4 { /* Header 4 - and the author and data headers use this too  */
+    font-size: 18px;
+    font-family: "Times New Roman", Times, serif;
+    color: darkred;
+    text-align: left;
+}
+
+/* unvisited link */
+a:link {
+  color: green;
+}
+
+/* visited link */
+a:visited {
+  color: green;
+}
+
+/* mouse over link */
+a:hover {
+  color: red;
+}
+
+/* selected link */
+a:active {
+  color: yellow;
+}
+
+</style>
+
+
+```{r setup, include=FALSE}
+# code chunk specifies whether the R code, warnings, and output 
+# will be included in the output files.
+if (!require("tidyverse")) {
+   install.packages("tidyverse")
+   library(tidyverse)
+}
+if (!require("knitr")) {
+   install.packages("knitr")
+   library(knitr)
+}
+if (!require("plotly")) {
+   install.packages("plotly")
+   library(plotly)
+}
+if (!require("gapminder")) {
+   install.packages("gapminder")
+   library(gapminder)
+}
+if (!require("RCurl")) {
+    install.packages("RCurl")             # Install RCurl package
+    library("RCurl")
+}
+if (!require("colourpicker")) {
+    install.packages("colourpicker")              
+    library("colourpicker")
+}
+if (!require("gganimate")) {
+    install.packages("gganimate")              
+    library("gganimate")
+}
+if (!require("gifski")) {
+    install.packages("gifski")              
+    library("gifski")
+}
+if (!require("magick")) {
+    install.packages("magick")              
+    library("magick")
+}
+if (!require("grDevices")) {
+    install.packages("grDevices")              
+    library("grDevices")
+}
+if (!require("leaflet")) {
+    install.packages("leaflet")              
+    library("leaflet")
+}
+if (!require("maps")) {
+    install.packages("maps")              
+    library("maps")
+}
+if (!require("htmltools")) {
+    install.packages("htmltools")              
+    library("htmltools")
+}
+if (!require("leaflegend")) {
+    install.packages("leaflegend")              
+    library("leaflegend")
+}
+if (!require("geojsonio")) {
+    install.packages("geojsonio")              
+    library("geojsonio")
+}
+if (!require("stringi")) {
+    install.packages("stringi")              
+    library("stringi")
+}
+if (!require("RColorBrewer")) {
+    install.packages("RColorBrewer")              
+    library("RColorBrewer")
+}
+if (!require("tigris")) {
+    install.packages("tigris")              
+    library("tigris")
+}
+if (!require("leafpop")) {
+    install.packages("leafpop")              
+    library("leafpop")
+}
+if (!require("leafem")) {
+    install.packages("leafem")              
+    library("leafem")
+}
+if (!require("tmap")) {
+    install.packages("tmap")              
+    library("tmap")
+}
+if (!require("tmaptools")) {
+    install.packages("tmaptools")              
+    library("tmaptools")
+}
+if (!require("readxl")) {
+    install.packages("readxl")              
+    library("readxl")
+}
+# knitr::opts_knit$set(root.dir = "C:/Users/75CPENG/OneDrive - West Chester University of PA/Documents")
+# knitr::opts_knit$set(root.dir = "C:\\STA490\\w05"
+knitr::opts_chunk$set(echo = TRUE,       
+                      warning = FALSE,   
+                      result = TRUE,   
+                      message = FALSE)
+```
+
+
+
+
+# Introduction to Mapview Maps
+
+`mapview` provides functions to very quickly and conveniently create interactive visualizations of spatial data. Its main goal is to fill the gap of quick (not presentation grade) interactive plotting to examine and visually investigate both aspects of spatial data, the geometries, and their attributes. 
+
+It can also be considered a data-driven application programming interface (API) for the leaflet package as it will automatically render correct map types, depending on the type of the data (points, lines, polygons, raster).
+
+In addition, it makes use of some advanced rendering functionality that will enable viewing of much larger data than is possible with leaflet. 
+
+`mapview()` - view (multiple) spatial objects on a set of background maps
+
+`viewExtent()` - view extent / bounding box of spatial objects
+
+`viewRGB()` - view RGB true- or false-color images of raster objects
+
+`mapshot()` - easily save maps (including leaflet maps) as HTML and/or
+png (or other image formats).
+
+
+`mapview()` function can work for a quick view of the data, providing choropleths, background maps, and attribute popups. Performance varies on the object and customization can be tricky.
+
+In this note, we will use three data sets to illustrate how make maps with `mapview()`: [state population](https://raw.githubusercontent.com/pengdsci/sta553/main/data/state_population_data.csv), [state population (50 state)](https://raw.githubusercontent.com/pengdsci/sta553/main/data/state_population_data50.csv), and [state capitals](https://raw.githubusercontent.com/pengdsci/sta553/main/data/us-state-capitals.csv).
+
+
+
+# Choropleth Map with `mapview`
+
+
+```{r, warning=FALSE, results= FALSE}
+library(tigris)
+library(mapview)
+library(dplyr)
+library(sf)
+#invisible({capture.output({
+## Download shapefile for all states into R in tigris
+## states() is a function in library {tigris}
+us_geo <- states(cb = F, resolution = '20m')
+```
+
+
+```{r}
+## caution: need to tell R that GEOIS should be a character variable since
+## the same GEOID is character variable in the shape file us_geo with
+## some leading zeros!
+pop_data <- read.csv("https://raw.githubusercontent.com/pengdsci/sta553/main/data/state_population_data.csv", colClasses = c(GEOID = "character"))
+## merger two data use the primary key: GEOID.
+all_data <- inner_join(us_geo, pop_data, by = c("GEOID" = "GEOID")) 
+##
+mapview(all_data, zcol = "PctChange10_20", layer.name = "Per Chg")
+```
+
+ We can see some of the unique features of `mapview`:
+ 
+1. The default `mapview()` is created with one small line of code.
+
+2. `mapview()` Choose defaults based on the type of geospatial file. code `mapview(all_data, zcol = "PctChange10_20")` 
+
+3. The default popup includes every field in my data that is useful to explore the data. 
+
+There are unwanted features in the above default choropleth map that need to be improved. For example, too much information in the hover text, lengthy legend title, etc. We will revisit this map and enhance the choropleth map.
+
+
