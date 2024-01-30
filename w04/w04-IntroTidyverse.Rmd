@@ -10,12 +10,11 @@ output:
     fig_width: 6
     fig_caption: yes
     number_sections: yes
+    toc_collapsed: yes
+    code_folding: hide
+    code_download: yes
+    smooth_scroll: true
     theme: readable
-  word_document: 
-    toc: yes
-    toc_depth: 4
-    fig_caption: yes
-    keep_md: yes
   pdf_document: 
     toc: yes
     toc_depth: 4
