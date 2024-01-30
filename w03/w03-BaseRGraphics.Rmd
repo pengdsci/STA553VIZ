@@ -5,63 +5,100 @@ date: "West Chester University"
 output:
   html_document: 
     toc: yes
+    toc_float: yes
     number_sections: yes
-  html_notebook:
-    toc: yes
-    number_sections: yes
+    toc_collapsed: yes
+    code_folding: hide
+    code_download: yes
+    smooth_scroll: true
+    theme: lumen
 editor_options:
   chunk_output_type: inline
 ---
 <style type="text/css">
 
+/* Table of content - navigation */
 div#TOC li {
     list-style:none;
+    background-color:lightgray;
     background-image:none;
     background-repeat:none;
     background-position:0;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #780c0c;
 }
+
+
+/* Title fonts */
 h1.title {
   font-size: 24px;
-  color: DarkRed;
+  color: darkblue;
   text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+  font-variant-caps: normal;
 }
-h4.author { /* Header 4 - and the author and data headers use this too  */
-    font-size: 18px;
-  font-family: "Times New Roman", Times, serif;
-  color: DarkRed;
-  text-align: center;
-}
-h4.date { /* Header 4 - and the author and data headers use this too  */
+h4.author { 
   font-size: 18px;
-  font-family: "Times New Roman", Times, serif;
-  color: DarkBlue;
+  font-family: Arial, Helvetica, sans-serif;
+  color: navy;
   text-align: center;
 }
-h1 { /* Header 3 - and the author and data headers use this too  */
+h4.date { 
+  font-size: 18px;
+  font-family: Arial, Helvetica, sans-serif;
+  color: darkblue;
+  text-align: center;
+}
+
+/* Section headers */
+h1 {
     font-size: 22px;
     font-family: "Times New Roman", Times, serif;
     color: darkred;
-    text-align: center;
+    text-align: left;
 }
-h2 { /* Header 3 - and the author and data headers use this too  */
+
+h2 {
     font-size: 18px;
     font-family: "Times New Roman", Times, serif;
     color: navy;
     text-align: left;
 }
 
-h3 { /* Header 3 - and the author and data headers use this too  */
+h3 { 
     font-size: 15px;
     font-family: "Times New Roman", Times, serif;
-    color: navy;
+    color: darkred;
     text-align: left;
 }
 
-h4 { /* Header 4 - and the author and data headers use this too  */
+h4 {
     font-size: 18px;
     font-family: "Times New Roman", Times, serif;
     color: darkred;
     text-align: left;
+}
+
+/* Decoration of hyperlinks  */
+
+/* unvisited link */
+a:link {
+  color: green;
+}
+
+/* visited link */
+a:visited {
+  color: purple;
+}
+
+/* mouse over link */
+a:hover {
+  color: red;
+}
+
+/* selected link */
+a:active {
+  color: yellow;
 }
 </style>
 
@@ -124,7 +161,6 @@ if (!require("jpeg")) {
     install.packages("jpeg")              
     library("jpeg")
 }
-# knitr::opts_knit$set(root.dir = "C:/Users/75CPENG/OneDrive - West Chester University of PA/Documents")
 # knitr::opts_knit$set(root.dir = "C:\\STA490\\w05")
 
 knitr::opts_chunk$set(echo = TRUE,       
@@ -429,55 +465,10 @@ legend("topleft", c("virginica", "setosa", "versicolor"),
 We add annotations to the base R plot. The annotations could be plain texts, images, and mathematical expressions.
 
 ```{r}
-#iris.img<-readJPEG("https://stat553.s3.amazonaws.com/baseRplot/iris.jpeg")
-#myurl <- "https://github.com/rk2991/sta553/blob/main/penguin-funny-blue-water-86405.jpeg?raw=true"
-#z <- tempfile()
-#download.file(myurl,z,mode="wb")
-#pic <- readJPEG(z)
-#raster.penguin <- as.raster(pic)
-#iris.img <- "https://stat553.s3.amazonaws.com/baseRplot/iris.jpeg"
-#https://github.com/rk2991/sta553/blob/main/penguin-funny-blue-water-86405.jpeg?raw=true
-iris.img <- "https://github.com/rk2991/sta553/blob/main/penguin-funny-blue-water-86405.jpeg?raw=true"
-my_iris <- readJPEG(getURLContent(iris.img))
-raster.iris <- as.raster(pic) 
-# Use the code in the precious section
-sepal.length = iris$Sepal.Length
-sepal.width = iris$Sepal.Width
-size.petal = iris$Petal.Width
-species = iris$Species
-## identifying the ID of Virginica
-virginca.id = which(species=="virginica")  # value are case sensitive!
-setosa.id = which(species=="setosa")
-versicolor.id = which(species=="versicolor")
-## color code
-col.code = c(alpha("red",0.5),alpha("blue",0.5),alpha("cyan",0.5))
-## making an empty plot: type = "n" ==> no point
-plot(sepal.length, sepal.width, main = "Sepal legnth vs sepal width", type = "n")
-## change the point size based on their average of sepal length and width
-points(sepal.length[virginca.id], sepal.width[virginca.id], 
-       pch = 19, col = col.code[1], cex = size.petal[virginca.id])
-points(sepal.length[setosa.id], sepal.width[setosa.id], 
-       pch = 19, col = col.code[2], cex = size.petal[setosa.id])
-points(sepal.length[versicolor.id], sepal.width[versicolor.id], 
-       pch = 19, col = col.code[3], cex = size.petal[versicolor.id])
-legend("topleft", c("virginica", "setosa", "versicolor"), 
-                  col=col.code,
-                  pch=c(19, 19, 19))
-## various annotations
-#specify the position of the image through bottom-left and top-right coords
-rasterImage(pic,6,3.5,7,4.4)
-text(7.25, 2.25, "The size is proportional to petal length", col = "purple", cex = 0.5)
-```
 
-
-
-
-```{r}
-#iris.img<-readJPEG("https://stat553.s3.amazonaws.com/baseRplot/iris.jpeg")
-# 
-iris.img <- "https://stat553.s3.amazonaws.com/baseRplot/iris.jpeg"
-my_iris <- readJPEG(getURLContent(iris.img))
-raster.iris <- as.raster(my_iris) 
+iris.img <- "https://pengdsci.github.io/STA553VIZ/w03/img//iris.jpeg"
+my.iris <- readJPEG(getURLContent(iris.img))
+raster.iris <- as.raster(my.iris) 
 # Use the code in the precious section
 sepal.length = iris$Sepal.Length
 sepal.width = iris$Sepal.Width

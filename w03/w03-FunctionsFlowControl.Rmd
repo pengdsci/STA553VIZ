@@ -5,71 +5,104 @@ date: "West Chester University"
 output:
   html_document: 
     toc: yes
+    toc_float: yes
     number_sections: yes
-  html_notebook:
-    toc: yes
-    number_sections: yes
+    toc_collapsed: yes
+    code_folding: hide
+    code_download: yes
+    smooth_scroll: true
+    theme: lumen
 editor_options:
   chunk_output_type: inline
 ---
-
-
 <style type="text/css">
 
+/* Table of content - navigation */
 div#TOC li {
     list-style:none;
+    background-color:lightgray;
     background-image:none;
     background-repeat:none;
     background-position:0;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #780c0c;
 }
+
+
+/* Title fonts */
 h1.title {
   font-size: 24px;
-  color: DarkRed;
+  color: darkblue;
   text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+  font-variant-caps: normal;
 }
-h4.author { /* Header 4 - and the author and data headers use this too  */
-    font-size: 18px;
-  font-family: "Times New Roman", Times, serif;
-  color: DarkRed;
-  text-align: center;
-}
-h4.date { /* Header 4 - and the author and data headers use this too  */
+h4.author { 
   font-size: 18px;
-  font-family: "Times New Roman", Times, serif;
-  color: DarkBlue;
+  font-family: Arial, Helvetica, sans-serif;
+  color: navy;
   text-align: center;
 }
-h1 { /* Header 1 - and the author and data headers use this too  */
+h4.date { 
+  font-size: 18px;
+  font-family: Arial, Helvetica, sans-serif;
+  color: darkblue;
+  text-align: center;
+}
+
+/* Section headers */
+h1 {
     font-size: 22px;
     font-family: "Times New Roman", Times, serif;
     color: darkred;
-    text-align: center;
+    text-align: left;
 }
-h2 { /* Header 2 - and the author and data headers use this too  */
+
+h2 {
     font-size: 18px;
     font-family: "Times New Roman", Times, serif;
     color: navy;
     text-align: left;
 }
 
-h3 { /* Header 3 - and the author and data headers use this too  */
+h3 { 
     font-size: 15px;
     font-family: "Times New Roman", Times, serif;
-    color: navy;
+    color: darkred;
     text-align: left;
 }
 
-h4 { /* Header 4 - and the author and data headers use this too  */
+h4 {
     font-size: 18px;
     font-family: "Times New Roman", Times, serif;
     color: darkred;
     text-align: left;
+}
+
+/* Decoration of hyperlinks  */
+
+/* unvisited link */
+a:link {
+  color: green;
+}
+
+/* visited link */
+a:visited {
+  color: purple;
+}
+
+/* mouse over link */
+a:hover {
+  color: red;
+}
+
+/* selected link */
+a:active {
+  color: yellow;
 }
 </style>
 
 ```{r setup, include=FALSE}
-# code chunk specifies whether the R code, warnings, and output 
-# will be included in the output files.
 if (!require("tidyverse")) {
    install.packages("tidyverse")
    library(tidyverse)
@@ -94,13 +127,13 @@ if (!require("gganimate")) {
     install.packages("gganimate")              
     library("gganimate")
 }
-# knitr::opts_knit$set(root.dir = "C:/Users/75CPENG/OneDrive - West Chester University of PA/Documents")
 # knitr::opts_knit$set(root.dir = "C:\\STA490\\w05")
 ##
 knitr::opts_chunk$set(echo = TRUE,       
                       warning = FALSE,   
                       result = TRUE,   
-                      message = FALSE)
+                      message = FALSE,
+                      comment = NA)
 ```
 
 
@@ -171,18 +204,15 @@ greet("Jaime", TRUE)
 The condition should evaluate to a single TRUE or FALSE. Most other inputs will generate an error:
 
 ```{r}
-#if ("x") 1
-#> Error in if ("x") 1: argument is not interpretable as logical
-#if (NA) 1
-#> Error in if (NA) 1: missing value where TRUE/FALSE needed
+# if ("x") 1
+# > Error in if ("x") 1: argument is not interpretable as logical
+# if (NA) 1
+# > Error in if (NA) 1: missing value where TRUE/FALSE needed
 ```
 
 
-The exception is a logical vector of length greater than 1, which generates a warning:
 
-```{r}
-if (c(TRUE, FALSE)) 1
-```
+
 **Vectorized if**
 
 Given that if only works with a single TRUE or FALSE, you might wonder what to do if you have a vector of logical values. Handling vectors of values is the job of `ifelse()`: a vectorized function with test, yes, and no vectors (that will be recycled to the same length):
