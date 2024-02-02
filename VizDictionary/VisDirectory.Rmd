@@ -1,6 +1,6 @@
 ---
 title: "Directory of Visualization"
-author: "Compied from Prof. Wilke's Note"
+author: "Compiled from Prof. Wilke's Note"
 date: " "
 output:
   html_document: 
@@ -9,7 +9,11 @@ output:
     toc_float: yes
     fig_width: 6
     number_sections: yes
-    theme: readable
+    toc_collapsed: yes
+    code_folding: hide
+    code_download: yes
+    smooth_scroll: true
+    theme: lumen
     fig_height: 4
   pdf_document: 
     toc: yes
