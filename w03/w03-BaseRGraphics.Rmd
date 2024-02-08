@@ -15,6 +15,8 @@ output:
 editor_options:
   chunk_output_type: inline
 ---
+
+
 <style type="text/css">
 
 /* Table of content - navigation */
@@ -161,12 +163,29 @@ if (!require("jpeg")) {
     install.packages("jpeg")              
     library("jpeg")
 }
-# knitr::opts_knit$set(root.dir = "C:\\STA490\\w05")
+if (!require("VGAM")) {
+    install.packages("VGAM")              
+    library("VGAM")
+}
+if (!require("MASS")) {
+    install.packages("MASS")              
+    library("MASS")
+}
+if (!require("nnet")) {
+    install.packages("nnet")              
+    library("nnet")
+}
+if (!require("cluster")) {
+    install.packages("cluster")              
+    library("cluster")
+}
 
+# knitr::opts_knit$set(root.dir = "C:\\STA490\\w05")
 knitr::opts_chunk$set(echo = TRUE,       
                       warning = FALSE,   
                       result = TRUE,   
-                      message = FALSE)
+                      message = FALSE,
+                      comment = NA)
 ```
 
 
@@ -181,6 +200,26 @@ The two core plotting and graphics packages in the base R are:
 The `grDevices` package contains the functionality for sending plots to various output devices. The `graphics` package contains the code for actually constructing and annotating plots.
 
 In this note, we focus on using the base plotting system to create graphics on the screen device.
+
+
+# Working Data -iris
+
+
+```{r echo=FALSE}
+DT::datatable(iris, fillContainer = FALSE, options = list(pageLength = 10))
+```
+
+<font color = "darkred"><b>Objectives</b></font>: Identify meaningful patterns and make visual representations
+
+* What information does the data set have?
+* How to find the information of interest? 
+  - descriptive? 
+  - algorithm-based? 
+  - model-based?
+* Too many variables or too many data points?
+* What form of visualization to use?
+* What visual design? Single pattern or multiple patterns?
+
 
 # Base Graphics
 
@@ -466,7 +505,7 @@ We add annotations to the base R plot. The annotations could be plain texts, ima
 
 ```{r}
 
-iris.img <- "https://pengdsci.github.io/STA553VIZ/w03/img//iris.jpeg"
+iris.img <- "https://pengdsci.github.io/STA553VIZ/w03/img/iris.jpeg"
 my.iris <- readJPEG(getURLContent(iris.img))
 raster.iris <- as.raster(my.iris) 
 # Use the code in the precious section
@@ -497,5 +536,187 @@ legend("topleft", c("virginica", "setosa", "versicolor"),
 rasterImage(raster.iris,6,3.5,7,4.4)
 text(7.25, 2.25, "The size is proportional to petal length", col = "purple", cex = 0.5)
 ```
+
+
+# What Story To Tell?
+
+We have discussed various graphic functions and techniques in base R to create graphic representations of data. To conclude this note, let's look at what information general audience might be interested in.
+
+## Relationship between variables?
+
+```{r fig.align='center', fig.width=7, fig.height=7, fig.cap="Pair-wise Scatter Plot of Sizes of Iris"}
+pairs(iris[, -5])
+```
+
+## Distribution of variables?
+
+
+
+```{r fig.align='center', fig.width=7, fig.height=7, fig.cap="Comparisons of distributions"}
+## Data Partition
+Sepal.L.set = iris$Sepal.Length[which(iris$Species=="setosa")]
+Sepal.L.ver = iris$Sepal.Length[which(iris$Species=="versicolor")]
+Sepal.L.vir = iris$Sepal.Length[which(iris$Species=="virginica")]
+#
+Sepal.W.set = iris$Sepal.Width[which(iris$Species=="setosa")]
+Sepal.W.ver = iris$Sepal.Width[which(iris$Species=="versicolor")]
+Sepal.W.vir = iris$Sepal.Width[which(iris$Species=="virginica")]
+#
+Petal.L.set = iris$Petal.Length[which(iris$Species=="setosa")]
+Petal.L.ver = iris$Petal.Length[which(iris$Species=="versicolor")]
+Petal.L.vir = iris$Petal.Length[which(iris$Species=="virginica")]
+#
+Petal.W.set = iris$Petal.Width[which(iris$Species=="setosa")]
+Petal.W.ver = iris$Petal.Width[which(iris$Species=="versicolor")]
+Petal.W.vir = iris$Petal.Width[which(iris$Species=="virginica")]
+###
+par(mfrow=c(2,2))
+###
+##########################   plot #1: 
+plot(density(Sepal.L.set), col="brown4", lty=1, lwd=2,  xlim=c(3,9), ylim=c(0,1.8), xlab="Sepal Length", main="Distributions Sepal Length")
+lines(density(Sepal.L.ver), col="blue", lty=1, lwd=2)
+lines(density(Sepal.L.vir), col="darkcyan", lty=1, lwd=2)
+legend("topright", c("setosa", "versicolor","virginica"),
+       col=c("brown4","blue","darkcyan"), lty=c(1,1,1),
+       lwd=c(1,1,1), bty="n", cex=0.7)
+##
+##########################   plot #1: 
+plot(density(Sepal.W.set), col="brown4", lty=1, lwd=2,  xlim=c(1,5), ylim=c(0,2), xlab="Sepal Width", main="Distributions Sepal Width")
+lines(density(Sepal.W.ver), col="blue", lty=1, lwd=2)
+lines(density(Sepal.W.vir), col="darkcyan", lty=1, lwd=2)
+legend("topright", c("setosa", "versicolor","virginica"),
+       col=c("brown4","blue","darkcyan"), lty=c(1,1,1),
+       lwd=c(1,1,1), bty="n", cex=0.7)
+##
+##########################   plot #1: 
+plot(density(Petal.L.set), col="brown4", lty=1, lwd=2,  xlim=c(1,8), ylim=c(0,2.8), xlab="Petal Length", main="Distributions Petal Length")
+lines(density(Petal.L.ver), col="blue", lty=1, lwd=2)
+lines(density(Petal.L.vir), col="darkcyan", lty=1, lwd=2)
+legend("topright", c("setosa", "versicolor","virginica"),
+       col=c("brown4","blue","darkcyan"), lty=c(1,1,1),
+       lwd=c(1,1,1), bty="n", cex=0.7)
+##
+##########################   plot #1: 
+plot(density(Petal.W.set), col="brown4", lty=1, lwd=2,  xlim=c(0,3), ylim=c(0,8), xlab="Petal Width", main="Distributions Petal Width")
+lines(density(Petal.W.ver), col="blue", lty=1, lwd=2)
+lines(density(Petal.W.vir), col="darkcyan", lty=1, lwd=2)
+legend("topright", c("setosa", "versicolor","virginica"),
+       col=c("brown4","blue","darkcyan"), lty=c(1,1,1),
+       lwd=c(1,1,1), bty="n", cex=0.7)
+```
+
+
+
+## Modeling - Classification and Regression?
+
+When building regression models, one of the issues is the potential collinearity. 
+
+$\pi_1 = Pr[Y = \text{setosa}]$, $\pi_2 = Pr[Y = \text{versicolor}]$, and $\pi_1 = Pr[Y = \text{virginica}]$. The well known baseline logit model is defined to be the following system of two odds regression models
+
+$$
+\log(\pi_2/ \pi_1) = \alpha_0 + \alpha_1x_1 + \cdots + \alpha_kx_k
+$$
+$$
+\log(\pi_3/ \pi_1) = \beta_0 + \beta_1x_1 + \cdots + \beta_kx_k
+$$
+Note that $\pi_1 + \pi_2 + \pi_3 = 1$. Solve for $\pi_1, \pi_2$, and $\pi_3$, we have 
+
+$$
+\pi_1 = \frac{1}{1+\exp(\alpha_0 + \alpha_1x_1 + \cdots + \alpha_kx_k) + \exp(\beta_0 + \beta_1x_1 + \cdots + \beta_kx_k)}
+$$
+
+$$
+\pi_2 = \frac{\exp(\alpha_0 + \alpha_1x_1 + \cdots + \alpha_kx_k)}{1+\exp(\alpha_0 + \alpha_1x_1 + \cdots + \alpha_kx_k) + \exp(\beta_0 + \beta_1x_1 + \cdots + \beta_kx_k)}
+$$
+
+$$
+\pi_3 = \frac{\exp(\beta_0 + \beta_1x_1 + \cdots + \beta_kx_k)}{1+\exp(\alpha_0 + \alpha_1x_1 + \cdots + \alpha_kx_k) + \exp(\beta_0 + \beta_1x_1 + \cdots + \beta_kx_k)}
+$$
+
+
+
+```{r echo=FALSE, message = FALSE}
+# Fit multinomial logistic regression model 
+fit <- multinom(Species ~  Sepal.Length 
+                  + Sepal.Width
+                  + Petal.Length 
+                  + Petal.Width , 
+                  data = iris, trace = FALSE)
+kable(coefficients(fit))
+
+```
+
+
+How to interpret the results? Can we make a visual representation of the resulting model? How?
+
+The following is one example of representation of how individual features impact membership prediction (classification).
+
+```{r}
+setosa = summary(iris[which(iris$Species=="setosa"),])
+versicolor = summary(iris[which(iris$Species=="versicolor"),])
+virginica = summary(iris[which(iris$Species=="virginica"),])
+list(setosa = setosa, versicolor = versicolor, virginica = virginica)
+```
+
+Next, we show the relationship between `Sepal.Length` and the classification probabilities $\pi_1, \pi_2$ and $\pi_3$ by fixing the values of other variables at their corresponding means.
+
+```{r fig.align='center', fig.width=5, fig.height=5}
+SepalLength = seq(4, 9, length=50)
+pi01 = 1/(1+exp(18.69 - 5.46*SepalLength - 8.71*3 + 14.25*4 - 3.10*1)+ exp(-23.84  - 7.92**SepalLength   - 15.37*3 + 23.66*4  + 15.14*1 ))
+##
+pi02 = exp(18.69 - 5.46*SepalLength - 8.71*3 + 14.25*4 - 3.10*1 )/(1+exp(18.69 - 5.46*SepalLength - 8.71*3 + 14.25*4 - 3.10*1 )+ exp(-23.84 - 7.92**SepalLength  - 15.37*3 +23.66*4 + 15.14*1  ))
+##
+##
+pi03 = exp(-23.84  - 7.92**SepalLength - 15.37*3 +23.66*4 + 15.14*1 )/(1+exp(18.69 - 5.46*SepalLength - 8.71*3 + 14.25*4 - 3.10*1)+ exp(-23.84  - 7.92**SepalLength - 15.37*3 +23.66*4 + 15.14*1 ))
+##
+#par(mfrow=c(1,3))
+plot(SepalLength, pi01, main="Setosa",
+     type = "l",
+     ylim = c(0,1),
+     xlab = "Sepal Length",
+     ylab = "Classification Probability",
+     col = "blue",
+     lwd = 2)
+lines(SepalLength, pi02, main = "Versicolor", ylab="Classification Probability",
+     type = "l", col = "purple", lwd = 2)
+lines(SepalLength, pi03, main = "Virginica",  ylab="Classification Probability",
+     type="l", col = "brown4", lwd = 2)
+abline(v=8.51, lty = 2)
+points(8.51, 0.495, pch=19, col = "darkred", dex = 1.5)
+```
+The above three figures show how `sepal length` is associated with the three classification probabilities. For example, among setosa, under the same conditions (i.e., sepal width, petal length, and petal width are the same), as sepal length increases, the classification probability also increases. The opposite pattern is observed among versicolor iris flowers. The sepal length and the classification probability are not associated.
+
+For all iris flowers with Sepal Width 3, Petal Length 4, and Petal Width 1.5, when Sepal Length < 8.51, $P(\text{Versicolor}) > P(\text{Setosa})$ meaning that it is more likely to be `Versicolor iris`. Otherwise, it is more likely to be `setosa`. Sepal length does not have *predictive power* for `virginica`.
+
+We can also look at the relationship between the classification probability and other numerical variables in the data set in a similar way.
+
+
+## Clustering?
+
+Another interesting problem we may explore is the see whether there are some clusters based on the four numerical variables. There are many clustering algorithms for practitioners. For illustrative purposes, we use the popular k-means algorithm in the following example.
+
+
+```{r}
+tot.withinss <- vector(mode="character", length=10)
+for (i in 1:10){
+  irisCluster <- kmeans(iris[,1:4], center=i, nstart=20)
+  tot.withinss[i] <- irisCluster$tot.withinss
+}
+plot(1:10, tot.withinss, main="Elbow Plot for Optimal Cluster Determination",
+     type="b", pch=19)
+```
+
+
+```{r}
+irisCluster <- kmeans(iris[,1:4], center=3, nstart=20)
+irisCluster
+```
+
+```{r}
+clusplot(iris, irisCluster$cluster, color=T, shade=T, labels=0, lines=0)
+```
+
+
+
 
 
