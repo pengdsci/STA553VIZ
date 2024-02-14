@@ -1,0 +1,435 @@
+---
+title: "Data Processing for Visualization"
+author: "Cheng Peng"
+date: " "
+output:
+  html_document: 
+    toc: yes
+    toc_depth: 4
+    toc_float: yes
+    fig_width: 6
+    fig_caption: yes
+    number_sections: yes
+    toc_collapsed: yes
+    code_folding: hide
+    code_download: yes
+    smooth_scroll: true
+    theme: readable
+  pdf_document: 
+    toc: yes
+    toc_depth: 4
+    fig_caption: yes
+    number_sections: yes
+    fig_width: 5
+    fig_height: 4
+---
+<style type="text/css">
+
+/* Table of content - navigation */
+div#TOC li {
+    list-style:none;
+    background-color:skyblue;
+    background-image:none;
+    background-repeat:none;
+    background-position:0;
+    font-family: Arial, Helvetica, sans-serif;
+    color: darkred;
+}
+
+h1.title {
+  font-size: 24px;
+  color: DarkRed;
+  text-align: center;
+}
+
+h4.author { /* Header 4 - and the author and data headers use this too  */
+    font-size: 18px;
+  font-family: "Times New Roman", Times, serif;
+  color: DarkRed;
+  text-align: center;
+}
+h4.date { /* Header 4 - and the author and data headers use this too  */
+  font-size: 18px;
+  font-family: "Times New Roman", Times, serif;
+  color: DarkBlue;
+  text-align: center;
+}
+h1 { /* Header 3 - and the author and data headers use this too  */
+    font-size: 22px;
+    font-family: "Times New Roman", Times, serif;
+    color: darkred;
+    text-align: center;
+}
+h2 { /* Header 3 - and the author and data headers use this too  */
+    font-size: 18px;
+    font-family: "Times New Roman", Times, serif;
+    color: navy;
+    text-align: left;
+}
+
+h3 { /* Header 3 - and the author and data headers use this too  */
+    font-size: 15px;
+    font-family: "Times New Roman", Times, serif;
+    color: navy;
+    text-align: left;
+}
+
+h4 { /* Header 4 - and the author and data headers use this too  */
+    font-size: 18px;
+    font-family: "Times New Roman", Times, serif;
+    color: darkred;
+    text-align: left;
+}
+</style>
+
+
+```{r setup, include=FALSE}
+# code chunk specifies whether the R code, warnings, and output 
+# will be included in the output files.
+if (!require("tidyverse")) {
+   install.packages("tidyverse")
+   library(tidyverse)
+}
+if (!require("knitr")) {
+   install.packages("knitr")
+   library(knitr)
+}
+if (!require("stringr")) {
+   install.packages("stringr", dependencies = TRUE)
+   library(stringr)
+}
+
+if (!require("tm")) {
+   install.packages("tm", dependencies = TRUE)
+   library(tm)
+}
+
+if (!require("wordcloud")) {
+   install.packages("wordcloud", dependencies = TRUE)
+   library(wordcloud)
+}
+
+if (!require("RCurl")) {
+   install.packages("RCurl", dependencies = TRUE)
+   library(RCurl)
+}
+
+if (!require("XML")) {
+   install.packages("XML", dependencies = TRUE)
+   library(XML)
+}
+
+
+if (!require("SnowballC")) {
+   install.packages("SnowballC", dependencies = TRUE)
+   library(SnowballC)
+}
+
+if (!require("RColorBrewer")) {
+   install.packages("RColorBrewer", dependencies = TRUE)
+   library(RColorBrewer)
+}
+
+knitr::opts_chunk$set(echo = TRUE,       
+                      warning = FALSE,   
+                      result = TRUE,   
+                      message = FALSE,
+                      comment = NA)
+```
+
+
+\
+
+# Introduction
+
+This short note introduces the steps for processing simple text format data for visualization and simple descriptive visual analysis using R.
+
+In addition to the basic R string functions, we will use a popular R library for text mining for some text format data processing.
+
+
+# Basic String Functions in R
+
+Several R string functions are commonly used in manipulating strings.
+
+## Character Translation
+
+The base R has several character translation functions. The most frequently used functions are `tolower` and `toupper`. The following are a few illustrative examples.
+
+
+```{r}
+my_string <- "Example STRING, with example numbers (12, 15 and also 10.2)?!"
+tolower(my_string)
+toupper(my_string)
+casefold(my_string, upper = TRUE)
+```
+
+## Concatenating and Splitting Strings
+
+when processing text data, sometimes we need to combine multiple strings to make a single string. While on some other occasions, we need to split a string into multiple substrings. The following is a simple example.
+
+
+```{r}
+string1 = "It is easy to get started with R"
+string2 = "However, it takes time to be a good R programmer"
+###
+str_split(string2, ",")
+```
+
+To obtain the actural string, the `[[]]` string operator needs to be used,
+
+```{r}
+str_split(string2, ",")[[1]]
+```
+
+`paste()` is widely used to concatenate strings. It is very useful to pass values of parameters to the text of graphic annotations.
+
+```{r}
+string12 = paste(string1, ".", string2, "!" )
+string12    # There is white space before added punctuation.
+```
+
+```{r}
+## To remove the white space, set argument sep = ""
+string120 = paste(string1, ".", string2, "!", sep = "" )
+string120
+```
+
+An example of graphical annotation that passes values of a parameter.
+
+```{r fig.align='center', fig.width=8, fig.height=3}
+myDat = data.frame(normal = rnorm(100),
+                   exponential = rexp(100, rate=1),
+                   gamma = rgamma(100, shape=0.5, rate = 1))
+distName = c("Normal", "Exponential", "Gamma")
+
+par(mfrow=c(1,3))
+for (i in 1:3){
+  plot(density(myDat[,i]), xlab=paste(distName[i], "score"), main = "")
+  legend("topright", paste(distName[i], "distribution"), cex = 0.7, bty="n")
+}
+
+```
+
+
+
+## Searching \& Replacing Symbols 
+
+Two R functions `grep()` and `grepl()` can be used to detect special symbols in a vector of strings. `grep()` returns the index of the string vector that contains the special symbol while `grepl()` returns the logical values indicating whether each component has the special symbol.
+
+
+Since special characters (symbols) need to be escaped to make them *literal*, `\\` needs to be added in front of special symbols. The following examples show how use `grep()` and `grepl()` to detect special characters in a string.
+
+
+```{r}
+my_string <- "Example STRING, with example numbers (12, 15 and also 10.2)?!"
+str_vec = str_split(my_string, ",")[[1]]
+str_vec
+```
+
+```{r}
+grep("\\?",str_vec)  # returns the index(es)
+grepl("\\?",str_vec)  # returns the logical vector
+```
+
+The other two useful functions in processing strings are `str_replace_all()` and `str_extract_all()`.
+
+Before presenting illustrative examples, we introduce the term `regex` (regular expression) - a sequence of characters that forms a search pattern. `regex` can be used to check if a string contains the specified search pattern. for example, `[0-9]+` *match any substring that is one or more contiguous numbers*. `[a-zA-Z\s]` is *The letters A-Z, upper and lower case, plus whitespace*. `[^A-Za-z\s]` is the negation of the previous `regex`.  `\\s` is a white space.
+
+
+```{r}
+my_string <- "Example STRING, with example numbers (12, 15 and also 10.2)?!"
+str_replace_all(my_string, "e","___")   # replacement
+###
+str_extract_all(my_string,"[0-9]+")[[1]]
+
+```
+
+## A Wrap-up Function
+
+The following is a function that calls the aforementioned functions to clean a string (sentences) and return a vector of words.
+
+```{r}
+StrCleaning <- function(string){
+    # Lowercase
+    temp <- tolower(string)
+    # Remove everything that is not a number or letter (may want to keep more 
+    # stuff in your actual analyses). 
+    temp <- stringr::str_replace_all(temp,"[^a-zA-Z\\s]", " ")
+    # Shrink down to just one white space
+    temp <- stringr::str_replace_all(temp,"[\\s]+", " ")
+    # Split it
+    temp <- stringr::str_split(temp, " ")[[1]]
+    # Get rid of trailing "" if necessary
+    indexes <- which(temp == "")
+    if(length(indexes) > 0){
+      temp <- temp[-indexes]
+    } 
+    return(temp)
+}
+```
+
+
+The following example calls the above function to clean a sentence and make a vector of words.
+
+```{r}
+sentence = "The term 'data science' (originally used interchangeably with 'datalogy') has existed for over thirty years and was used initially as a substitute for computer science by Peter Naur in 1960."
+CleanSentence <- StrCleaning(sentence)
+CleanSentence 
+```
+
+The following R function cleans a text blocks.
+
+```{r}
+# function to clean text
+CleanTextDocs <- function(text){
+    # Get rid of blank lines
+    indexes <- which(text == "")
+    if (length(indexes) > 0) {
+        text <- text[-indexes]
+    }
+	# See if we are left with any valid text:
+    if (length(text) == 0) {
+        cat("There was no text in this document! \n")
+        to_return <- list(num_tokens = 0, 
+		                     unique_tokens = 0, 
+							 text = "")
+    } else {
+        # If there is valid text, process it.
+        # Loop through the lines in the text and combine them:
+        clean_text <- NULL
+        for (i in 1:length(text)) {
+            # add them to a vector 
+            clean_text <- c(clean_text, StrCleaning(text[i]))
+        }
+        # Calculate the number of tokens and unique tokens and return them in a 
+        # named list object.
+        num_tok <- length(clean_text)
+        num_uniq <- length(unique(clean_text))
+        to_return <- list(num_tokens = num_tok, 
+		                     unique_tokens = num_uniq, 
+							 text = clean_text)
+    }
+	
+    return(to_return)
+}
+```
+
+```{r}
+text <- readLines("https://pengdsci.github.io/STA553VIZ/w04/Obama_Speech_2-24-09.txt")
+TextVec = CleanTextDocs(text)
+sort(table(TextVec$text), decreasing = TRUE)[1:30]
+```
+
+The above frequency table contains many words that have less information. In text mining, these types of words are called `stopwords` that need to be removed from the text analysis. In R text mining package `tm` lists about 175 `stopwords`. The detailed list can be found using the code
+
+```
+stopwords(kind = "en")
+```
+
+Next, we remove all `stopwords` and meaningless strings from the above partially processed text and make a frequency table of words in the speech.
+
+
+```{r}
+removedText = removeWords(TextVec$text, c(stopwords("english"),"s", "t", "ve"))
+## remove empty string ""
+removedText =removedText[removedText!=""]
+## Make a frequency table
+freqVec = sort(table(removedText), decreasing = TRUE)
+freqVec[1:20]
+```
+
+```{r}
+xtick = names(freqVec[1:20])
+x = barplot(freqVec[1:20], col = heat.colors(20), xaxt="n")
+## xpd = TRUE or NA allows text annotation plotted outside the plot region
+text(cex=0.75, x = x -.25, y = -10, labels = xtick, xpd=TRUE, srt=75, col = "navy")
+
+```
+
+The above bar chart shows the frequencies of the first 20 words with the highest frequency. We can see the **rough idea** of the speech: actions for the US economy, health care, education, etc.
+
+
+# Text File Processing with Library `tm`
+
+R has a powerful library for text mining. The following two functions can be used to scrape internet files and clean them for basic text analytics including visual representation using wordcloud.
+
+```{r}
+#++++++++++++++++++++++++++++++++++
+# rquery.wordcloud() : Word cloud generator
+# - http://www.sthda.com
+#+++++++++++++++++++++++++++++++++++
+# x : character string (plain text, web url, txt file path)
+# type : specify whether x is a plain text, a web page url or a file path
+# lang : the language of the text
+# excludeWords : a vector of words to exclude from the text
+# textStemming : reduces words to their root form
+# colorPalette : the name of color palette taken from RColorBrewer package, 
+  # or a color name, or a color code
+# min.freq : words with frequency below min.freq will not be plotted
+# max.words : Maximum number of words to be plotted. least frequent terms dropped
+
+# value returned by the function : a list(tdm, freqTable)
+rquery.wordcloud <- function(x, type=c("text", "url", "file"), 
+                          lang="english", excludeWords=NULL, 
+                          textStemming=FALSE,  colorPalette="Dark2",
+                          min.freq=3, max.words=2000)
+{ 
+  if(type[1]=="file") text <- readLines(x)
+  else if(type[1]=="url") text <- html_to_text(x)
+  else if(type[1]=="text") text <- x
+  
+  # Load the text as a corpus
+  docs <- Corpus(VectorSource(text))
+  # Convert the text to lower case
+  docs <- tm_map(docs, content_transformer(tolower))
+  # Remove numbers
+  docs <- tm_map(docs, removeNumbers)
+  # Remove stopwords for the language 
+  docs <- tm_map(docs, removeWords, stopwords(lang))
+  # Remove punctuations
+  docs <- tm_map(docs, removePunctuation)
+  # Eliminate extra white spaces
+  docs <- tm_map(docs, stripWhitespace)
+  # Remove your own stopwords
+  if(!is.null(excludeWords)) 
+    docs <- tm_map(docs, removeWords, excludeWords) 
+  # Text stemming
+  if(textStemming) docs <- tm_map(docs, stemDocument)
+  # Create term-document matrix
+  tdm <- TermDocumentMatrix(docs)
+  m <- as.matrix(tdm)
+  v <- sort(rowSums(m),decreasing=TRUE)
+  d <- data.frame(word = names(v),freq=v)
+  # check the color palette name 
+  if(!colorPalette %in% rownames(brewer.pal.info)) colors = colorPalette
+  else colors = brewer.pal(8, colorPalette) 
+  # Plot the word cloud
+  set.seed(1234)
+  wordcloud(d$word,d$freq, min.freq=min.freq, max.words=max.words,
+            random.order=FALSE, rot.per=0.35, 
+            use.r.layout=FALSE, colors=colors)
+  
+  invisible(list(tdm=tdm, freqTable = d))
+}
+
+#++++++++++++++++++++++
+# Helper function
+#++++++++++++++++++++++
+# Download and parse webpage
+html_to_text<-function(url){
+  # download html
+  html.doc <- getURL(url)  
+  #convert to plain text
+  doc = htmlParse(html.doc, asText=TRUE)
+ # "//text()" returns all text outside of HTML tags.
+ # We also don't want text such as style and script codes
+  text <- xpathSApply(doc, "//text()[not(ancestor::script)][not(ancestor::style)][not(ancestor::noscript)][not(ancestor::form)]", xmlValue)
+  # Format text vector into one character string
+  return(paste(text, collapse = " "))
+}
+```
+
+
+```{r}
+rquery.wordcloud("https://pengdsci.github.io/STA553VIZ/w04/Obama_Speech_2-24-09.txt", type="url")
+```
