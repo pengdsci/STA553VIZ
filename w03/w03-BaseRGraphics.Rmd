@@ -3,15 +3,17 @@ title: "Getting Started with Base R Graphics"
 author: "Cheng Peng"
 date: "West Chester University"
 output:
-  html_document: 
+  html_document:
     toc: yes
     toc_float: yes
     number_sections: yes
     toc_collapsed: yes
     code_folding: hide
     code_download: yes
-    smooth_scroll: true
+    smooth_scroll: yes
     theme: lumen
+  pdf_document:
+    toc: yes
 editor_options:
   chunk_output_type: inline
 ---
@@ -105,6 +107,7 @@ a:active {
 </style>
 
 ```{r setup, include=FALSE}
+options(repos = list(CRAN="http://cran.rstudio.com/"))
 # code chunk specifies whether the R code, warnings, and output 
 # will be included in the output files.
 if (!require("tidyverse")) {
@@ -180,7 +183,6 @@ if (!require("cluster")) {
     library("cluster")
 }
 
-# knitr::opts_knit$set(root.dir = "C:\\STA490\\w05")
 knitr::opts_chunk$set(echo = TRUE,       
                       warning = FALSE,   
                       result = TRUE,   
