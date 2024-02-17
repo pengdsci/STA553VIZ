@@ -3,22 +3,20 @@ title: "What Is Interactive Visualization?"
 author: "Cheng Peng"
 date: "West Chester University "
 output:
-  pdf_document: 
-    toc: yes
-    toc_depth: 4
-    fig_caption: yes
-    number_sections: yes
-    fig_width: 5
-    fig_height: 4
   html_document: 
     toc: yes
     toc_depth: 4
     toc_float: yes
     fig_width: 6
     number_sections: yes
+    toc_collapsed: yes
+    code_folding: hide
+    code_download: yes
+    smooth_scroll: true
     theme: readable
     fig_height: 4
 ---
+
 <style type="text/css">
 
 div#TOC li {
@@ -115,6 +113,7 @@ a:active {
 ```{r setup, include=FALSE}
 # code chunk specifies whether the R code, warnings, and output 
 # will be included in the output files.
+options(repos = list(CRAN="http://cran.rstudio.com/"))
 if (!require("tidyverse")) {
    install.packages("tidyverse")
    library(tidyverse)
@@ -229,20 +228,4 @@ Among the benefits of interactive data visualization are:
 
 
 Editable data visualizations are extremely useful in that they optimize the way information is shown. Dashboards with long tables, tons of numbers and text simply aren’t as practical. A chart you can engage with allows for a better understanding of whatever topic is being presented due to its ability to group data and create hierarchies. 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

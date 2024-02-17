@@ -3,20 +3,27 @@ title: "Interactive Statistics Graphics with plotly"
 author: "Cheng Peng"
 date: "West Chester University"
 output:
-  html_document: default
-  html_notebook: default
-  pdf_document: default
+  html_document: 
+    code_folding: hide
+    code_download: yes
+    smooth_scroll: yes
+    theme: lumen
 editor_options:
   chunk_output_type: inline
 ---
+
 <style type="text/css">
 
 div#TOC li {
     list-style:none;
+    background-color:lightgray;
     background-image:none;
     background-repeat:none;
     background-position:0;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #780c0c;
 }
+
 h1.title {
   font-size: 24px;
   color: DarkRed;
@@ -24,49 +31,66 @@ h1.title {
   font-family: Arial, Helvetica, sans-serif;
   font-variant-caps: normal;
 }
-h4.author { /* Header 4 - and the author and data headers use this too  */
+h4.author { 
     font-size: 18px;
   font-family: "Times New Roman", Times, serif;
   color: DarkRed;
   text-align: center;
 }
-h4.date { /* Header 4 - and the author and data headers use this too  */
+h4.date { 
   font-size: 18px;
   font-family: "Times New Roman", Times, serif;
   color: DarkBlue;
   text-align: center;
 }
-h1 { /* Header 3 - and the author and data headers use this too  */
+h1 { 
     font-size: 22px;
     font-family: "Times New Roman", Times, serif;
     color: darkred;
     text-align: center;
 }
-h2 { /* Header 3 - and the author and data headers use this too  */
+h2 { 
     font-size: 18px;
     font-family: "Times New Roman", Times, serif;
     color: navy;
     text-align: left;
 }
 
-h3 { /* Header 3 - and the author and data headers use this too  */
+h3 { 
     font-size: 15px;
     font-family: "Times New Roman", Times, serif;
     color: navy;
     text-align: left;
 }
 
-h4 { /* Header 4 - and the author and data headers use this too  */
+h4 {
     font-size: 18px;
     font-family: "Times New Roman", Times, serif;
     color: darkred;
     text-align: left;
 }
+
+
+/* Tab features */
+.nav>li>a {
+    position: relative;
+    display: block;
+    padding: 2px 15px;
+    color: #990000;
+}
+.nav-pills>li.active>a, .nav-pills>li.active>a:hover, .nav-pills>li.active>a:focus {
+    color: #ffffff;
+    background-color: #990000;
+}
+/*
+nav-pills>li:nth-child(2) {
+    background: green;
+ }
+ */
 </style>
 
 ```{r setup, include=FALSE}
-# code chunk specifies whether the R code, warnings, and output 
-# will be included in the output files.
+options(repos = list(CRAN="http://cran.rstudio.com/"))
 if (!require("tidyverse")) {
    install.packages("tidyverse")
    library(tidyverse)
@@ -92,11 +116,11 @@ if (!require("gapminder")) {
    library(gapminder)
 }
 if (!require("png")) {
-    install.packages("png")             # Install png package
+    install.packages("png")    
     library("png")
 }
 if (!require("RCurl")) {
-    install.packages("RCurl")             # Install RCurl package
+    install.packages("RCurl")    
     library("RCurl")
 }
 if (!require("colourpicker")) {
@@ -123,17 +147,15 @@ if (!require("jpeg")) {
     install.packages("jpeg")              
     library("jpeg")
 }
-# knitr::opts_knit$set(root.dir = "C:/Users/75CPENG/OneDrive - West Chester University of PA/Documents")
-# knitr::opts_knit$set(root.dir = "C:\\STA490\\w05")
-
 knitr::opts_chunk$set(echo = TRUE,       
                       warning = FALSE,   
                       result = TRUE,   
-                      message = FALSE)
+                      message = FALSE,
+                      comment = NA)
 ```
 
 
-# {.tabset}
+# {.tabset .tabset-fade .tabset-pills}
 
 ## Plotly
 
@@ -155,14 +177,17 @@ One can feed a `ggplot` to `plotly` to render ggplot via `plotly`. Comparing to 
 
 In this note, we introduce the basic statistical graphics using the `plotly` package. `plotly` graphics automatically contain interactive elements that allow users to modify, explore, and experience the visualized data in new ways. 
 
-The coding effort is similar to that of SAS ODS graphics. To use `plot_ly()`, we need to install (if not done) and load the `plotly` package. We use the well-known iris data set in the following plots. A nice `plotly` cheat sheet can be found at <https://stat553.s3.amazonaws.com/plotly/r_plotly_cheat_sheet.pdf>
+The coding effort is similar to that of SAS ODS graphics. To use `plot_ly()`, we need to install (if not done) and load the `plotly` package. We use the well-known iris data set in the following plots. A nice `plotly` cheat sheet can be found at <https://pengdsci.github.io/STA553VIZ/w06/r_plotly_cheat_sheet.pdf>
+
 
 ## ScatterPlot
+
 
 ### The Default Plot
 
 First, we make a simple interactive scatter plot using sepal length and width. We can view the information about the variables and color coding information in the hover text. The labels of axes and legend titles and label are default.
 
+
 ```{r}
 plot_ly(
     data = iris,
@@ -173,27 +198,49 @@ plot_ly(
      mode = "markers")
 ```
 
-### Addiing Additional Information Through `hovertemplate`
 
-We can also add additional information to the plot to enhance interactivity of the plot. For example, we can (1) modify the point size using the value of a numerical variable variable; (2) add text to the hover text using `text` option to show the class label; (3) formulate the hover text using `hovertemplate` option.
+
+### Including Additional Information Through `hovertemplate`
+
+We can also add additional information to the plot to enhance interactivity of the plot. For example, we can 
+
+(1) modify the point size using the value of a numerical variable variable; 
+
+(2) add text to the hover text using `text` option to show the class label; 
+
+(3) formulate the hover text using `hovertemplate` option.
+
+`hovertemplate` 
+
 
 ```{r}
 plot_ly(
     data = iris,
-    x = ~Sepal.Length,  # Horizontal axis 
-    y = ~Sepal.Width,   # Vertical axis 
+    x = ~Sepal.Length,         # Horizontal axis 
+    y = ~Sepal.Width,          # Vertical axis 
+    customdata = ~Petal.Width,
     color = ~factor(Species),  # must be a numeric factor
-     text = ~Species,     # show the species in the hover text
+     text = ~Species,          # show the species in the hover text
+     labels = ~Petal.Width,
+     ####
+     marker = list(size = ~Petal.Length, sizeref = .05, sizemode = 'area'),
+     #
+     alpha  = 0.9,
+     type = "scatter",
+     mode = "markers",
      ## using the following hovertemplate() to add the information of the
      ## two numerical variable to the hover text.
-     hovertemplate = paste('<i><b>Sepal Width<b></i>: %{y}',
-                           '<br><b>Sepal Length</b>:  %{x}',
-                           '<br><b>%{text}</b>'),
-     alpha  = 0.9,
-     size = ~Sepal.Length,
-     type = "scatter",
-     mode = "markers")
+     hovertemplate = paste('<b>Sepal Width<b>: %{y}',
+                           '<br><b>Sepal Length</b>: %{x}',
+                           '<br><b>Petal Length</b>: %{marker.size:,}',
+                           '<br><b>Petal Width</b>: %{customdata}',
+                           '<br><b>Species</b>: %{text}',
+                           "<extra></extra>")
+     ###
+)
 ```
+
+
 
 ### Enhancing the Plot with Layout() Function
 
@@ -279,6 +326,8 @@ plot_ly(
 
 ```
 
+
+
 ```{r}
 myPlotlyLayout <- function(){
   layout(  
@@ -341,6 +390,9 @@ myPlotlyLayout <- function(){
        }
 ```
 
+
+
+
 ```{r, fig.align='center', fig.width=8, fig.height=8}
 plot_ly(
     data = iris,
@@ -368,7 +420,7 @@ plot_ly(
 We can also render a ggplot in using ggplotly to bring interactivity to the plot.
 
 
-```{r, fig.align='center'}
+```{r}
 myplot.theme_new <- function() {
   theme(
     #ggplot margins
@@ -428,6 +480,7 @@ myplot.theme_new <- function() {
 # Change histogram plot line colors by groups
 p <- ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width,
                               color = factor(Species)), linetype = Species) +
+             aes(label = Species, label1 = Petal.Length, label2 =  Petal.Width) + 
              geom_point(size = 2, alpha = 0.7) +
              stat_smooth(method = lm, se=FALSE, size = 0.3) +
              scale_color_manual(values=c("dodgerblue4", "darkolivegreen4", "darkorchid3")) +
@@ -581,15 +634,18 @@ piedata = data.frame(cate =as.vector(unique(subiris)),
 # define a color vector
 colors <- c('rgb(211,94,96)', 'rgb(128,133,133)', 'rgb(144,103,167)')
 # make a pie chart
-plot_ly(piedata, labels = ~cate, values = ~freq, type = 'pie',
+plot_ly(piedata, 
+        labels = ~cate, 
+        values = ~freq, 
+        type = 'pie',
         textposition = 'inside',
         textinfo = 'label + percent',
         insidetextfont = list(color = '#FFFFFF'),
-        hoverinfo = 'text',
+        #hoverinfo = 'text',
         marker = list(colors = colors,
                       line = list(color = '#FFFFFF', width = 1)),
                       #The 'pull' attribute can also be used to create space between the sectors
-        showlegend = FALSE) %>% 
+        showlegend = TRUE) %>% 
          layout(title = 'Distribution of Species',
                 xaxis = list(showgrid = FALSE, zeroline = FALSE, 
                              showticklabels = FALSE),
@@ -610,15 +666,21 @@ versicolor <- density(sepal.len.versicolor$Sepal.Length)
 sepal.len.virginica <- iris[which(iris$Species == "virginica"),]
 virginica <- density(sepal.len.virginica$Sepal.Length)
 # plot density curves
-fig <- plot_ly(x = ~virginica$x, y = ~virginica$y, 
-               type = 'scatter', mode = 'lines', 
+fig <- plot_ly(x = ~virginica$x, 
+               y = ~virginica$y, 
+               type = 'scatter', #A character string specifying the trace type
+               mode = 'lines', 
                name = 'virginica', 
                fill = 'tozeroy')  %>% 
            # adding more density curves
-       add_trace(x = ~versicolor$x, y = ~versicolor$y, 
-                 name = 'versicolor', fill = 'tozeroy')  %>% 
-       add_trace(x = ~setosa$x, y = ~setosa$y, 
-                 name = 'setosa', fill = 'tozeroy')  %>%   
+       add_trace(x = ~versicolor$x, 
+                 y = ~versicolor$y, 
+                 name = 'versicolor', 
+                 fill = 'tozeroy')  %>% 
+       add_trace(x = ~setosa$x, 
+                 y = ~setosa$y, 
+                 name = 'setosa', 
+                 fill = 'tozeroy')  %>%   
        layout(xaxis = list(title = 'Sepal Length'),
               yaxis = list(title = 'Density'))
 fig
@@ -657,22 +719,36 @@ poc.site <- poc[poc$POC == 1,]
 geostyle <- list(scope = 'usa',
                  projection = list(type = 'albers usa'),
                  showland = TRUE,
-                 landcolor = toRGB("gray95"),
-                 subunitcolor = toRGB("gray85"),
-                 countrycolor = toRGB("gray85"),
-                 countrywidth = 0.5,
+                 landcolor = toRGB("lightblue"),
+                 subunitcolor = toRGB("purple"),
+                 countrycolor = toRGB("navy"),
+                 countrywidth = 0.75,
                  subunitwidth = 0.5
                )
 ## plotting map
 fig <- plot_geo(poc.site, lat = ~ycoord, lon = ~xcoord) %>%
        add_markers(text = ~ SITE_DESCRIPTION, 
                    color = "red", 
-                   symbol = I("circle"), 
-                   size = I(8), 
+                   symbol = "circle", 
+                   size = I(10), 
                    hoverinfo = "text" )   %>%
         layout( title = 'POC Risk Sites', geo = geostyle)
 fig
 ```
 
+
+## Conclusion
+
+This note focuses on using `plotly` library and its dependencies to create various interactive plots. However, `plotly` is only one of such libraries that can produce interactive graphics. There are several other commonly used libraries with different strengths. Here are few of them
+
+* 
+
+Data integration. Collect raw data and turn it into clean, analytics-ready information by performing data replication, ingestion and transformation. Then store it in a data lake or data warehouse.
+
+Goal definition. Define the business objective you’re trying to achieve and the data insights you seek. For example, are you trying to optimize a production process or track the ROI of your marketing efforts.
+
+Visualization design. Design begins with selecting KPIs and types of graphs, charts, and maps that best tell your story. Keeping your visualizations clean and simple will help users understand and work with the data.
+
+Collaboration and sharing. Allow all approved users to explore the data freely to uncover their own insights. Your software should allow users to embed your visualizations in other applications and to engage with them on their mobile devices.
 
 
