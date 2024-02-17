@@ -86,6 +86,7 @@ h4 { /* Header 4 - and the author and data headers use this too  */
 ```{r setup, include=FALSE}
 # code chunk specifies whether the R code, warnings, and output 
 # will be included in the output files.
+options(repos = list(CRAN="http://cran.rstudio.com/"))
 if (!require("tidyverse")) {
    install.packages("tidyverse")
    library(tidyverse)

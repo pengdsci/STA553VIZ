@@ -28,7 +28,7 @@ output:
 /* Table of content - navigation */
 div#TOC li {
     list-style:none;
-    background-color:lightgray;
+    background-color:skyblue;
     background-image:none;
     background-repeat:none;
     background-position:0;
@@ -106,13 +106,6 @@ knitr::opts_chunk$set(echo = TRUE,
 
 \
 
-\
-
-\
-
-\
-
-
 # Introduction
 
 Data visualization is a form of data analysis (also called visual analytics). This means we need to prepare data sets that are appropriate for visualizations. Recall the following work flow of data visualizations mentioned in earlier notes. 
@@ -136,14 +129,37 @@ The base R package has some powerful and easy-to-use functions to perform these 
 
 ## Data Cleaning
 
-Data cleaning refers to the process of making a data set possibly from different sources of `raw data` for modeling, visualization, and relevant analysis. The major tasks include: 
+Data cleaning refers to the process of making a data set possibly from different sources of `raw data` for modeling, visualization, and relevant analysis. Before starting cleaning, we need to create a backup plan of the original data (master data files) since things can go wrong easily the data processing stage. It's important to create and stick to a plan for backing up your data.
+
+* Store a copy of your master files in a separate location from your working files
+* Set up a regular backup schedule
+  + What files will be backed up?
+  + How frequently will the files be backed up?
+
+
+All data cleaning tasks must be performed based on the working data files. The major tasks vary from projects to projects, some of the common tasks are listed in the following: 
 
 * Removing unnecessary variables
+  + observation ID
+  + Irrelevant variables
 * Deleting duplicate rows/observations
+  + <font color="brown"><b>Caution</b></font>: Never do this in bootstrap samples!
 * Addressing outliers or invalid data
+  + Genuine observation?
+  + mistakenly recorded data points?
 * Dealing with missing values
+  + Missing value - the exists but for was not recorded
+  + Null value - the value does not exist
 * Standardizing or categorizing values
+  + <font color="red"><b>Caution with standardizing!</b></font>
+  + Combining sparse categories in a meaningful way.
+  + Discrtizing continuous variables.
 * Correcting typographical errors
+* Data Augmentation or Extension
+  + Adding new columns to the existing dataset
+  + Combining  existing dataset with another dataset
+
+
 
 
 ## Data Preparation for Visualization
