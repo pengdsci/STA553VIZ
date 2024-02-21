@@ -508,7 +508,11 @@ We add annotations to the base R plot. The annotations could be plain texts, ima
 ```{r}
 
 iris.img <- "https://pengdsci.github.io/STA553VIZ/w03/img/iris.jpeg"
-my.iris <- readJPEG(getURLContent(iris.img))
+my.iris<- readJPEG(readBin(iris.img, "raw", 1e6))
+# my.iris <- readJPEG(getURLContent(iris.img)) 
+# getURLContent() - HTTPS appears in the URL when a website is secured by an 
+# SSL (security sockets Layer) /TLS (Transport Layer Security) certificate. 
+# If SSL/TLS is outdated, calling that function will produce error.
 raster.iris <- as.raster(my.iris) 
 # Use the code in the precious section
 sepal.length = iris$Sepal.Length
