@@ -61,12 +61,12 @@ h4.date {
   text-align: center;
 }
 h1 {
-    font-size: 22px;
+    font-size: 24px;
     font-family: "Times New Roman", Times, serif;
     color: darkred;
     text-align: center;
 }
-h2 { /
+h2 {
     font-size: 18px;
     font-family: "Times New Roman", Times, serif;
     color: navy;
@@ -175,6 +175,11 @@ if (!require("ggridges")) {
     install.packages("ggridges")              
     library("ggridges")
 }
+if (!require("graphics")) {
+    install.packages("graphics")              
+    library("graphics")
+}
+
 # knitr::opts_knit$set(root.dir = "C:/Users/75CPENG/OneDrive - West Chester University of PA/Documents")
 # knitr::opts_knit$set(root.dir = "C:\\STA490\\w05")
 
@@ -229,8 +234,9 @@ ggplot(data = my_data)  +               # use the dataset "my_data"
   geom_point(                           # add a layer of points (dots)
     mapping = aes(x = col1, y = col2),  # "map" data column to axes
     color = "red")  +                   # Other specifications for the geom
-  labs()+                               # here you add titles, axes labels, etc.
-  theme()                               # here you adjust color, font, size etc                                         # of non-data plot elements (axes, 
+  labs()  +                             # here you add titles, axes labels, etc.
+  theme()                               # here you adjust color, font, size etc                                         
+                                        # of non-data plot elements (axes, 
                                         # title, etc.) 
 ```
 
@@ -250,13 +256,13 @@ This command will end with a `+` after its closing parentheses. This leaves the 
 ggplot(data = linelist)
 ```
 
-# Geoms
+## Geoms
 
 The above code creates a blank canvas. We need to create geometries (shapes) from our data (e.g. bar plots, histograms, scatter plots, box plots).
 
 This is done by adding layers of “geoms” to the initial `ggplot()` command. Many `ggplot2` functions create “geoms”. Each of these functions begins with “geom_”, so we will refer to them generically as `geom_XXXX()`. 
 
-There are over 40 geoms in ggplot2 and many others created by fans. View them at the `ggplot2` gallery. Some common `geoms` are listed below:
+There are many geoms in ggplot2 and many others created by fans. View them at the `ggplot2` gallery. Some common `geoms` are listed below:
 
 * Histograms - `geom_histogram()`
 * Bar charts - `geom_bar()` or `geom_col()` 
@@ -267,7 +273,41 @@ There are over 40 geoms in ggplot2 and many others created by fans. View them at
 
 We can display one or multiple `geoms` in one plot. Each is added to previous `ggplot2` commands with a `+`, and they are plotted sequentially such that later `geoms` are plotted on top of previous ones.
 
-# Mapping Data to Plot
+For the complete list of currently available geoms, using the following command in the R Console:
+
+```{}
+ls(pattern = '^geom_', env = as.environment('package:ggplot2'))
+```
+
+
+## AI Generated Desciption of Commonly Used `geoms`
+
+The generative AI (large language model) can help summarize most commonly use `geoms` in ggplot. The following is a list `geoms` with more details based on the phrase **list of geoms in ggplot** through the Microsoft Copilot via Mircosoft Edge:
+
+Geoms are the geometric objects that define the type and appearance of the plots created by the ggplot2 package in R. Geoms can be combined and layered to create complex and customized visualizations of data. Geoms are specified by using geom_ functions, such as geom_point, geom_bar, geom_line, etc.
+
+There are many geoms available in ggplot2, each with its own aesthetics and parameters. Some of the most common and useful geoms are:
+
+- **geom_point**: This geom draws points on a plot, and can be used to create `scatterplots, dotplots, bubble charts`, etc. It requires x and y aesthetics, and can also take `size, shape, colour, fill` and `alpha` aesthetics to control the appearance of the points.
+
+- **geom_bar** and **geom_col**: These geoms draw bars on a plot, and can be used to create `bar charts, histograms, lollipop charts`, etc. They require x and y aesthetics, where y represents the height of the bars. The difference between `geom_bar` and `geom_col` is that `geom_bar` uses `stat_count` by default, which counts the number of observations in each x group, while `geom_col` uses `stat_identity` by default, which takes the y values as given. These geoms can also take `size, linetype, colour, fill` and alpha aesthetics to control the appearance of the bars.
+
+- **geom_line** and **geom_path**: These geoms draw lines on a plot, and can be used to create `line charts, time series plots, spaghetti plots`, etc. They require x and y aesthetics, where x represents the order of the points along the line. The difference between `geom_line` and `geom_path` is that `geom_line` sorts the data by x before plotting, while `geom_path` plots the data in the order they appear in the data frame. These geoms can also take `size, linetype, colour` and `alpha` aesthetics to control the appearance of the lines.
+
+- **geom_boxplot**: This geom draws boxplots on a plot, and can be used to display the distribution of a numeric variable across different groups. It requires x and y aesthetics, where x represents the grouping variable and y represents the numeric variable. It also uses stat_boxplot by default, which computes the `five-number summary` (minimum, lower quartile, median, upper quartile and maximum) of each group. This geom can also take `size, linetype, colour, fill` and `alpha` aesthetics to control the appearance of the boxplots.
+
+- **geom_histogram**: This geom draws histograms on a plot, and can be used to display the distribution of a single numeric variable. It requires x aesthetic, which represents the numeric variable to be binned. It also uses stat_bin by default, which counts the number of observations in each bin. This geom can also take `size, linetype, colour, fill` and `alpha` aesthetics to control the appearance of the histogram.
+
+- **geom_density** and **geom_density_2d**: These geoms draw density plots on a plot, and can be used to display the distribution of one or two numeric variables using smooth curves. They require x aesthetic for one-dimensional density plots or x and y aesthetics for two-dimensional density plots. They also use `stat_density` or `stat_density_2d` by default, which estimate the probability density function of the variables using kernel smoothing. These geoms can also take `size, linetype, colour, fill` and `alpha` aesthetics to control the appearance of the density plots.
+
+- **geom_tile** and **geom_bin2d**: These geoms draw tiles on a plot, and can be used to create heatmaps or bivariate histograms of two numeric variables. They require x and y aesthetics, which represent the numeric variables to be binned. They also use stat_identity or stat_bin2d by default, which take or compute the values for each tile. These geoms can also take `size, linetype, colour, fill` and `alpha` aesthetics to control the appearance of the tiles.
+
+- **geom_text** and **geom_label**: These geoms draw text or labels on a plot, and can be used to add annotations or data labels to a plot. They require x and y aesthetics for positioning and label aesthetic for text content. They can also take `size, colour, fill, alpha, hjust, vjust` and `parse` aesthetics to control the appearance of the text or labels.
+
+
+
+
+## Mapping Data to Plot
 
 `geom` functions require mapping (assigning) columns in the data to components of the plot like the axes, shape colors, shape sizes, etc. The mappings must be wrapped in the `aes()` function, so we would write something like `mapping = aes(x = col1, y = col2)`.
 
@@ -284,6 +324,7 @@ When creating a histogram, only one variable is used. See the following example.
 ggplot(data = iris, mapping = aes(x = Petal.Width)) +
   geom_histogram(binwidth = 0.2)
 ```
+
 
 ## Arranging Multiple Grobs on the Same Page
 
@@ -376,11 +417,14 @@ ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width,
 ```
 
 
-##  Themes in `ggplot()`
+#  Themes in `ggplot()`
 
 The theme system in `ggplot()` does not affect how the data is rendered by `geoms`, or how it is transformed by scales. `Themes` don’t change the perceptual properties of the plot, but they do help you make the plot aesthetically pleasing or match an existing style guide. `Themes` give us control over things like fonts, ticks, panel stripes, and backgrounds.
 
 In other words, when creating the plot we determine how the data is displayed, and then after it has been created we can edit every detail of the rendering, using the theming system.
+
+
+## Theming System Structure
 
 The theming system is composed of four main components:
 
@@ -559,9 +603,8 @@ ggplot(iris, aes(x = Petal.Width, color=Species)) +
  
 To make the graphic more informative, sometimes we may want to add annotations to the graphic. If we create a statistical and probabilistic graphic, occasionally we need to add mathematical equations with Greek letters to the graphics. 
 
-## Adding Text Annotation to Graphics
 
-### Adding Plain Text to Graphics
+## Adding Plain Text to Graphics
 
 To add plain text to graphics in ggplot, we use the function `annotate()` with given coordinates. For example, the scatter plot shows two separate groups.
 
@@ -591,7 +634,7 @@ ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width,
 
 Several other alternatives we can use to add text to graphics created using `ggplot``.
 
-### Passing Parameters in Annotation
+## Passing Parameters in Annotation
 
 ```{r, fig.align='center'}
 # Change histogram plot line colors by groups
@@ -677,9 +720,9 @@ ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width,
 
 
 
-## Removing Chart Junks
+# Removing Chart Junks Via Themes
 
-We remove some unnecessary marks and channels from the chart via theme: change the background color, grid, and plot title.
+We remove some unnecessary marks and channels from the chart via theme: change the background color, grid, and plot title. Essentially, we use a them to lay out a ggplot style without any chart junk.
 
 ```{r, fig.align='center'}
 myplot.theme_new <- function() {
@@ -735,7 +778,7 @@ myplot.theme_new <- function() {
 }
 ```
 
-
+Using the above theme, we re-plot the iris data with less irrelevant graphical elements.
 
 ```{r, fig.align='center', fig.width=6, fig.height=5}
 # Change histogram plot line colors by groups
@@ -763,10 +806,11 @@ ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width,
 ```
 
 
+# Common Extensions to `ggplot`
 
+There are different extensions of `ggplot`. This section introduces two commonly used extensions. We will also briefly outline a few other extensions of `ggplot`. 
 
-
-# Aminated Graph with `gganimate()`
+## Aminated Graph with `gganimate()`
 
 `gganimate()` extends the grammar of graphics as implemented by `ggplot2` to include the description of animation. It does this by providing a range of new grammar classes that can be added to the plot object in order to customize how it should change with time.
 
@@ -873,11 +917,7 @@ animate(w, renderer = gifski_renderer(),
 
 
 
-
-
-
-
-# Ridgetline Plot with `ggridges` Library
+## Ridgetline Plot with `ggridges` Library
 
 The ridgeline plot is a useful 3D to compare multiple densities. It creates a 3D impression and has gained increasing popularity. Here we use the California Housing Data that is available on the Project Data Set <https://pengdsci.github.io/datasets/#cal-housing>.
 
@@ -912,7 +952,7 @@ ggplot(iris, aes(x = Sepal.Width, y = Species, fill = stat(x))) +
 The above distributions have similar shapes (variations) but with different means. This also indicates the ANOVA model between sepal width and species is appropriate.
 
 
-# Other Extensions to ggplot
+## Other Extensions to ggplot
 
 We have used ggplot extensions **{gganimate}** to create animated graphs and **{ggridges}** to create ridgeline graphs to compare multiple densities. There are several other important ggplot extensions that enhance the basic ggplots.
 
@@ -1004,3 +1044,137 @@ combinedPlot <- plot_grid(p1, p2, labels=c("A", "B"),
 ##
 ggsave("CombinedPlot.png", plot = combinedPlot)
 ```
+
+
+
+
+# The Role of Color in Effective Visualization
+
+Substantial research shows that color plays a pivotal role in our visual experiences. In this class, we use colors for two main purposes: encoding and highlighting information.
+
+We use different colors to denote different values of a variable. There are many continuous and discrete color palettes available in different R libraries that can be used on different occasions. However, we need to pay very special attention to the cases when colors are used for encoding because we see colors differently - people with vision deficiency are less sensitive to some of the colors. The next figure illustrates the major types of color blindness.
+
+
+```{r fig.align = 'center', out.width = '80%'}
+include_graphics("ColorBlindnessTypes.png")
+```
+
+
+What colors should you use? There are different color-picker tools available for us to choose colors while making sure that the color palette is accessible. Here is a set of 8 pairs of contrasting colors that maintain their contrast for people who are colorblind. 
+
+
+```{r fig.align = 'center', out.width = '80%'}
+include_graphics("r-color-palettes.png")
+```
+
+For example, the following three sample palettes are colorblind-friendly.
+
+
+
+* **IBM Design Library**
+
+```{r fig.align='center', fig.width=7, fig.height=1}
+par(mfrow=c(1,5), oma=c(0,0,0,0), mar = c(1,0.5,1,0.5))
+plot(NULL, type="n", xlim=c(-1,1), ylim=c(-1,1), axes = FALSE, xlab = "", ylab = "")
+rect(xleft = -1, ybottom = -0.5, xright =1, ytop = 0.5, lty = 1, col = "#648FFF")
+text(0,0, "#648FFF")
+##
+plot(NULL, type="n", xlim=c(-1,1), ylim=c(-1,1), axes = FALSE, xlab = "", ylab = "")
+rect(xleft = -1, ybottom = -0.5, xright =1, ytop = 0.5, lty = 1, col = "#785EF0")
+text(0,0, "#785EF0")
+##
+plot(NULL, type="n", xlim=c(-1,1), ylim=c(-1,1), axes = FALSE, xlab = "", ylab = "")
+rect(xleft = -1, ybottom = -0.5, xright =1, ytop = 0.5, lty = 1, col = "#DC267F")
+text(0,0, "#DC267F")
+##
+plot(NULL, type="n", xlim=c(-1,1), ylim=c(-1,1), axes = FALSE, xlab = "", ylab = "")
+rect(xleft = -1, ybottom = -0.5, xright =1, ytop = 0.5, lty = 1, col = "#FE6100")
+text(0,0, "#FE6100")
+##
+plot(NULL, type="n", xlim=c(-1,1), ylim=c(-1,1), axes = FALSE, xlab = "", ylab = "")
+rect(xleft = -1, ybottom = -0.5, xright =1, ytop = 0.5, lty = 1, col = "#FFB000")
+text(0,0, "#FFB000")
+```
+
+
+* **Wong's Palette**
+
+```{r fig.align='center', fig.width=7, fig.height=1}
+par(mfrow=c(1,8), oma=c(0,0,0,0), mar = c(1,0.5,1,0.5))
+plot(NULL, type="n", xlim=c(-1,1), ylim=c(-1,1), axes = FALSE, xlab = "", ylab = "")
+rect(xleft = -1, ybottom = -0.5, xright =1, ytop = 0.5, lty = 1, col = "#000000")
+text(0,0, "#000000", col = "white")
+##
+plot(NULL, type="n", xlim=c(-1,1), ylim=c(-1,1), axes = FALSE, xlab = "", ylab = "")
+rect(xleft = -1, ybottom = -0.5, xright =1, ytop = 0.5, lty = 1, col = "#E69F00")
+text(0,0, "#E69F00")
+##
+plot(NULL, type="n", xlim=c(-1,1), ylim=c(-1,1), axes = FALSE, xlab = "", ylab = "")
+rect(xleft = -1, ybottom = -0.5, xright =1, ytop = 0.5, lty = 1, col = "#56B4E9")
+text(0,0, "#56B4E9")
+##
+plot(NULL, type="n", xlim=c(-1,1), ylim=c(-1,1), axes = FALSE, xlab = "", ylab = "")
+rect(xleft = -1, ybottom = -0.5, xright =1, ytop = 0.5, lty = 1, col = "#009E73")
+text(0,0, "#009E73")
+##
+plot(NULL, type="n", xlim=c(-1,1), ylim=c(-1,1), axes = FALSE, xlab = "", ylab = "")
+rect(xleft = -1, ybottom = -0.5, xright =1, ytop = 0.5, lty = 1, col = "#F0E442")
+text(0,0, "#F0E442")
+##
+plot(NULL, type="n", xlim=c(-1,1), ylim=c(-1,1), axes = FALSE, xlab = "", ylab = "")
+rect(xleft = -1, ybottom = -0.5, xright =1, ytop = 0.5, lty = 1, col = "#0072B2")
+text(0,0, "#0072B2")
+##
+plot(NULL, type="n", xlim=c(-1,1), ylim=c(-1,1), axes = FALSE, xlab = "", ylab = "")
+rect(xleft = -1, ybottom = -0.5, xright =1, ytop = 0.5, lty = 1, col = "#D55E00")
+text(0,0, "#D55E00")
+##
+plot(NULL, type="n", xlim=c(-1,1), ylim=c(-1,1), axes = FALSE, xlab = "", ylab = "")
+rect(xleft = -1, ybottom = -0.5, xright =1, ytop = 0.5, lty = 1, col = "#CC79A7")
+text(0,0, "#CC79A7")
+```
+
+
+
+* **Pal's Pallete**
+
+```{r fig.align='center', fig.width=7, fig.height=1}
+par(mfrow=c(1,8), oma=c(0,0,0,0), mar = c(1,0.5,1,0.5))
+
+plot(NULL, type="n", xlim=c(-1,1), ylim=c(-1,1), axes = FALSE, xlab = "", ylab = "")
+rect(xleft = -1, ybottom = -0.5, xright =1, ytop = 0.5, lty = 1, col = "#332288")
+text(0,0, "#332288", col = "white")
+##
+plot(NULL, type="n", xlim=c(-1,1), ylim=c(-1,1), axes = FALSE, xlab = "", ylab = "")
+rect(xleft = -1, ybottom = -0.5, xright =1, ytop = 0.5, lty = 1, col = "#117733")
+text(0,0, "#117733")
+##
+plot(NULL, type="n", xlim=c(-1,1), ylim=c(-1,1), axes = FALSE, xlab = "", ylab = "")
+rect(xleft = -1, ybottom = -0.5, xright =1, ytop = 0.5, lty = 1, col = "#44AA99")
+text(0,0, "#44AA99")
+##
+plot(NULL, type="n", xlim=c(-1,1), ylim=c(-1,1), axes = FALSE, xlab = "", ylab = "")
+rect(xleft = -1, ybottom = -0.5, xright =1, ytop = 0.5, lty = 1, col = "#88CCEE")
+text(0,0, "#88CCEE")
+##
+plot(NULL, type="n", xlim=c(-1,1), ylim=c(-1,1), axes = FALSE, xlab = "", ylab = "")
+rect(xleft = -1, ybottom = -0.5, xright =1, ytop = 0.5, lty = 1, col = "#DDCC77")
+text(0,0, "#DDCC77")
+##
+plot(NULL, type="n", xlim=c(-1,1), ylim=c(-1,1), axes = FALSE, xlab = "", ylab = "")
+rect(xleft = -1, ybottom = -0.5, xright =1, ytop = 0.5, lty = 1, col = "#CC6677")
+text(0,0, "#CC6677")
+##
+plot(NULL, type="n", xlim=c(-1,1), ylim=c(-1,1), axes = FALSE, xlab = "", ylab = "")
+rect(xleft = -1, ybottom = -0.5, xright =1, ytop = 0.5, lty = 1, col = "#AA4499")
+text(0,0, "#AA4499")
+##
+plot(NULL, type="n", xlim=c(-1,1), ylim=c(-1,1), axes = FALSE, xlab = "", ylab = "")
+rect(xleft = -1, ybottom = -0.5, xright =1, ytop = 0.5, lty = 1, col = "#882255")
+text(0,0, "#882255", col = "white")
+```
+
+
+We can find more R color palettes from <https://r-charts.com/color-palettes/>.
+
+
