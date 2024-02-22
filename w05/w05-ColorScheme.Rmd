@@ -1,0 +1,498 @@
+---
+title: "Introduction to ggplot()"
+author: "Cheng Peng"
+date: "West Chester University "
+output:
+  html_document: 
+    toc: yes
+    toc_depth: 4
+    toc_float: yes
+    fig_width: 6
+    number_sections: yes
+    toc_collapsed: yes
+    code_folding: hide
+    code_download: yes
+    smooth_scroll: true
+    theme: readable
+    fig_height: 4
+---
+
+<style type="text/css">
+
+div#TOC li {
+    list-style:none;
+    background-color:lightgray;
+    background-image:none;
+    background-repeat:none;
+    background-position:0;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #780c0c;
+}
+
+/* mouse over link */
+div#TOC a:hover {
+  color: red;
+}
+
+/* unvisited link */
+div#TOC a:link {
+  color: blue;
+}
+
+
+
+h1.title {
+  font-size: 24px;
+  color: Darkblue;
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+  font-variant-caps: normal;
+}
+h4.author { 
+    font-size: 18px;
+  font-family: "Times New Roman", Times, serif;
+  color: DarkRed;
+  text-align: center;
+}
+h4.date { 
+  font-size: 18px;
+  font-family: "Times New Roman", Times, serif;
+  color: DarkBlue;
+  text-align: center;
+}
+h1 {
+    font-size: 24px;
+    font-family: "Times New Roman", Times, serif;
+    color: darkred;
+    text-align: center;
+}
+h2 {
+    font-size: 18px;
+    font-family: "Times New Roman", Times, serif;
+    color: navy;
+    text-align: left;
+}
+
+h3 { 
+    font-size: 15px;
+    font-family: "Times New Roman", Times, serif;
+    color: navy;
+    text-align: left;
+}
+
+h4 { /* Header 4 - and the author and data headers use this too  */
+    font-size: 18px;
+    font-family: "Times New Roman", Times, serif;
+    color: darkred;
+    text-align: left;
+}
+
+/* unvisited link */
+a:link {
+  color: green;
+}
+
+/* visited link */
+a:visited {
+  color: green;
+}
+
+/* mouse over link */
+a:hover {
+  color: red;
+}
+
+/* selected link */
+a:active {
+  color: yellow;
+}
+
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th, td {
+  padding-top: 3px;
+  padding-bottom: 3px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+
+</style>
+
+
+```{r setup, include=FALSE}
+# code chunk specifies whether the R code, warnings, and output 
+# will be included in the output files.
+options(repos = list(CRAN="http://cran.rstudio.com/"))
+if (!require("tidyverse")) {
+   install.packages("tidyverse")
+   library(tidyverse)
+}
+if (!require("knitr")) {
+   install.packages("knitr")
+   library(knitr)
+}
+if (!require("cowplot")) {
+   install.packages("cowplot")
+   library(cowplot)
+}
+if (!require("latex2exp")) {
+   install.packages("latex2exp")
+   library(latex2exp)
+}
+if (!require("plotly")) {
+   install.packages("plotly")
+   library(plotly)
+}
+if (!require("gapminder")) {
+   install.packages("gapminder")
+   library(gapminder)
+}
+if (!require("png")) {
+    install.packages("png")             # Install png package
+    library("png")
+}
+if (!require("RCurl")) {
+    install.packages("RCurl")           # Install RCurl package
+    library("RCurl")
+}
+if (!require("colourpicker")) {
+    install.packages("colourpicker")              
+    library("colourpicker")
+}
+if (!require("gifski")) {
+    install.packages("gifski")              
+    library("gifski")
+}
+if (!require("magick")) {
+    install.packages("magick")              
+    library("magick")
+}
+if (!require("grDevices")) {
+    install.packages("grDevices")              
+    library("grDevices")
+}
+### ggplot and extensions
+if (!require("ggplot2")) {
+    install.packages("ggplot2")              
+    library("ggplot2")
+}
+if (!require("gganimate")) {
+    install.packages("gganimate")              
+    library("gganimate")
+}
+if (!require("ggridges")) {
+    install.packages("ggridges")              
+    library("ggridges")
+}
+if (!require("plotrix")) {
+    install.packages("plotrix")              
+    library("plotrix")
+}
+
+knitr::opts_chunk$set(echo = TRUE,       
+                      warning = FALSE,   
+                      result = TRUE,   
+                      message = FALSE)
+```
+
+
+\
+
+
+# Introduction
+
+Data visualization becomes more effective when the colors are chosen carefully. It is convenient to have convenient color schemes ready for different type of data that are
+
+* distinct for all people, including color-blind readers;
+* distinct from black and white;
+* distinct on screen and paper;
+* matching well together.
+
+This note discusses briefly such color schemes. A color scheme should reflect each of the three types of data:
+
+**Qualitative data** - nominal or categorical data, where magnitude differences are not relevant. This includes lines in plots and text in presentations.
+
+**Diverging data** - data ordered between two extremes where the midpoint is important, e.g. positive and negative deviations from zero or a mean.
+
+**Sequential data** - data ordered from low to high.
+
+
+
+# Qualitative Color Schemes
+
+There are several color blind safe color schemes for qualitative data. The following are short list of these suggested default schemes for further modifications. Qualitative color schemes are probably most important and used in data visualization.
+
+* **Bright Scheme**
+
+Bright qualitative color scheme that is color-blind safe. The main scheme for lines and their labels.
+
+
+```{r fig.align='center'}
+par(mfrow=c(2,4))
+plot(1:5,type="n", axes = FALSE, xlab = "", ylab = "")
+draw.circle(3,3,2,col="#4477AA")
+text(3,3, "#4477AA")
+##
+plot(1:5,type="n", axes = FALSE, xlab = "", ylab = "")
+draw.circle(3,3,2,col="#EE6677")
+text(3,3, "#EE6677")
+##
+plot(1:5,type="n", axes = FALSE, xlab = "", ylab = "")
+draw.circle(3,3,2,col="#228833")
+text(3,3, "#228833")
+##
+plot(1:5,type="n",axes = FALSE, xlab = "", ylab = "")
+draw.circle(3,3,2,col="#CCBB44")
+text(3,3, "#CCBB44")
+##
+plot(1:5,type="n", axes = FALSE, xlab = "", ylab = "")
+draw.circle(3,3,2,col="#66CCEE")
+text(3,3, "#66CCEE")
+##
+plot(1:5,type="n", axes = FALSE, xlab = "", ylab = "")
+draw.circle(3,3,2,col="#AA3377")
+text(3,3, "#AA3377")
+##
+plot(1:5,type="n", axes = FALSE, xlab = "", ylab = "")
+draw.circle(3,3,2,col="#BBBBBB")
+text(3,3, "#BBBBBB")
+```
+
+
+* **High-contrast Scheme**
+
+High-contrast qualitative color scheme, an alternative to the bright scheme that is color-blind safe and optimized for contrast. The samples below are shades of grey with the same luminescence. This scheme also works well for people with monochrome vision and in a monochrome printout.
+
+```{r fig.align='center', fig.width=5}
+par(mfrow=c(2,3))
+plot(1:5,type="n", axes = FALSE, xlab = "", ylab = "", cex = 0.8)
+draw.circle(3,3,2,col="#FFFFFF")
+text(3,3, "#FFFFFF")
+##
+plot(1:5,type="n", axes = FALSE, xlab = "", ylab = "")
+draw.circle(3,3,2,col="#004488")
+text(3,3, "#004488")
+##
+plot(1:5,type="n", axes = FALSE, xlab = "", ylab = "")
+draw.circle(3,3,2,col="#DDAA33")
+text(3,3, "#DDAA33")
+##
+plot(1:5,type="n",axes = FALSE, xlab = "", ylab = "")
+draw.circle(3,3,2,col="#BB5566")
+text(3,3, "#BB5566")
+##
+plot(1:5,type="n", axes = FALSE, xlab = "", ylab = "")
+draw.circle(3,3,2,col="#66CCEE")
+text(3,3, "#66CCEE")
+##
+plot(1:5,type="n", axes = FALSE, xlab = "", ylab = "")
+draw.circle(3,3,2,col="#000000")
+text(3,3, "#000000", col = "#FFFFFF")
+```
+
+
+* **Vibrant Scheme**
+
+
+Vibrant qualitative color scheme, an alternative to the bright scheme that is equally color-blind safe. It has been designed for data visualization framework. 
+
+
+```{r fig.align='center'}
+par(mfrow=c(2,4))
+plot(1:5,type="n", axes = FALSE, xlab = "", ylab = "")
+draw.circle(3,3,2,col="#EE7733")
+text(3,3, "#EE7733")
+##
+plot(1:5,type="n", axes = FALSE, xlab = "", ylab = "")
+draw.circle(3,3,2,col="#0077BB")
+text(3,3, "#0077BB")
+##
+plot(1:5,type="n", axes = FALSE, xlab = "", ylab = "")
+draw.circle(3,3,2,col="#33BBEE")
+text(3,3, "#33BBEE")
+##
+plot(1:5,type="n",axes = FALSE, xlab = "", ylab = "")
+draw.circle(3,3,2,col="#EE3377")
+text(3,3, "#EE3377")
+##
+plot(1:5,type="n", axes = FALSE, xlab = "", ylab = "")
+draw.circle(3,3,2,col="#CC3311")
+text(3,3, "#CC3311")
+##
+plot(1:5,type="n", axes = FALSE, xlab = "", ylab = "")
+draw.circle(3,3,2,col="#009988")
+text(3,3, "#009988")
+##
+plot(1:5,type="n", axes = FALSE, xlab = "", ylab = "")
+draw.circle(3,3,2,col="#BBBBBB")
+text(3,3, "#BBBBBB")
+```
+
+
+
+* **Muted Scheme**
+
+Muted qualitative color scheme, an alternative to the bright scheme that is equally color-blind safe with more colours, but lacking a clear red or medium blue.
+
+
+```{r fig.align='center', fig.width=7, fig.height=7}
+par(mfrow=c(3,3))
+
+plot(1:5,type="n", axes = FALSE, xlab = "", ylab = "")
+draw.circle(3,3,1,col="#CC6677")
+text(3,3, "#CC6677")
+##
+plot(1:5,type="n", axes = FALSE, xlab = "", ylab = "")
+draw.circle(3,3,1,col="#332288")
+text(3,3, "#332288")
+##
+plot(1:5,type="n", axes = FALSE, xlab = "", ylab = "")
+draw.circle(3,3,1,col="#DDCC77")
+text(3,3, "#DDCC77")
+##
+plot(1:5,type="n",axes = FALSE, xlab = "", ylab = "")
+draw.circle(3,3,1,col="#117733")
+text(3,3, "#117733")
+##
+plot(1:5,type="n", axes = FALSE, xlab = "", ylab = "")
+draw.circle(3,3,1,col="#88CCEE")
+text(3,3, "#88CCEE")
+##
+plot(1:5,type="n", axes = FALSE, xlab = "", ylab = "")
+draw.circle(3,3,1,col="#882255")
+text(3,3, "#882255")
+##
+plot(1:5,type="n",axes = FALSE, xlab = "", ylab = "")
+draw.circle(3,3,1,col="#44AA99")
+text(3,3, "#44AA99")
+##
+plot(1:5,type="n", axes = FALSE, xlab = "", ylab = "")
+draw.circle(3,3,1,col="#999933")
+text(3,3, "#999933")
+##
+plot(1:5,type="n", axes = FALSE, xlab = "", ylab = "")
+draw.circle(3,3,1,col="#AA4499")
+text(3,3, "#AA4499")
+```
+
+
+* **Medium-contrast Scheme**
+
+Medium-contrast qualitative color scheme, an alternative to the high-contrast scheme that is color-blind safe with more colors. It is also optimized for contrast to work in a monochrome printout, but the differences are inevitably smaller. It is designed for situations needing color pairs, shown by the three rectangles, with the lower half in the grey-scale equivalent.
+
+
+```{r fig.align='center', fig.width=7, fig.height=1}
+par(mfrow=c(1,5), oma=c(0,0,0,0), mar = c(1,0.5,1,0.5))
+plot(NULL, type="n", xlim=c(-1,1), ylim=c(-1,1), axes = FALSE, xlab = "", ylab = "")
+rect(xleft = -1, ybottom = -0.5, xright =1, ytop = 0.5, lty = 1, col = "#648FFF")
+text(0,0, "#648FFF")
+##
+plot(NULL, type="n", xlim=c(-1,1), ylim=c(-1,1), axes = FALSE, xlab = "", ylab = "")
+rect(xleft = -1, ybottom = -0.5, xright =1, ytop = 0.5, lty = 1, col = "#785EF0")
+text(0,0, "#785EF0")
+##
+plot(NULL, type="n", xlim=c(-1,1), ylim=c(-1,1), axes = FALSE, xlab = "", ylab = "")
+rect(xleft = -1, ybottom = -0.5, xright =1, ytop = 0.5, lty = 1, col = "#DC267F")
+text(0,0, "#DC267F")
+##
+plot(NULL, type="n", xlim=c(-1,1), ylim=c(-1,1), axes = FALSE, xlab = "", ylab = "")
+rect(xleft = -1, ybottom = -0.5, xright =1, ytop = 0.5, lty = 1, col = "#FE6100")
+text(0,0, "#FE6100")
+##
+plot(NULL, type="n", xlim=c(-1,1), ylim=c(-1,1), axes = FALSE, xlab = "", ylab = "")
+rect(xleft = -1, ybottom = -0.5, xright =1, ytop = 0.5, lty = 1, col = "#FFB000")
+text(0,0, "#FFB000")
+```
+
+
+
+```{r fig.align='center', fig.width=7, fig.height=1}
+par(mfrow=c(1,8), oma=c(0,0,0,0), mar = c(1,0.5,1,0.5))
+plot(NULL, type="n", xlim=c(-1,1), ylim=c(-1,1), axes = FALSE, xlab = "", ylab = "")
+rect(xleft = -1, ybottom = -0.5, xright =1, ytop = 0.5, lty = 1, col = "#000000")
+text(0,0, "#000000", col = "white")
+##
+plot(NULL, type="n", xlim=c(-1,1), ylim=c(-1,1), axes = FALSE, xlab = "", ylab = "")
+rect(xleft = -1, ybottom = -0.5, xright =1, ytop = 0.5, lty = 1, col = "#E69F00")
+text(0,0, "#E69F00")
+##
+plot(NULL, type="n", xlim=c(-1,1), ylim=c(-1,1), axes = FALSE, xlab = "", ylab = "")
+rect(xleft = -1, ybottom = -0.5, xright =1, ytop = 0.5, lty = 1, col = "#56B4E9")
+text(0,0, "#56B4E9")
+##
+plot(NULL, type="n", xlim=c(-1,1), ylim=c(-1,1), axes = FALSE, xlab = "", ylab = "")
+rect(xleft = -1, ybottom = -0.5, xright =1, ytop = 0.5, lty = 1, col = "#009E73")
+text(0,0, "#009E73")
+##
+plot(NULL, type="n", xlim=c(-1,1), ylim=c(-1,1), axes = FALSE, xlab = "", ylab = "")
+rect(xleft = -1, ybottom = -0.5, xright =1, ytop = 0.5, lty = 1, col = "#F0E442")
+text(0,0, "#F0E442")
+##
+plot(NULL, type="n", xlim=c(-1,1), ylim=c(-1,1), axes = FALSE, xlab = "", ylab = "")
+rect(xleft = -1, ybottom = -0.5, xright =1, ytop = 0.5, lty = 1, col = "#0072B2")
+text(0,0, "#0072B2")
+##
+plot(NULL, type="n", xlim=c(-1,1), ylim=c(-1,1), axes = FALSE, xlab = "", ylab = "")
+rect(xleft = -1, ybottom = -0.5, xright =1, ytop = 0.5, lty = 1, col = "#D55E00")
+text(0,0, "#D55E00")
+##
+plot(NULL, type="n", xlim=c(-1,1), ylim=c(-1,1), axes = FALSE, xlab = "", ylab = "")
+rect(xleft = -1, ybottom = -0.5, xright =1, ytop = 0.5, lty = 1, col = "#CC79A7")
+text(0,0, "#CC79A7")
+```
+
+
+
+```{r fig.align='center', fig.width=7, fig.height=1}
+par(mfrow=c(1,8), oma=c(0,0,0,0), mar = c(1,0.5,1,0.5))
+
+plot(NULL, type="n", xlim=c(-1,1), ylim=c(-1,1), axes = FALSE, xlab = "", ylab = "")
+rect(xleft = -1, ybottom = -0.5, xright =1, ytop = 0.5, lty = 1, col = "#332288")
+text(0,0, "#332288", col = "white")
+##
+plot(NULL, type="n", xlim=c(-1,1), ylim=c(-1,1), axes = FALSE, xlab = "", ylab = "")
+rect(xleft = -1, ybottom = -0.5, xright =1, ytop = 0.5, lty = 1, col = "#117733")
+text(0,0, "#117733")
+##
+plot(NULL, type="n", xlim=c(-1,1), ylim=c(-1,1), axes = FALSE, xlab = "", ylab = "")
+rect(xleft = -1, ybottom = -0.5, xright =1, ytop = 0.5, lty = 1, col = "#44AA99")
+text(0,0, "#44AA99")
+##
+plot(NULL, type="n", xlim=c(-1,1), ylim=c(-1,1), axes = FALSE, xlab = "", ylab = "")
+rect(xleft = -1, ybottom = -0.5, xright =1, ytop = 0.5, lty = 1, col = "#88CCEE")
+text(0,0, "#88CCEE")
+##
+plot(NULL, type="n", xlim=c(-1,1), ylim=c(-1,1), axes = FALSE, xlab = "", ylab = "")
+rect(xleft = -1, ybottom = -0.5, xright =1, ytop = 0.5, lty = 1, col = "#DDCC77")
+text(0,0, "#DDCC77")
+##
+plot(NULL, type="n", xlim=c(-1,1), ylim=c(-1,1), axes = FALSE, xlab = "", ylab = "")
+rect(xleft = -1, ybottom = -0.5, xright =1, ytop = 0.5, lty = 1, col = "#CC6677")
+text(0,0, "#CC6677")
+##
+plot(NULL, type="n", xlim=c(-1,1), ylim=c(-1,1), axes = FALSE, xlab = "", ylab = "")
+rect(xleft = -1, ybottom = -0.5, xright =1, ytop = 0.5, lty = 1, col = "#AA4499")
+text(0,0, "#AA4499")
+##
+plot(NULL, type="n", xlim=c(-1,1), ylim=c(-1,1), axes = FALSE, xlab = "", ylab = "")
+rect(xleft = -1, ybottom = -0.5, xright =1, ytop = 0.5, lty = 1, col = "#882255")
+text(0,0, "#882255", col = "white")
+```
+
+
+```{r fig.align='center', fig.width=6, fig.height=4}
+iris0 = iris
+Type = c(paste(iris$Species,".Sepal.Length", sep = ""),paste(iris$Species,".Sepal.Width", sep = ""))
+Measure = c(iris$Sepal.Length ,iris$Sepal.Width)
+irisNew = data.frame(Type = Type, Measure = Measure)
+cols1 = c("#332288","#117733","#44AA99","#88CCEE","#DDCC77","#CC6677")
+cols3 = c("#AA4499","#882255")
+ggplot() + 
+      geom_density(data = irisNew, aes(x = Measure, color = Type), lwd = 1.5)+ 
+      scale_color_manual(values = cols1) 
+```
+
+
