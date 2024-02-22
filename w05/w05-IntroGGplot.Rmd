@@ -890,7 +890,7 @@ animate(w, renderer = gifski_renderer(),
 
 The ridgeline plot is a useful 3D to compare multiple densities. It creates a 3D impression and has gained increasing popularity. Here we use the California Housing Data that is available on the Project Data Set <https://pengdsci.github.io/datasets/#cal-housing>.
 
-```{r}
+```{r fig.align='center'}
 CalHousing = read.csv("https://raw.githubusercontent.com/pengdsci/sta553.html/main/data/ca-housing-price.csv")
 ggplot(CalHousing, aes(x = median_house_value, y = ocean_proximity, fill = ocean_proximity)) +
   geom_density_ridges()
@@ -898,7 +898,7 @@ ggplot(CalHousing, aes(x = median_house_value, y = ocean_proximity, fill = ocean
 
 You can pass `stat(x)` or `factor(stat(x))` to the fill argument of `aes` and use `geom_density_ridges_gradient` and a continuous fill color scale to fill each ridgeline with a gradient.
 
-```{r}
+```{r fig.align='center'}
 ggplot(CalHousing, aes(x = median_house_value, y = ocean_proximity, fill = stat(x))) +
       geom_density_ridges_gradient(jittered_points = TRUE,
                                           position = position_points_jitter(width = 0.05, height = 0),
@@ -908,7 +908,7 @@ ggplot(CalHousing, aes(x = median_house_value, y = ocean_proximity, fill = stat(
 
 Next, we explore the distribution of continuous variables in the iris data set. As an example, we make the following ridgeline plot to see the distribution of sepal widths across the species.
 
-```{r}
+```{r fig.align='center'}
 ggplot(iris, aes(x = Sepal.Width, y = Species, fill = stat(x))) +
       geom_density_ridges_gradient(jittered_points = TRUE,
                                           position = position_points_jitter(width = 0.05, height = 0),
