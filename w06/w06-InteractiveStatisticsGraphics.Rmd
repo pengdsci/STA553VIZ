@@ -455,6 +455,50 @@ As we did in the base R and ggplot, we illustrate how to add images to plotly ch
 
 The following example shows how to use layout function to insert an external image to a plotly scatter plot. Comparing the steps of inserting an external image to the base R and ggplot, it is relatively straightforward and flexible to perform the same task in plotly. See the comments in the code to place the image in an appropriate location.
 
+```{r}
+plot_ly(
+    data = iris,
+    x = ~Sepal.Length,         # Horizontal axis 
+    y = ~Sepal.Width,          # Vertical axis 
+    customdata = ~Petal.Width,
+    color = ~factor(Species),  # must be a numeric factor
+     hovertext = ~Species,          # show the species in the hover text
+     hoverlabel = ~Petal.Width,
+     ####
+     marker = list(size = ~Petal.Length, sizeref = .05, sizemode = 'area'),
+     #
+     alpha  = 0.9,
+     type = "scatter",
+     mode = "markers",
+     ## using the following hovertemplate() to add the information of the
+     ## two numerical variable to the hover text.
+     hovertemplate = paste('<b>Sepal Width<b>: %{y}',
+                           '<br><b>Sepal Length</b>: %{x}',
+                           '<br><b>Petal Length</b>: %{marker.size:,}',
+                           '<br><b>Petal Width</b>: %{customdata}',
+                           '<br><b>Species</b>: %{hovertext}',
+                           "<extra></extra>") ) %>%
+    layout( 
+      images = list(  
+      list(
+        source = "https://pengdsci.github.io/STA553VIZ/w06/img/iris.jpeg",  
+        xref="paper",  # without assuming having a coordinate system, we
+        yref="paper",  # can use paper size to set up a relative location
+                       # to place an image.
+                       # We can also use  xref="x domain", yref="y domain", 
+                       # to set up a coordinate system to place an image.
+        x = 0,     # value between 0 and 1 - representing percentage from left
+                   # hand side of x (0) and the right hand side of x (1).
+        y = 1,     # x = 0, y = 1 ==> "topleft"
+        sizex = .2,   #  image size - horizontal 
+        sizey = .2,   #  vertical size
+        xanchor="left",  # image location - 
+        yanchor="top" ,
+        opacity = 0.6    # adjusting image opacity
+      )  
+    )  
+  )
+```
 
 
 
@@ -488,34 +532,35 @@ plot_ly(
                            '<br><b>Petal Length</b>: %{marker.size:,}',
                            '<br><b>Petal Width</b>: %{customdata}',
                            '<br><b>Species</b>: %{hovertext}',
-                           "<extra></extra>") ) %>%
-    layout(
-    images = list(
-      list(
-        # Add images
-        source =  "https://pengdsci.github.io/STA553VIZ/w06/img/irisbg.jpg",
-        xref = "x",
-        yref = "y",
-        x = 4,
-        y = 4.5,
-        sizex = 7,
-        sizey = 3,
-        sizing = "stretch",
-        opacity = 0.5,
-        layer = "below"
-      )
+                           "<extra></extra>") 
+     ) %>%
+       layout(
+         images = list(
+           list(
+           # Add images
+           source =  "https://pengdsci.github.io/STA553VIZ/w06/img/irisbg.jpg",
+           xref = "x",
+           yref = "y",
+           x = 4,
+           y = 4.5,
+           sizex = 7,
+           sizey = 3,
+           sizing = "stretch",
+           opacity = 0.5,
+           layer = "below"
+         )
+       )
     )
-  )
 
 ```
 
 
-### Animated Graphs with plotly
+### Animated Graphs with plot_ly
 
 When a data set involves a time variable, we also use movement to represent the time variable. `plot_ly()` can create animated graphs. The following is an example using the built-in `gapminder data set` in the library `gapminder` that displays the relationship between life expectancy and GDP per capita of countries over time (every 5 years).
 
 ```{r}
-pal.IBM <- c("#332288", "#117733", "#88CCEE","#DDCC77", "#882255")
+pal.IBM <- c("#332288", "#117733", "#0072B2","#D55E00", "#882255")
 pal.IBM <- setNames(pal.IBM, c("Asia", "Europe", "Africa", "Americas", "Oceania"))
 
 df <- gapminder 
@@ -523,11 +568,18 @@ fig <- df %>%
   plot_ly(
     x = ~gdpPercap, 
     y = ~lifeExp, 
-    marker = list(size = ~log(pop), sizeref = 1.5, sizemode = 'radius'),
+    size = ~(2*log(pop)-11)^2,
     color = ~continent, 
     colors = pal.IBM,   # custom colors
+    #marker = list(size = ~(log(pop)-10),  sizemode = 'area'),
     frame = ~year,      # the time variable to
-    text = ~country,    # to display in the hover
+    # to display in the hover
+    text = ~paste("Country:", country,
+                  "<br>Continent:", continent,
+                  "<br>Year:", year,
+                  "<br>LifeExp:", lifeExp,
+                  "<br>Pop:", pop,
+                  "<br>gdpPerCap:", gdpPercap),
     hoverinfo = "text",
     type = 'scatter',
     mode = 'markers'
@@ -661,6 +713,14 @@ ggplotly(p)
 
 
 **Remark**: It turns that `ggplotly` cannot display colors due to its recent updates. Hope that this issue will be fixed soon.
+
+
+
+
+
+
+
+
 
 
 ## Bar & Pie Chart
