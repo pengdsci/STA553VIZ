@@ -3,12 +3,17 @@ title: "Interactive Geospatial Visualization Using Maps"
 author: "Cheng Peng"
 date: "West Chester University"
 output:
-  html_document: default
-  html_notebook: default
-  pdf_document: default
+  html_document: 
+    code_folding: hide
+    code_download: yes
+    smooth_scroll: yes
+    theme: lumen
 editor_options:
   chunk_output_type: inline
 ---
+
+
+
 <style type="text/css">
 
 div#TOC li {
@@ -178,7 +183,8 @@ if (!require("readxl")) {
 knitr::opts_chunk$set(echo = TRUE,       
                       warning = FALSE,   
                       result = TRUE,   
-                      message = FALSE)
+                      message = FALSE,
+                      comment = NA)
 ```
 
 
@@ -374,8 +380,8 @@ leaflet(housing.price) %>%
             fillOpacity = 0.4,
             label = ~label.msg)  %>%
   addLegend(position = "bottomright", 
-            colors = ageColor,
-            labels= unique(colAge),
+            colors = c("navy", "orange","darkred"),
+            labels= c("[0,5)", "[5,15)", "[15,44.8)"),
             title= "House Age",
             opacity = 0.4) %>%
   addLegendSize(position = 'topright', 
@@ -812,6 +818,41 @@ The resulting map can be viewed on the Tableau Public Server at
 <https://public.tableau.com/app/profile/cpeng/viz/US-States-Facts/Sheet1>
 
 
+<table border = 0 bordercolor="darkgreen" bgcolor='#f6f6f6'  width=100%  align = center> 
+<tr>
+<td>
+<div class='tableauPlaceholder' id='viz1709002997666' style='position: relative'>
+<noscript><a href='#'><img alt='US States Facts ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;4D&#47;4DNFJ3HGR&#47;1_rss.png' style='border: none' /></a>
+</noscript>
+<object class='tableauViz'  style='display:none;'>
+<param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> 
+<param name='embed_code_version' value='3' /> 
+<param name='path' value='shared&#47;4DNFJ3HGR' /> 
+<param name='toolbar' value='yes' />
+<param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;4D&#47;4DNFJ3HGR&#47;1.png' /> <param name='animate_transition' value='yes' />
+<param name='display_static_image' value='yes' />
+<param name='display_spinner' value='yes' />
+<param name='display_overlay' value='yes' />
+<param name='display_count' value='yes' />
+<param name='language' value='en-US' />
+</object>
+</div>               
+
+<script type='text/javascript'>                    
+var divElement = document.getElementById('viz1709002997666');                    
+var vizElement = divElement.getElementsByTagName('object')[0];                    vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';                    
+var scriptElement = document.createElement('script');                    
+scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                
+</script>
+</td>
+</tr>
+</table>
+
+
+
+
+
+
 
 ### Scatter Map
 
@@ -854,6 +895,38 @@ The resulting map can be viewed on the Tableau Public Server at
 <https://public.tableau.com/app/profile/cpeng/viz/RealEstateData_16469067466610/Sheet1>
 
 
+<table border = 0 bordercolor="darkgreen" bgcolor='#f6f6f6'  width=100%  align = center> 
+<tr>
+<td>
+
+<div class='tableauPlaceholder' id='viz1709004421419' style='position: relative'>
+<noscript><a href='#'><img alt='Real Estate Market Information ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Re&#47;RealEstateData_16469067466610&#47;Sheet1&#47;1_rss.png' style='border: none' /></a>
+</noscript>
+<object class='tableauViz'  style='display:none;'>
+<param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> 
+<param name='embed_code_version' value='3' /> 
+<param name='site_root' value='' />
+<param name='name' value='RealEstateData_16469067466610&#47;Sheet1' />
+<param name='tabs' value='no' />
+<param name='toolbar' value='yes' />
+<param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Re&#47;RealEstateData_16469067466610&#47;Sheet1&#47;1.png' /> 
+<param name='animate_transition' value='yes' />
+<param name='display_static_image' value='yes' />
+<param name='display_spinner' value='yes' />
+<param name='display_overlay' value='yes' />
+<param name='display_count' value='yes' />
+<param name='language' value='en-US' />
+</object>
+</div>                
+<script type='text/javascript'>                    
+var divElement = document.getElementById('viz1709004421419');                    
+var vizElement = divElement.getElementsByTagName('object')[0];                    vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';                    
+var scriptElement = document.createElement('script');                    
+scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                
+</script>
+</td>
+</tr>
+</table>
 
 ## R Color Palettes
 <BR>
@@ -936,11 +1009,6 @@ The function `brewer.pal()` is used to generate a vector of colors.
 # Barplot using RColorBrewer
 barplot(c(2,5,7), col = brewer.pal(n = 3, name = "Dark2"))
 ```
-
-
-
-
-
 
 
 
