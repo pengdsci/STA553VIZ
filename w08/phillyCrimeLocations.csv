@@ -1,0 +1,166 @@
+race,sex,fatal,date,has_court_case,age,street_name,zip_code,police_district,neighborhood,school_catchment,lng,lat
+Black (Non-Hispanic),Male,Fatal,2/29/2024 22:59,No,49,MOUNT PLEASANT DR,19121,22,Park,James G. Blaine School,-75.200269,39.984621
+Black (Non-Hispanic),Female,Fatal,2/29/2024 22:59,No,38,MOUNT PLEASANT DR,19121,22,Park,James G. Blaine School,-75.200269,39.984621
+Black (Non-Hispanic),Male,Nonfatal,2/29/2024 19:30,No,19,MASTER ST,19131,19,Haddington-Overbrook,Universal Charter School at Bluford,-75.233379,39.973464
+Black (Non-Hispanic),Male,Fatal,2/29/2024 2:44,No,44,LANCASTER AVE,19104,16,Mill Creek-Parkside,Martha Washington School,-75.209012,39.967213
+Black (Non-Hispanic),Male,Nonfatal,2/29/2024 2:44,No,38,LANCASTER AVE,19104,16,Mill Creek-Parkside,Martha Washington School,-75.209012,39.967213
+Black (Non-Hispanic),Female,Nonfatal,2/29/2024 2:44,No,44,LANCASTER AVE,19104,16,Mill Creek-Parkside,Martha Washington School,-75.209115,39.967115
+Black (Non-Hispanic),Male,Fatal,2/29/2024 1:53,No,31,PULASKI AVE,19144,39,East Falls-Westside,John B. Kelly School,-75.178989,40.029387
+Black (Non-Hispanic),Male,Nonfatal,2/28/2024 22:24,No,29,WOODLAND AVE,19142,12,Paschall-Kingsessing,Joseph W. Catharine School,-75.233287,39.926399
+Black (Non-Hispanic),Male,Nonfatal,2/28/2024 3:25,No,,N 19TH ST,19132,22,Strawberry Mansion,William Dick School,-75.163504,39.990411
+Asian,Female,Fatal,2/27/2024 18:55,No,31,S MARSHALL ST,19148,3,Snyder-Whitman,Francis S. Key School,-75.157934,39.919377
+Black (Non-Hispanic),Male,Nonfatal,2/27/2024 16:34,No,18,W VENANGO ST,19140,39,Nicetown-Tioga,Mastery Charter School at Cleveland,-75.161294,40.008888
+Black (Non-Hispanic),Male,Nonfatal,2/27/2024 1:27,No,36,N 5TH ST,19120,35,Olney-Feltonville,Thurgood Marshall School,-75.131237,40.033524
+Black (Non-Hispanic),Male,Nonfatal,2/26/2024 21:45,No,21,W MONTGOMERY AVE,19121,22,Strawberry Mansion,William D. Kelley School,-75.178601,39.982924
+Black (Non-Hispanic),Male,Nonfatal,2/26/2024 21:45,No,29,W MONTGOMERY AVE,19121,22,Strawberry Mansion,William D. Kelley School,-75.178601,39.982924
+Black (Non-Hispanic),Male,Nonfatal,2/26/2024 21:45,No,28,W MONTGOMERY AVE,19121,22,Strawberry Mansion,William D. Kelley School,-75.178601,39.982924
+Black (Non-Hispanic),Male,Nonfatal,2/26/2024 21:24,No,14,MARKET ST,19139,18,Cobbs Creek,John Barry School,-75.23893,39.96168
+Black (Non-Hispanic),Male,Nonfatal,2/26/2024 5:34,No,25,N 16TH ST,19140,39,Nicetown-Tioga,Mastery Charter School at Cleveland,-75.153812,40.012846
+Black (Non-Hispanic),Male,Fatal,2/26/2024 0:17,No,38,WAGNER AVE,19141,35,Logan,Lindley Academy Charter at Birney,-75.140565,40.033695
+Black (Non-Hispanic),Male,Nonfatal,2/25/2024 18:04,No,41,E MOUNT AIRY AVE,19119,14,East Mt. Airy,Henry H. Houston School,-75.182918,40.067781
+Black (Non-Hispanic),Male,Nonfatal,2/25/2024 17:30,No,19,W ALBANUS ST,19120,35,Olney-Feltonville,Andrew J. Morrison School,-75.130235,40.026393
+Black (Non-Hispanic),Male,Nonfatal,2/25/2024 0:42,No,23,N 5TH ST,19120,35,Olney-Feltonville,James R. Lowell School,-75.129218,40.041912
+White (Non-Hispanic),Male,Nonfatal,2/24/2024 23:00,No,35,DENSMORE RD,19116,7,Somerton,Watson Comly School,-75.026203,40.121966
+Hispanic (Black or White),Male,Nonfatal,2/24/2024 20:50,No,20,N BROAD ST,19140,39,Nicetown-Tioga,Edward T. Steel School,-75.149566,40.017316
+Black (Non-Hispanic),Male,Nonfatal,2/24/2024 9:36,No,19,N 57TH ST,19131,19,Haddington-Overbrook,Universal Charter School at Bluford,-75.235904,39.979979
+Black (Non-Hispanic),Male,Nonfatal,2/23/2024 20:50,No,32,JUDSON ST,19132,39,Nicetown-Tioga,Thomas M. Peirce School,-75.169869,39.997552
+Black (Non-Hispanic),Female,Nonfatal,2/23/2024 19:56,No,33,STENTON AVE,19144,35,Logan,Mastery Charter School at Wister,-75.158075,40.029888
+Black (Non-Hispanic),Female,Nonfatal,2/22/2024 17:22,No,19,W GORDON ST,19132,22,Strawberry Mansion,Richard R. Wright School,-75.175327,39.991064
+Black (Non-Hispanic),Female,Nonfatal,2/22/2024 2:00,No,23,N 16TH ST,19132,22,Sharswood-Stanton,Tanner G. Duckrey School,-75.158819,39.989906
+Black (Non-Hispanic),Male,Nonfatal,2/21/2024 18:22,No,23,N BROAD ST,19126,35,Oak Lane - Fernrock,Ellwood School,-75.14027,40.058663
+Black (Non-Hispanic),Male,Fatal,2/20/2024 20:04,No,21,W SOMERVILLE AVE,19120,35,Olney-Feltonville,Thurgood Marshall School,-75.131484,40.033726
+Black (Non-Hispanic),Male,Fatal,2/20/2024 14:01,No,43,UPLAND ST,19142,12,Paschall-Kingsessing,Joseph W. Catharine School,-75.238878,39.925396
+Black (Non-Hispanic),Male,Nonfatal,2/19/2024 13:47,No,38,N TAYLOR ST,19132,39,Nicetown-Tioga,Thomas M. Peirce School,-75.171457,39.997879
+Black (Non-Hispanic),Male,Nonfatal,2/19/2024 5:32,No,57,PRATT ST,19124,15,Frankford,The Philadelphia Charter School for Arts and Sciences,-75.082319,40.024913
+Black (Non-Hispanic),Male,Nonfatal,2/18/2024 23:44,No,34,E ST,19134,24,Upper Kensington,Lewis Elkin School,-75.120229,39.993287
+Black (Non-Hispanic),Male,Nonfatal,2/18/2024 22:00,No,56,N 62ND ST,19139,19,Haddington-Overbrook,John Barry School,-75.243616,39.967424
+Hispanic (Black or White),Female,Nonfatal,2/18/2024 1:48,No,19,DIAMOND ST,19122,26,Northern Liberties-West Kensington,John Moffet School,-75.134067,39.981758
+Hispanic (Black or White),Male,Nonfatal,2/18/2024 1:48,No,41,DIAMOND ST,19122,26,Northern Liberties-West Kensington,John Moffet School,-75.134067,39.981758
+Black (Non-Hispanic),Male,Nonfatal,2/17/2024 16:23,No,31,ARROTT ST,19124,15,Frankford,John Marshall School,-75.086378,40.017949
+Black (Non-Hispanic),Male,Nonfatal,2/17/2024 1:02,No,16,N 5TH ST,19120,35,Olney-Feltonville,Thurgood Marshall School,-75.133124,40.024905
+Black (Non-Hispanic),Male,Fatal,2/16/2024 23:23,No,32,W ARIZONA ST,19132,22,Strawberry Mansion,Richard R. Wright School,-75.174681,39.99156
+Black (Non-Hispanic),Male,Nonfatal,2/15/2024 23:44,No,18,ROSELYN ST,19120,35,Olney-Feltonville,Thomas K. Finletter School,-75.12021,40.041997
+Black (Non-Hispanic),Male,Fatal,2/15/2024 20:54,No,20,ROSALIE ST,19120,2,Lawndale-Crescentville,Benjamin Franklin School,-75.103713,40.043243
+Black (Non-Hispanic),Male,Nonfatal,2/15/2024 15:34,No,18,WHITBY AVE,19143,12,Paschall-Kingsessing,Avery D. Harrington School,-75.22965,39.945189
+Black (Non-Hispanic),Male,Fatal,2/15/2024 13:04,No,52,N 53RD ST,19131,19,Overbrook Park-Wynnefield Heights,Mastery Charter School at Mann,-75.22854,39.985599
+Hispanic (Black or White),Male,Nonfatal,2/15/2024 4:04,No,61,E WYOMING AVE,19120,25,Hunting Park-Fairhill,Clara Barton School,-75.116463,40.02065
+Black (Non-Hispanic),Male,Nonfatal,2/14/2024 18:26,No,23,N BROAD ST,19121,22,Sharswood-Stanton,General George G. Meade School,-75.157926,39.979023
+Hispanic (Black or White),Male,Nonfatal,2/14/2024 17:44,No,18,E CHELTENHAM AVE,19124,15,Frankford,The Philadelphia Charter School for Arts and Sciences,-75.083789,40.031206
+Hispanic (Black or White),Male,Nonfatal,2/14/2024 11:07,No,42,KENSINGTON AVE,19134,24,Upper Kensington,Lewis Elkin School,-75.121036,39.992376
+Black (Non-Hispanic),Female,Fatal,2/13/2024 15:48,No,32,N 17TH ST,19140,39,Nicetown-Tioga,Mastery Charter School at Cleveland,-75.156309,40.008877
+Black (Non-Hispanic),Male,Fatal,2/13/2024 15:48,No,30,N 17TH ST,19140,39,Nicetown-Tioga,Mastery Charter School at Cleveland,-75.156309,40.008877
+Black (Non-Hispanic),Male,Nonfatal,2/13/2024 12:22,No,50,TULIP ST,19135,15,Wissinoming-Tacony,Henry W. Lawton School,-75.057892,40.015488
+Black (Non-Hispanic),Male,Fatal,2/12/2024 18:42,No,36,BERMUDA ST,19124,15,Frankford,Allen M. Stearne School,-75.082212,40.00412
+Black (Non-Hispanic),Male,Nonfatal,2/12/2024 18:35,No,33,W PIKE ST,19140,25,Nicetown-Tioga,Mary M. Bethune School,-75.148411,40.012052
+Black (Non-Hispanic),Male,Fatal,2/12/2024 11:42,No,76,N 26TH ST,19132,22,Strawberry Mansion,Richard R. Wright School,-75.174682,39.992878
+Black (Non-Hispanic),Male,Nonfatal,2/11/2024 1:26,No,17,N 19TH ST,19121,22,Sharswood-Stanton,Mastery Charter School at Douglass,-75.164424,39.985262
+Black (Non-Hispanic),Female,Nonfatal,2/11/2024 1:26,No,15,N 19TH ST,19121,22,Sharswood-Stanton,Mastery Charter School at Douglass,-75.164424,39.985262
+Black (Non-Hispanic),Male,Nonfatal,2/11/2024 1:24,No,18,N 19TH ST,19121,22,Sharswood-Stanton,Mastery Charter School at Douglass,-75.164424,39.985262
+Black (Non-Hispanic),Male,Nonfatal,2/11/2024 0:06,No,35,W GODFREY AVE,19141,35,Ogontz,Joseph Pennell School,-75.152153,40.048626
+Hispanic (Black or White),Male,Fatal,2/11/2024 0:00,No,22,N WARNOCK ST,19140,25,Hunting Park-Fairhill,Mary M. Bethune School,-75.14554,40.007288
+Hispanic (Black or White),Male,Nonfatal,2/10/2024 21:42,No,21,E CAYUGA ST,19124,24,Juniata Park-Harrowgate,Juniata Park Academy,-75.105287,40.014306
+Hispanic (Black or White),Male,Fatal,2/10/2024 20:36,No,26,N LEE ST,19133,24,Hunting Park-Fairhill,Lewis Elkin School,-75.129028,39.997227
+Hispanic (Black or White),Male,Nonfatal,2/10/2024 15:18,No,20,N HILL CREEK DR,19120,2,Lawndale-Crescentville,Universal Charter School at Creighton,-75.109738,40.038407
+Black (Non-Hispanic),Male,Nonfatal,2/9/2024 22:00,No,14,N 18TH ST,19132,22,Sharswood-Stanton,Tanner G. Duckrey School,-75.162295,39.988802
+Hispanic (Black or White),Male,Fatal,2/9/2024 21:25,No,15,RUTH ST,19134,24,Upper Kensington,Frances E. Willard School,-75.119186,39.992661
+Black (Non-Hispanic),Male,Nonfatal,2/9/2024 18:54,No,17,S TANEY ST,19146,9,Center City West,Albert M. Greenfield School,-75.183374,39.947481
+Black (Non-Hispanic),Male,Nonfatal,2/9/2024 5:28,No,22,FRANKFORD AVE,19124,15,Frankford,The Philadelphia Charter School for Arts and Sciences,-75.081033,40.019757
+Hispanic (Black or White),Male,Fatal,2/8/2024 20:57,No,34,N 8TH ST,19140,25,Hunting Park-Fairhill,Bayard Taylor School,-75.141658,40.007754
+Hispanic (Black or White),Male,Nonfatal,2/8/2024 20:56,No,32,HOPE ST,19140,25,Hunting Park-Fairhill,William Cramp School,-75.129431,40.000476
+Black (Non-Hispanic),Male,Fatal,2/7/2024 19:15,No,24,N LAWRENCE ST,19120,35,Olney-Feltonville,Andrew J. Morrison School,-75.132364,40.024361
+Black (Non-Hispanic),Male,Nonfatal,2/6/2024 17:52,No,45,N DARIEN ST,19122,26,Poplar-Temple,William McKinley School,-75.147231,39.984934
+Black (Non-Hispanic),Female,Nonfatal,2/6/2024 17:20,No,27,S DEWEY ST,19139,18,Cobbs Creek,John Barry School,-75.243551,39.961888
+Black (Non-Hispanic),Male,Nonfatal,2/6/2024 15:50,No,12,LINDBERGH BLVD,19143,12,Airport-Navy Yard,Benjamin B. Comegys School,-75.214367,39.934373
+Black (Non-Hispanic),Male,Nonfatal,2/6/2024 15:50,No,34,LINDBERGH BLVD,19143,12,Airport-Navy Yard,Benjamin B. Comegys School,-75.214367,39.934373
+Black (Non-Hispanic),Male,Nonfatal,2/5/2024 19:30,No,34,N BROAD ST,19141,35,Ogontz,Julia W. Howe School,-75.144716,40.039515
+Black (Non-Hispanic),Male,Nonfatal,2/5/2024 12:02,No,38,W OLNEY AVE,19120,35,Olney-Feltonville,James R. Lowell School,-75.129268,40.036333
+Black (Non-Hispanic),Male,Fatal,2/4/2024 0:18,No,26,GRAYS AVE,19142,12,Eastwick-Elmwood,Thomas G. Morton School,-75.231931,39.923317
+Hispanic (Black or White),Male,Fatal,2/3/2024 22:37,No,19,DUFFIELD ST,19124,15,Frankford,Mastery Charter School at Smedley,-75.076862,40.019673
+White (Non-Hispanic),Female,Nonfatal,2/3/2024 22:23,No,35,MOUNTAIN ST,19148,3,Pennsport-Queen Village,Eliza B. Kirkbride School,-75.154477,39.92794
+Hispanic (Black or White),Male,Nonfatal,2/3/2024 11:17,No,23,ROBBINS ST,19111,2,Lawndale-Crescentville,J. Hampton Moore School,-75.097776,40.048941
+Black (Non-Hispanic),Female,Nonfatal,2/3/2024 1:51,No,29,N 27TH ST,19132,22,Strawberry Mansion,Richard R. Wright School,-75.176222,39.993629
+Black (Non-Hispanic),Male,Nonfatal,2/3/2024 1:22,No,27,SCATTERGOOD ST,19124,15,Frankford,Mastery Charter School at Smedley,-75.074188,40.021589
+Black (Non-Hispanic),Male,Fatal,2/2/2024 13:03,No,19,SPRAGUE ST,19138,14,Germantown,Mastery Charter School at Pastorius,-75.159529,40.047273
+Hispanic (Black or White),Male,Nonfatal,2/1/2024 23:00,No,23,N REESE ST,19133,25,Hunting Park-Fairhill,Julia de Burgos School,-75.140696,39.99276
+Black (Non-Hispanic),Male,Nonfatal,2/1/2024 20:46,No,36,DARRAH ST,19124,15,Frankford,Mastery Charter School at Smedley,-75.077648,40.021195
+Black (Non-Hispanic),Male,Nonfatal,1/31/2024 6:00,Yes,54,N 12TH ST,19122,22,Poplar-Temple,Paul L. Dunbar School,-75.154902,39.973576
+Black (Non-Hispanic),Female,Fatal,1/30/2024 1:23,No,33,MELON ST,19104,16,Mill Creek-Parkside,Belmont Charter School,-75.200743,39.964674
+Black (Non-Hispanic),Male,Nonfatal,1/29/2024 20:51,Yes,42,N 22ND ST,19132,39,Nicetown-Tioga,Thomas M. Peirce School,-75.165882,40.00309
+Black (Non-Hispanic),Male,Fatal,1/29/2024 13:37,Yes,19,N 55TH ST,19131,19,Haddington-Overbrook,Edward Heston School,-75.231069,39.973892
+Black (Non-Hispanic),Male,Nonfatal,1/28/2024 22:53,No,38,JACKSON ST,19145,1,South Broad-Girard Estates,Stephen Girard School,-75.181462,39.924619
+Black (Non-Hispanic),Male,Nonfatal,1/28/2024 9:35,No,51,MARKET ST,19139,18,Cobbs Creek,Global Leadership Academy at Huey,-75.225288,39.959977
+Black (Non-Hispanic),Male,Fatal,1/27/2024 23:30,Yes,29,S CECIL ST,19143,18,Cobbs Creek,Mastery Charter School at Harrity,-75.238986,39.947631
+Hispanic (Black or White),Male,Nonfatal,1/27/2024 0:40,No,37,ORTHODOX ST,19124,15,Frankford,John Marshall School,-75.095438,40.019541
+Black (Non-Hispanic),Male,Nonfatal,1/26/2024 20:46,No,36,W CAMBRIA ST,19133,25,Hunting Park-Fairhill,Isaac A. Sheppard School,-75.132011,39.994055
+Black (Non-Hispanic),Female,Nonfatal,1/26/2024 19:24,No,55,PENTRIDGE ST,19143,12,Paschall-Kingsessing,William C. Longstreth School,-75.231771,39.940816
+Black (Non-Hispanic),Male,Fatal,1/26/2024 19:24,No,28,PENTRIDGE ST,19143,12,Paschall-Kingsessing,William C. Longstreth School,-75.231771,39.940816
+Black (Non-Hispanic),Male,Nonfatal,1/26/2024 19:24,No,36,PENTRIDGE ST,19143,12,Paschall-Kingsessing,William C. Longstreth School,-75.231771,39.940816
+Black (Non-Hispanic),Female,Nonfatal,1/25/2024 19:36,No,30,N BROAD ST,19140,25,Nicetown-Tioga,Mary M. Bethune School,-75.15192,40.005393
+Black (Non-Hispanic),Male,Nonfatal,1/25/2024 11:36,No,24,N BROAD ST,19140,25,Nicetown-Tioga,Mary M. Bethune School,-75.15192,40.005393
+Black (Non-Hispanic),Female,Nonfatal,1/25/2024 3:08,No,52,N BANCROFT ST,19132,22,Sharswood-Stanton,Tanner G. Duckrey School,-75.15904,39.991379
+Black (Non-Hispanic),Male,Nonfatal,1/25/2024 1:40,No,40,W ROCKLAND ST,19141,35,Logan,Jay Cooke School,-75.143604,40.027136
+Black (Non-Hispanic),Male,Fatal,1/24/2024 15:30,No,43,N HUTCHINSON ST,19141,35,Logan,Lindley Academy Charter at Birney,-75.138829,40.029696
+Black (Non-Hispanic),Male,Nonfatal,1/24/2024 9:14,No,20,STENTON AVE,19138,14,Ogontz,William Rowen School,-75.157893,40.05553
+Black (Non-Hispanic),Male,Nonfatal,1/21/2024 18:44,No,33,S 71ST ST,19142,12,Eastwick-Elmwood,John M. Patterson School,-75.238915,39.915854
+Black (Non-Hispanic),Male,Fatal,1/21/2024 18:44,No,33,S 71ST ST,19142,12,Eastwick-Elmwood,John M. Patterson School,-75.238915,39.915854
+Hispanic (Black or White),Male,Nonfatal,1/21/2024 8:16,No,35,E ROCKLAND ST,19120,25,Olney-Feltonville,Clara Barton School,-75.123234,40.024575
+Black (Non-Hispanic),Male,Nonfatal,1/21/2024 3:11,No,26,N CROSKEY ST,19132,39,Nicetown-Tioga,Thomas M. Peirce School,-75.16815,39.995753
+Hispanic (Black or White),Male,Nonfatal,1/20/2024 23:41,Yes,44,N HOWARD ST,19120,25,Olney-Feltonville,Clara Barton School,-75.124896,40.02454
+Black (Non-Hispanic),Male,Fatal,1/19/2024 14:10,No,17,ROMAIN ST,19124,15,Frankford,John Marshall School,-75.090419,40.010303
+Black (Non-Hispanic),Male,Fatal,1/18/2024 15:41,No,18,N 51ST ST,19139,16,Haddington-Overbrook,Alain Locke School,-75.222846,39.960285
+Hispanic (Black or White),Male,Fatal,1/18/2024 2:11,No,31,N 5TH ST,19120,25,Olney-Feltonville,Clara Barton School,-75.133277,40.023364
+Black (Non-Hispanic),Male,Nonfatal,1/16/2024 23:06,No,37,DYRE ST,19124,15,Frankford,The Philadelphia Charter School for Arts and Sciences,-75.080297,40.021885
+Black (Non-Hispanic),Male,Fatal,1/16/2024 18:41,No,33,KENSINGTON AVE,19124,24,Juniata Park-Harrowgate,John H. Webster School,-75.100296,40.003617
+Black (Non-Hispanic),Male,Nonfatal,1/16/2024 17:27,No,31,BALTIMORE AVE,19143,12,Paschall-Kingsessing,Add B. Anderson School,-75.238731,39.946136
+Black (Non-Hispanic),Male,Nonfatal,1/15/2024 21:04,No,17,COTTMAN AVE,19152,15,Mayfair-Holmesburg,Mayfair School,-75.053651,40.044185
+Black (Non-Hispanic),Female,Nonfatal,1/15/2024 13:01,Yes,25,S MELVILLE ST,19139,18,University City,Sadie Alexander School,-75.212694,39.955107
+Hispanic (Black or White),Male,Nonfatal,1/15/2024 2:10,Yes,41,TYSON AVE,19149,15,Mayfair-Holmesburg,Mayfair School,-75.054569,40.037967
+Black (Non-Hispanic),Male,Nonfatal,1/15/2024 0:52,No,21,N JESSUP ST,19133,22,Poplar-Temple,Mastery Charter School at Clymer,-75.150292,39.991245
+Black (Non-Hispanic),Male,Nonfatal,1/15/2024 0:45,No,34,FILBERT ST,19104,16,University City,Samuel Powel School,-75.199464,39.957622
+Asian,Male,Nonfatal,1/14/2024 15:17,No,66,W PASSYUNK AVE,19153,1,Airport-Navy Yard,Universal Charter School at Alcorn,-75.201857,39.91983
+Black (Non-Hispanic),Male,Nonfatal,1/14/2024 9:49,No,32,N 42ND ST,19104,16,Mill Creek-Parkside,Alain Locke School,-75.207302,39.964787
+Hispanic (Black or White),Male,Nonfatal,1/14/2024 3:47,No,21,HOWLAND ST,19124,2,Lawndale-Crescentville,Universal Charter School at Creighton,-75.103644,40.033923
+Black (Non-Hispanic),Male,Nonfatal,1/14/2024 0:50,No,28,N MYRTLEWOOD ST,19132,22,Strawberry Mansion,Richard R. Wright School,-75.180527,39.993258
+Black (Non-Hispanic),Male,Fatal,1/14/2024 0:50,No,41,N MYRTLEWOOD ST,19132,22,Strawberry Mansion,Richard R. Wright School,-75.180527,39.993258
+Black (Non-Hispanic),Female,Nonfatal,1/14/2024 0:50,No,23,N MYRTLEWOOD ST,19132,22,Strawberry Mansion,Richard R. Wright School,-75.180527,39.993258
+Black (Non-Hispanic),Female,Nonfatal,1/14/2024 0:50,No,34,N MYRTLEWOOD ST,19132,22,Strawberry Mansion,Richard R. Wright School,-75.180527,39.993258
+Black (Non-Hispanic),Male,Nonfatal,1/14/2024 0:50,No,42,N MYRTLEWOOD ST,19132,22,Strawberry Mansion,Richard R. Wright School,-75.180527,39.993258
+Black (Non-Hispanic),Male,Fatal,1/14/2024 0:50,No,53,N MYRTLEWOOD ST,19132,22,Strawberry Mansion,Richard R. Wright School,-75.180527,39.993258
+Black (Non-Hispanic),Male,Fatal,1/13/2024 21:50,No,30,W ROCKLAND ST,19141,35,Logan,James Logan School,-75.1494,40.027908
+Black (Non-Hispanic),Male,Nonfatal,1/13/2024 20:21,Yes,30,N 17TH ST,19140,39,Nicetown-Tioga,Edward T. Steel School,-75.154184,40.018412
+Black (Non-Hispanic),Male,Nonfatal,1/12/2024 12:10,No,46,N 19TH ST,19121,22,Strawberry Mansion,Mastery Charter School at Douglass,-75.165166,39.982945
+Black (Non-Hispanic),Male,Nonfatal,1/11/2024 23:24,No,20,MARLOW ST,19124,15,Frankford,Mastery Charter School at Smedley,-75.075062,40.019783
+Black (Non-Hispanic),Male,Fatal,1/11/2024 21:29,Yes,16,MARKET ST,19102,9,Center City West,Albert M. Greenfield School,-75.166064,39.952611
+Black (Non-Hispanic),Male,Fatal,1/11/2024 20:46,Yes,31,N 6TH ST,19120,35,Olney-Feltonville,James R. Lowell School,-75.13126,40.040859
+Black (Non-Hispanic),Male,Nonfatal,1/11/2024 19:19,Yes,48,SHISLER ST,19149,2,Oxford Circle,Laura H. Carnell School,-75.082924,40.038139
+Hispanic (Black or White),Female,Fatal,1/11/2024 14:49,No,33,MASTER ST,19131,19,Haddington-Overbrook,Edward Heston School,-75.230702,39.973726
+Hispanic (Black or White),Male,Fatal,1/11/2024 14:06,No,44,EMERALD ST,19125,24,Upper Kensington,Frances E. Willard School,-75.12335,39.987963
+Black (Non-Hispanic),Male,Nonfatal,1/11/2024 9:19,No,32,KENSINGTON AVE,19124,24,Juniata Park-Harrowgate,Francis Hopkinson School,-75.09633,40.005947
+Hispanic (Black or White),Male,Nonfatal,1/10/2024 20:40,No,41,N 5TH ST,19126,35,Oak Lane - Fernrock,Thomas K. Finletter School,-75.126095,40.054864
+Black (Non-Hispanic),Female,Nonfatal,1/9/2024 22:29,No,35,DEARBORN ST,19139,16,Mill Creek-Parkside,James Rhoads School,-75.22146,39.965164
+Black (Non-Hispanic),Male,Nonfatal,1/9/2024 17:03,No,15,N BOUVIER ST,19132,22,Sharswood-Stanton,Tanner G. Duckrey School,-75.160672,39.993387
+Black (Non-Hispanic),Male,Nonfatal,1/8/2024 17:11,Yes,21,LINDLEY AVE,19141,35,Logan,Lindley Academy Charter at Birney,-75.142257,40.03004
+Black (Non-Hispanic),Male,Fatal,1/8/2024 0:48,No,21,GLENLOCH ST,19124,15,Frankford,Mastery Charter School at Smedley,-75.073766,40.014961
+Black (Non-Hispanic),Male,Fatal,1/7/2024 4:10,No,16,JUDSON ST,19140,39,Nicetown-Tioga,Mastery Charter School at Cleveland,-75.167183,40.007671
+Black (Non-Hispanic),Male,Nonfatal,1/6/2024 23:30,No,35,FRANKFORD AVE,19124,15,Frankford,The Philadelphia Charter School for Arts and Sciences,-75.081033,40.019757
+Black (Non-Hispanic),Male,Nonfatal,1/6/2024 17:10,Yes,45,N ORKNEY ST,19133,25,Hunting Park-Fairhill,Julia de Burgos School,-75.139722,39.992058
+Hispanic (Black or White),Male,Nonfatal,1/6/2024 17:10,Yes,25,N ORKNEY ST,19133,25,Hunting Park-Fairhill,Julia de Burgos School,-75.139722,39.992058
+Hispanic (Black or White),Male,Nonfatal,1/6/2024 9:23,No,20,HARTVILLE ST,19134,24,Upper Kensington,Lewis Elkin School,-75.120067,39.996032
+Black (Non-Hispanic),Male,Nonfatal,1/6/2024 7:09,No,26,W LEHIGH AVE,19132,22,Strawberry Mansion,Dr. Ethel Allen School,-75.177082,39.996781
+Black (Non-Hispanic),Male,Nonfatal,1/5/2024 21:59,No,28,N 11TH ST,19141,35,Logan,Lindley Academy Charter at Birney,-75.140886,40.03169
+Black (Non-Hispanic),Male,Nonfatal,1/5/2024 12:41,No,38,VALLEY PL,19124,15,Frankford,Mastery Charter School at Smedley,-75.07728,40.013776
+Black (Non-Hispanic),Male,Fatal,1/5/2024 8:09,No,25,N SMEDLEY ST,19141,35,Logan,James Logan School,-75.150951,40.029284
+Black (Non-Hispanic),Male,Nonfatal,1/4/2024 23:11,No,42,W STILES ST,19104,16,Mill Creek-Parkside,Rudolph Blankenburg School,-75.210672,39.974153
+Black (Non-Hispanic),Male,Nonfatal,1/4/2024 19:29,Yes,24,E WELLENS ST,19120,35,Olney-Feltonville,Olney School,-75.120498,40.029666
+Black (Non-Hispanic),Male,Nonfatal,1/4/2024 19:29,Yes,15,E WELLENS ST,19120,35,Olney-Feltonville,Olney School,-75.120498,40.029666
+Black (Non-Hispanic),Male,Nonfatal,1/4/2024 18:48,No,18,N 7TH ST,19133,26,Northern Liberties-West Kensington,John F. Hartranft School,-75.144187,39.990992
+Black (Non-Hispanic),Male,Fatal,1/4/2024 11:17,Yes,37,OGONTZ AVE,19141,35,Logan,James Logan School,-75.15329,40.030013
+Black (Non-Hispanic),Male,Fatal,1/3/2024 23:55,No,46,N ORKNEY ST,19133,25,Hunting Park-Fairhill,Julia de Burgos School,-75.13883,39.996116
+Black (Non-Hispanic),Male,Nonfatal,1/3/2024 22:54,No,27,COTTMAN AVE,19111,2,Oxford Circle,Kennedy C. Crossan School,-75.077056,40.057423
+Black (Non-Hispanic),Male,Nonfatal,1/3/2024 11:50,Yes,33,N 50TH ST,19139,16,Mill Creek-Parkside,James Rhoads School,-75.22058,39.968512
+Black (Non-Hispanic),Male,Nonfatal,1/3/2024 7:11,No,34,GEORGES LN,19131,19,Overbrook Park-Wynnefield Heights,Mastery Charter School at Mann,-75.229648,39.985092
+Hispanic (Black or White),Male,Nonfatal,1/2/2024 16:25,No,58,N SWANSON ST,19134,24,Hunting Park-Fairhill,Isaac A. Sheppard School,-75.129134,39.992392
+Black (Non-Hispanic),Male,Fatal,1/2/2024 8:21,Yes,35,W HAROLD ST,19133,22,Poplar-Temple,Mastery Charter School at Clymer,-75.151444,39.992353
+Black (Non-Hispanic),Male,Fatal,1/21/2024 20:08,No,31,LOCUST ST,19106,6,Center City East,General George A. McCall School,-75.145061,39.94511
+Black (Non-Hispanic),Male,Nonfatal,1/15/2024 2:48,No,24,,,,,,,
+Hispanic (Black or White),Male,Nonfatal,1/1/2024 0:20,Yes,27,,,,,,,
