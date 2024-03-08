@@ -3,12 +3,15 @@ title: "Interactive Geospatial Visualization Using Maps"
 author: "Cheng Peng"
 date: "West Chester University"
 output:
-  html_document: 
+  html_document:
     code_folding: hide
     code_download: yes
     smooth_scroll: yes
     theme: lumen
+  pdf_document: 
+    highlight: tango
 editor_options:
+  
   chunk_output_type: inline
 ---
 
@@ -138,6 +141,10 @@ if (!require("htmltools")) {
     install.packages("htmltools")              
     library("htmltools")
 }
+if (!require("htmlwidgets")) {
+    install.packages("htmlwidgets")              
+    library("htmlwidgets")
+}
 if (!require("leaflegend")) {
     install.packages("leaflegend")              
     library("leaflegend")
@@ -174,12 +181,24 @@ if (!require("tmaptools")) {
     install.packages("tmaptools")              
     library("tmaptools")
 }
-if (!require("readxl")) {
-    install.packages("readxl")              
-    library("readxl")
+if (!require("webshot2")) {
+    install.packages("webshot2")              
+    library("webshot2")
 }
-# knitr::opts_knit$set(root.dir = "C:/Users/75CPENG/OneDrive - West Chester University of PA/Documents")
-# knitr::opts_knit$set(root.dir = "C:\\STA490\\w05"
+if (!require("sf")) {
+    install.packages("sf")              
+    library("sf")
+}
+if (!require("terra")) {
+    install.packages("terra")              
+    library("terra")
+}
+if (!require("leafpop")) {
+    install.packages("leafpop")              
+    library("leafpop")
+}
+
+##
 knitr::opts_chunk$set(echo = TRUE,       
                       warning = FALSE,   
                       result = TRUE,   
@@ -191,7 +210,9 @@ knitr::opts_chunk$set(echo = TRUE,
 # {.tabset .tabset-fade .tabset-pills}
 
 <BR><BR>
-There is a very rich set of tools for interactive geospatial visualization. This note introduces various R tools and Tableau to create interactive maps for visualizing spatial patterns. 
+There is a very rich set of tools for interactive geospatial visualization. This note introduces various R tools and Tableau to create interactive maps for visualizing spatial patterns.  <br>
+
+<font color = "darkred"><b>Caution</b></font>: Recent changes to popular R packages for spatial data - what you need to do (<https://www.r-bloggers.com/2023/06/upcoming-changes-to-popular-r-packages-for-spatial-data-what-you-need-to-do/>).
 
 <BR>
 <BR>
@@ -301,7 +322,7 @@ WCU Main Campus, 39.9524,-75.5982"
 leaflet(df) %>% 
   addTiles() %>%
   setView(lng=-75.3768, lat=39.9448, zoom = 10) %>%
-  addMarkers(~Long, ~Lat, popup = ~htmlEscape(Name))
+  addMarkers(~Long, ~Lat, popup = ~paste("Name: ",Name))
 ```
 
 We can also change the popups in the above map to labels. The modified code is shown below
@@ -317,14 +338,46 @@ WCU  Main Campus, 39.9524,-75.5982"
 leaflet(df) %>% 
   addTiles() %>%
   setView(lng=-75.3768, lat=39.9448, zoom = 10) %>%
-  addMarkers(~Long, ~Lat, label = ~htmlEscape(Name))
+  addMarkers(~Long, ~Lat, label = ~paste("Name:", Name))
+```
+
+
+### 4. Annotations
+
+We have introduced the ways of adding hover messages through `label` and `pop` options to points on the map longitude and latitude. We also used reference location using longitude and latitude to insert images to a map. 
+
+This section introduced a method to insert text and image annotation to a map. The idea is to wrap the annotation in an HTML tag and then pass the information to map through `addControl()` function. This method will also be used when we create shiny apps.  The relative location on the map is independent on longitude and latitude. We can use location values such as `topleft, topright, bottomleft, bottomright`.
+
+
+```{r fig.align='center', fig.height=4, fig.width=6}
+df <- read.csv(textConnection(
+"Name, Lat, Long
+WCU  Philadelphia Campus,39.9518,-75.1525
+WCU  South Campus,39.9373,-75.6011
+WCU  Main Campus, 39.9524,-75.5982"
+))
+## HTML wrapped annotation
+ AnnotateWrapper <- tags$div(
+   HTML('<center><a href="https://www.wcupa.edu/"> <img border="0" alt="ImageTitle" src="https://github.com/pengdsci/sta553/blob/main/image/goldenRamLogo.png?raw=true" width="25" height="25"> </a><center>
+    <font color = "purple">WCU STA 553 Example</font>')
+ )  
+###
+leaflet(df) %>% 
+  addTiles() %>%
+  #addProviderTiles("NASAGIBS.ViirsEarthAtNight2012") %>%
+  setView(lng=-75.3768, lat=39.9448, zoom = 10) %>%
+  addMarkers(~Long, ~Lat, popup = ~paste("Name:", Name, 
+                                         "<br> Longitude:", Long, 
+                                         "<br>Latitude:", Lat), 
+             label = ~paste("Name:", Name))%>%
+  addControl(AnnotateWrapper, position = "bottomleft")
 ```
 
 
 
 
 
-### 4. Examples Using Real-World Data 
+### 5. An Example Using Real-World Data 
 
 In the following example, we use a few leaflet functions to add some features such as drawing highlight boxes, labels, etc. to the map.
 
@@ -370,7 +423,8 @@ leaflet(housing.price) %>%
   addTiles() %>% 
   setView(lng=mean(housing.price$Longitude), lat=mean(housing.price$Latitude), zoom = 13) %>%
   #OpenStreetMap, Stamen, Esri and OpenWeatherMap.
-  addProviderTiles("Esri.WorldGrayCanvas") %>%
+  #addProviderTiles("Esri.WorldGrayCanvas") %>%
+  addProviderTiles(providers$Esri.WorldGrayCanvas) %>%
   addCircleMarkers(
             ~Longitude, 
             ~Latitude,
@@ -396,6 +450,74 @@ leaflet(housing.price) %>%
 ```
 
 
+<BR><BR>
+
+<font size = 4, color = "red"><b> Chorapleth Maps </b></font>
+<BR><BR>
+
+### Choropleth Maps With Leaflet
+
+As an example, we use shape file [shape file of US states (https://pengdsci.github.io/STA553VIZ/w07/us-states.geojson) ](https://pengdsci.github.io/STA553VIZ/w07/us-states.geojson) to represent aggregated information at the state level.
+
+
+```{r}
+# Map data preparation
+electricitycost <-as.tibble(read.csv("https://github.com/pengdsci/sta553/raw/main/data/state_electricity_data_2018.csv")[-9,])  # exclude DC
+electricitycost <- electricitycost %>% 
+  rename(name = NAME)
+#electricitycost$State <- state.abb  # add state abbrevs to specify locations in plot_ly()
+# Make state borders red
+borders <- list(color = toRGB("red"))
+## State shapefile
+USStateShpeURL <-"https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json"
+#USStateShpeURL <- "https://pengdsci.github.io/STA553VIZ/w07/us-states.geojson"
+stateShape <- geojson_read(USStateShpeURL, what = "sp")
+## The sp object created above (“states”) stores its data in slots, 
+## which can be accessed with the “@” operator.
+stateShape@data = left_join(stateShape@data, electricitycost)
+# CAUTION: must use left_join to keep all states that were included in the state GEOJSON file!!!
+# Create hover text
+popuptext = paste('<strong>',stateShape@data$name, "</strong>",'<br>', "Electricity Cost:", stateShape@data$centskWh)
+##
+pal <- colorNumeric(
+    palette = "Oranges",
+    domain = stateShape@data$centskWh
+)
+###
+simpleVersion = leaflet(data = stateShape) %>%
+    addProviderTiles(provider = "CartoDB.Positron")  %>% 
+    setView(lat = 38.0110306, lng = -110.4080342, zoom = 3) %>%
+    addPolygons(fillColor = ~pal(centskWh), 
+        fillOpacity = 0.8, 
+        color = "darkred", 
+        weight = 1,
+        popup = ~popuptext) %>%
+    addLegend(position = "bottomleft",
+              pal = pal, 
+              values = ~stateShape@data$centskWh, 
+              title = "<strong>Price</strong><br>(2008)") 
+simpleVersion
+```
+
+\
+
+\
+
+We could also add a title with predefined styles, annotated text, and images through HTML tags. Here is an example.
+
+```{r}
+## map title
+title <- tags$div( HTML('<font color = "darkred" size =4><b>Average Electricity Price by State (cent/KW/hr)</b></font>')
+)
+## adding a gif image to the map
+ GIFimg <- tags$div(
+   HTML('<center> <img border="0" alt="ImageTitle" src="https://pengdsci.github.io/STA553VIZ/w07/img07/banana.gif" width="75" height="75"><center>'))
+###
+EnhancedMap <- simpleVersion %>%
+     addControl(title, position = "topright") %>%
+     addControl(GIFimg, position = "bottomright")
+EnhancedMap
+```
 
 
 
@@ -423,7 +545,7 @@ In the following, we will introduce the steps for creating Choropleth maps. Sinc
 
 
 <BR>
-#### 1. Choropleth Maps with `plot_ly()`
+### 1. Choropleth Maps with `plot_ly()`
 <BR>
 
 In general, making choropleth maps with `plot_ly()` requires two main types of input:
@@ -435,9 +557,20 @@ In general, making choropleth maps with `plot_ly()` requires two main types of i
 * A list of values indexed by feature identifier. They control the features in the map including boundary, filled colors, legend, hover text, etc.
 
 
+For the US map, two types of projections were commonly use: regulary and Albers.
+
+<br>
+<center><img src="https://pengdsci.github.io/STA553VIZ/w07/img07/USMapProjection.png"  height="150" width="500"></center>
+<br>
+
+
+
 **Example 1:** US electricity cost by States in 2018. The arguments `locations =` and `locationmode =` tell `plot_ly` what map information should be used to create the base map. Other arguments and functions are used to control different features of the resulting map. One cautionary note is that `plot_ly()` only uses state abbreviations as the state name.
 
 In the code, the state abbreviations `state.abb` is a built-in data set. Several other built-in data sets about each state are also available. Check the website <http://stats4stem.weebly.com/r-statex77-data.html> for more information on these data sets.
+
+
+
 
 
 ```{r}
@@ -460,8 +593,8 @@ plot_ly( z = ~electricitycost$centskWh,
         locations = ~electricitycost$State, 
         type = 'choropleth', 
         locationmode = 'USA-states', 
+        colors = 'RdPu', 
         color = electricitycost$centskWh, 
-        colors = 'Blues', 
         marker = list(line = borders)) %>%
   layout(title = 'US State Electricity Unit Cost (cents/kWh)', 
          geo = map_options)
@@ -499,10 +632,16 @@ fig <- plot_ly()  %>%
              text = df$name, # hover mesg
            marker = list(line=list(width=0.2))
           )   %>% 
-  colorbar(title = "Unemployment Rate (%)")  %>% 
-  layout( title = "US Unemployment by County",
+  colorbar(title = "Unemployment Rate (%)",
+           colorscale='Viridis')  %>% 
+  layout( ### Title 
+          title =list(text = "US Unemployment by County", 
+                          font = list(family = "Times New Roman",  # HTML font family  
+                                        size = 18,
+                                       color = "red")), 
           geo = g)
-fig
+## The actual HTML page does shoe colorbar correctly, we hide the legend.
+hide_legend(fig)
 
 ```
 
@@ -523,7 +662,7 @@ borders <- list(color = toRGB("red"))
 # Set up some mapping options
 map_options <- list(
   scope = 'usa',
-  projection = list(type = 'albers usa'),
+  projection = list(type = 'regular usa'),
   showlakes = TRUE,
   lakecolor = toRGB('white')
 )
@@ -579,6 +718,16 @@ m <- plot_geo(df, locationmode = 'USA-states') %>%
             )
 m
 ```
+
+
+Since the colorbars are not displayed correctly in the kitted HTML document, we take a screenshot in the following to display the correct colorbar.
+
+```{r fig.align='center', out.width="80%"}
+include_graphics("img07/w07-map14.png")
+```
+
+
+
 
 <BR><BR>
 <center><font size = 4, color = "red"><b> Scatter Maps </b></font></center>
