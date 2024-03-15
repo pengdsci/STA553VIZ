@@ -169,22 +169,7 @@ var sgr_main = {"sgr_site_key":"6LcmTAcaAAAAAEELVElChVbNtpYH8TxjxPvYq9gv"};
     </div-->
         
    <h5>Topics and Notes</h5>
-        <ol style="line-height: 1.5em; margin-bottom: 15px">
-            
-   <li> More R Maps 
-          <a href="w08/w08-MapDataCreation.html" target="popup" 
-                          onclick="window.open('w08/w08-MapDataCreation.html', 'name','width=900,height=500')">
-                         <link-btn> HTML</link-btn></a> 
-                        <a href="w08/w08-MapDataCreation.Rmd" target="popup" 
-                          onclick="window.open('w08/w08-MapDataCreation.Rmd', 'name','width=900,height=500')">
-                         <link-btn>RMD SOURCE</link-btn></a></li>  
-     <ul>
-        <li>a. Thematic Maps: tm()
-        <li>b. Shapefiles: creating new shapfile and modifying existing shapfile
-        <li>c. Case Studies: spatial data - aggregated and individual data
-    </ul>                           
-           
-            
+        <ol style="line-height: 1.5em; margin-bottom: 15px">    
             
     <li> Choropleth and Scatter Maps with Mapview() </li>
           <ul>
@@ -202,25 +187,39 @@ var sgr_main = {"sgr_site_key":"6LcmTAcaAAAAAEELVElChVbNtpYH8TxjxPvYq9gv"};
                         <a href="w08/w08-MapviewMaps-ScatterMap.Rmd" target="popup" 
                           onclick="window.open('w08/w08-MapviewMaps-ScatterMap.Rmd', 'name','width=900,height=500')">
                          <link-btn>RMD SOURCE</link-btn></a></li>  
-    </ul>                    
-
+       </ul>                    
+                 
+   <li> Interactive maps- a case study 
+          <a href="https://rpubs.com/cpeng/1161702" target="popup" 
+                          onclick="window.open('https://rpubs.com/cpeng/1161702', 'name','width=900,height=500')">
+                         <link-btn> HTML (on RPubs)</link-btn></a> 
+                        <a href="w08/w08-MapCaseStudyFinal.Rmd" target="popup" 
+                          onclick="window.open('w08/w08-MapCaseStudyFinal.Rmd', 'name','width=900,height=500')">
+                         <link-btn>RMD SOURCE</link-btn></a></li>  
+     <ul>
+        <li>a. Shapefile and map boundary
+        <li>b. Process of visual design
+        <li>c. Design considerations
+    </ul>                           
+          
             
   </ol>
         
-<h5>Assignments</h5>     
+<h5>Assignments: </h5>     
         
   <ol>
-     <li> <b>Data sets</b>: <font color = "red">|</font><a href = "https://pengdsci.github.io/datasets/countypresidential_election_2000-2020.csv"> Presidential Election Data</a><font color = "red">|</font> <a href="https://pengdsci.github.io/datasets/fips2geocode.csv"> FIPS to Geocode</a><font color = "red">|</font></li> 
-      <li>Data management tasks: </li>
+     <li>Creating a choropleth map <b>Data sets</b>: <font color = "red">|</font><a href = "https://pengdsci.github.io/datasets/countypresidential_election_2000-2020.csv"> Presidential Election Data</a><font color = "red">|</font> <a href="https://pengdsci.github.io/datasets/fips2geocode.csv"> FIPS to Geocode</a><font color = "red">|</font></li> 
         <ul>
            <li>a. Extract on 2020 presidential election data: <font color = "blue">year</font></li> 
            <li>b. Only include Democrats and Republican votes: <font color = "blue">party</font></li>
            <li>c. Include variables: state_po, county_name, county_fips, party, candidatevotes</li>
            <li>d. Merge the above data with <font color = "blue"> FIPS to Geocode Data</font>using the FIPS as the primary key.</li>
-           <li>e. Create an interactive choropleth map to display the presidential election results at county level using two different colors to represent the two parties. You can choose any R library to accomplish this part of the assignment.</li>
+           <li>e. Create an interactive choropleth map to display the presidential election results at the county level using two different colors to represent the two parties. You can choose any R library to accomplish this part of the assignment.</li>
       </ul>
 
-     <b><font color = "red">Assignment Due: Sunday, 11:30 PM </font></b>
+      <li>Creating a reference map using the Philly Shooting data set (see details in the case study). </li>
+      
+     <b><font color = "red">Assignment Due: Wednesday, 11:30 PM </font></b>
   </ol> 
        
         
