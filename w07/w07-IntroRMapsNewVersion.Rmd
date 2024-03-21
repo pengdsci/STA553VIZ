@@ -414,8 +414,8 @@ ageColor[which(colAgeNum==2)] <- "orange"
 ageColor[which(colAgeNum==3)] <- "darkred"
 ## define label with hover messages
 
-label.msg <- paste(paste("Unit Price:", housing.price$PriceUnitArea),    
-                   paste("\n Dist to MRT:",housing.price$Distance2MRT),"\n")
+label.msg <- paste("Unit Price:", housing.price$PriceUnitArea,    
+                   "<br>Dist to MRT:",housing.price$Distance2MRT)
 
 #labels = cat(label.msg)
 # making leaflet map
@@ -432,14 +432,14 @@ leaflet(housing.price) %>%
             radius = ~ sqrt(housing.price$Distance2MRT/10)*0.7,
             stroke = FALSE, 
             fillOpacity = 0.4,
-            label = ~label.msg)  %>%
+            popup= ~label.msg)  %>%
   addLegend(position = "bottomright", 
             colors = c("navy", "orange","darkred"),
             labels= c("[0,5)", "[5,15)", "[15,44.8)"),
             title= "House Age",
             opacity = 0.4) %>%
   addLegendSize(position = 'topright', 
-                  values = sqrt(housing.price$Distance2MRT/10)*0.7,
+                  values = sqrt(housing.price$Distance2MRT/10)*0.5,
                    color = 'gray',
                fillColor = 'gray',
                  opacity = .5,
@@ -689,13 +689,14 @@ Making a choropleth map with `plot_geo` requires less effort to prepare the shap
 # read in cv data
 df <- read.csv("https://raw.githubusercontent.com/pengdsci/sta553/main/data/2011_us_ag_exports.csv")
 ## Define hover text
-df$hover <- with(df, paste(state, "<br>",
-                           "Beef", beef, "<br>",
-                           "Dairy", dairy, "<br>",
-                           "Fruits", total.fruits, "<br>",
-                           "Veggies", total.veggies, "<br>",
-                           "Wheat", wheat, "<br>",
+df$hover <- with(df, paste(state, "\n",
+                           "Beef", beef, "\n",
+                           "Dairy", dairy, "\n",
+                           "Fruits", total.fruits, "\n",
+                           "Veggies", total.veggies, "\n",
+                           "Wheat", wheat, "\n",
                            "Corn", corn))
+
 # give state boundaries a white border
 l <- list(color = toRGB("white"), width = 2)
 # specify some map projection/options
