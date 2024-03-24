@@ -5,24 +5,13 @@ date: "West Chester University "
 output:
   html_document: 
     toc: yes
-    toc_float: true
     toc_depth: 4
-    fig_width: 6
+    toc_float: yes
+    code_folding: hide
+    code_download: yes
+    smooth_scroll: yes
     number_sections: yes
     theme: readable
-    fig_height: 4
-  word_document: 
-    toc: yes
-    toc_depth: 4
-    fig_caption: yes
-    keep_md: yes
-  pdf_document: 
-    toc: yes
-    toc_depth: 4
-    fig_caption: yes
-    number_sections: yes
-    fig_width: 5
-    fig_height: 4
 ---
 <style type="text/css">
 
@@ -87,14 +76,16 @@ if (!require("Stat2Data")) {
    install.packages("Stat2Data")
    library(Stat2Data)
 }
-
-# knitr::opts_knit$set(root.dir = "C:/Users/75CPENG/OneDrive - West Chester University of PA/Documents")
-# knitr::opts_knit$set(root.dir = "C:\\STA490\\w05")
+if (!require("knitr")) {
+   install.packages("knitr")
+   library(knitr)
+}
 
 knitr::opts_chunk$set(echo = TRUE,       
                       warning = FALSE,   
                       result = TRUE,   
-                      message = FALSE)
+                      message = FALSE,
+                      comment = NA)
 ```
 
 \
@@ -104,17 +95,25 @@ knitr::opts_chunk$set(echo = TRUE,
 
 # Introduction
 
-The Hawks data set was collected by students from Cornell College. It is built in the R library {Stat2Data}. I also make a copy and posted it at <https://raw.githubusercontent.com/pengdsci/sta553/main/Tableau/hawks.csv>. You can download it and save it to a folder on your machine.
+Among all specialized visualization software programs, Tableau is probably the most widely used and popular in the industry because it does not require much coding effort. It also provides users enough flexibility to design advanced visualizations by defining new variables based on existing variables. 
+
+Tableau visual objects are created with variables in the data table. Like other point-and-click statistical software programs such as MINITAB, it offers some basic functions one can use to define new fields in the data set to perform related visualization.  
+
+Tableau is primarily designed as a visualization tool. It also has limited capacity for data integration. This and the next notes focus only on visualization. Therefore, we assume that we have a single clean data ready 
+
+
+# Working Data and Data Loading
+
+The Hawks data set was collected by students from Cornell College. It is built in the R library {Stat2Data}. I also made a copy and posted it at <https://raw.githubusercontent.com/pengdsci/sta553/main/Tableau/hawks.csv>. You can download it and save it to a folder on your machine.
 
 ```{r}
 data("Hawks")
-write.csv(Hawks, file="/Users/chengpeng/WCU/Teaching/2022Spring/STA553/tableau/hawks.csv")
+write.csv(Hawks[which(Hawks$Tail > 175),], file="C:/Users/75CPENG/OneDrive - West Chester University of PA/Desktop/cpeng/WCU-Teaching/2024Spring/STA553/w09/tableau/hawks.csv")
 ```
 
 
-Tableau uses a menu-driven approach to load data in certain formats. The following figure shows the types of external data that be connected to Tableau. There are some built-in data sets available in Tableau for practice purposes.
+Tableau uses a menu-driven approach to load data in certain formats. The following figure shows the types of external data that are connected to Tableau. There are some built-in data sets available in Tableau for practice purposes.
 
-## Data Loading
 
 We open the program and see the following UI.
 
@@ -156,7 +155,7 @@ Next, we create commonly used statistical charts in separate sheets.
 
 Bar charts are one of the most common data visualizations. We can use them to quickly compare data across categories, highlight differences, show trends and outliers, and reveal historical highs and lows at a glance. Bar charts are especially effective when you have data that can be split into multiple categories.
 
-We consider the distribution of hawks species. Change `Sheet 1` to `barChart`.
+We consider the distribution of hawk species. Change `Sheet 1` to `barChart`.
 
 **Step 1**: Drag `Species` to the Column field
 
@@ -179,9 +178,9 @@ We consider the distribution of hawks species. Change `Sheet 1` to `barChart`.
 
 ## Pie Chart
 
-Pie charts are powerful for adding detail to other visualizations. Alone, a pie chart doesn’t give the viewer a way to quickly and accurately compare the information. Since the viewer has to create context on their own, key points from your data are missed. Instead of making a pie chart the focus of your dashboard, try using them to drill down on other visualizations.
+Pie charts are powerful for adding detail to other visualizations. Alone, a pie chart doesn’t give the viewer a way to quickly and accurately compare the information. Since the viewer has to create context on their own, key points from your data are missed. Instead of making a pie chart the focus of your dashboard, try using it to drill down on other visualizations.
 
-**Step 1**: repeat the two steps in bar chart.
+**Step 1**: repeat the two steps in the bar chart.
 
 **Step 2**: Click `Show Me` on the top-right of the UI and select `piechart icon`.
 
@@ -230,7 +229,6 @@ A histogram is a chart that displays the shape of a distribution. A histogram lo
 </center>
 
 
-
 ## Box-plot
 
 We can use box plots, also known as box-and-whisker plots, to show the distribution of values along an axis. Boxes indicate the middle 50 percent of the data (that is, the middle two quartiles of the data's distribution).
@@ -264,9 +262,9 @@ The following steps are used to create a simple box plot.
 
 The line chart, or line graph, connects several distinct data points, presenting them as one continuous evolution. Use line charts to view trends in data, usually over time (like stock price changes over five years or website page views for the month). The result is a simple, straightforward way to visualize changes in one value relative to another.
 
-**Step 1**: Drap `year` to the column field and `Species` to the row field and convert it into frequencies.
+**Step 1**: Drap `year` to the column field and `Species` to the row field and convert them into frequencies.
 
-**Step 2**: Click `Show Me` on the topright of the UI and select the `line plot` icon.
+**Step 2**: Click `Show Me` on the top-right of the UI and select the `line plot` icon.
 
 **Step 3**: right-click `Species` and `Sex` and send them to the **Filter** panel.
 
@@ -320,7 +318,7 @@ Let's explore the association between the lengths of wings and tails of hawks ac
 
 Although bubbles aren’t technically their own type of visualization, using them as a technique adds detail to scatter plots or maps to show the relationship between three or more measures. Varying the size and color of circles creates visually compelling charts that present large volumes of data at once.
 
-A bubble chart is modified from a regular scatter plot. We next use the above scatter plot as a base plot and make the point size be proportional to the value of the variable `wing`.
+A bubble chart is modified from a regular scatter plot. We next use the above scatter plot as a base plot and make the point size proportional to the value of the variable `wing`.
 
 **Step 1**: create a basic scatter plot (following steps 1-4 in the previous section of the scatter plot).
 
@@ -364,15 +362,15 @@ The following steps will create a map to view the spatial distribution of proper
 
 **Step 2**. Click `Show me` and select the World Map in the list of the template plots.
 
-**Step 3**. Go to the top menu bar, click `Map` to select a background map.
+**Step 3**. Go to the top menu bar, and click `Map` to select a background map.
 
-**Step 4**. Click the `Color` shelf in the Marks field, change the default color to an appropriate color.
+**Step 4**. Click the `Color` shelf in the Marks field, and change the default color to an appropriate color.
 
 **Step 5**. Choose an appropriate color.
 
 **Step 6**. select an appropriate variable to determine the point size.
 
-**Step 7**. drag variable you want to display in the hover text.
+**Step 7**. drag the variable you want to display in the hover text.
 
 The following screenshot was created based on the above steps.
 
@@ -389,7 +387,7 @@ The actual map is available on the Tableau Public Server at <https://public.tabl
 
 Density maps reveal patterns or relative concentrations that might otherwise be hidden due to an overlapping mark on a map—helping you identify locations with greater or fewer numbers of data points. Density maps are most effective when working with a data set containing many data points in a small geographic area.
 
-Let's use the POC (US gas station data) as an example of how to handle the data with two many data points. The data can be found at: <https://github.com/pengdsci/datasets/raw/main/POC.csv>. We first download this data file and save it into a local folder and then connect Tableau to this data.
+Let's use the POC (US gas station data) as an example of how to handle the data with two data points. The data can be found at: <https://github.com/pengdsci/datasets/raw/main/POC.csv>. We first download this data file save it into a local folder and then connect Tableau to this data.
 
 The following suggested steps will create a density map for the US gas stations.
 
@@ -399,9 +397,9 @@ The following suggested steps will create a density map for the US gas stations.
 
 **Step 3**. In the drop-down menu of the Marks field, select `density`.
 
-**Step 4**. Go to the top menu bar, click `Map` to select a background map.
+**Step 4**. Go to the top menu bar, and click `Map` to select a background map.
 
-**Step 5**. Click the `Color` shelf in the Marks field, change the default color to an appropriate color.
+**Step 5**. Click the `Color` shelf in the Marks field, and change the default color to an appropriate color.
 
 
 <center>
@@ -422,6 +420,254 @@ The following suggested steps will create a density map for the US gas stations.
 The actual interactive map is on the Tableau Public Server at <https://public.tableau.com/app/profile/cpeng/viz/POC-map/Sheet1?publish=yes>
 
 \
+
+# Calculated Derived Features and Parameters
+
+We have introduced some of the basic statistical graphics that only require point-and-click, Next we introduce graphics that require derived variables using Tableau's capability of creating calculated fields and parameters. 
+
+Although Tableau is *not* a software program for statistical modeling, some of the built-in Tableau functions can be used for some basic modeling tasks. The detailed list of available Tableau functions can be found at [https://help.tableau.com/current/pro/desktop/en-us/functions.htm](https://help.tableau.com/current/pro/desktop/en-us/functions.htm). This note only focuses on descriptive visual analysis using simple builtin graphical functions.
+
+In practice, many statistical procedures are based on the assumption of normal distribution. As an example, we will create a histogram of a numerical variable to visualize its distribution and then add a normal density curve on the top of the histogram to compare the empirical distribution with the actual theoretic normal distribution.
+
+Recall that the general form of the normal density function of random variable $X$ has the following form
+
+$$
+f(x) = \frac{1}{\sqrt{2\pi} \sigma}e^{-\frac{(x-\mu)^2}{2\sigma^2}}
+$$
+where $\mu$ is the mean of $X$ and $\sigma$ the density function of $X$. To make a normal density curve that has the same mean and standard deviation as that of $X$, we need to add two fields, `xbar` and `sdx`, to **the worksheet** and then define the variable `fx` to draw the density curve. To 
+
+Next, we define a parameter to specify the bin width when drawing histograms (density curves) and three new variables to draw the density curve.
+
+
+## Create Parameters
+
+When creating a histogram, we need to define the bin width (bandwidth, interval width, class width, ...) so that each data point will fall into one and only one bin (interval, class). Many statistical software programs run an algorithm and provide a default (optimal width from theory). In Tableau, we can define a bin size (i.e., width) manually so that the resulting histogram or density curve can be adjusted by changing the bin width to choose an appropriate width to better display the distribution from the visual perspective. The Tableau `parameter` allows users to change its value. We will define bin width as a parameter. The following figure illustrates the steps for defining the parameter. 
+
+
+```{r fig.align='center', out.width="80%", echo = FALSE}
+include_graphics("tableau/ParameterDefinition.png")
+```
+
+
+## Create Calculated Variables
+
+We next define the mean and standard deviation of variable `Tail` stored in two fields of the workbook. The following figure shows the steps for defining the mean. We can similarly define the standard deviation.
+
+```{r fig.align='center', out.width="80%", echo = FALSE}
+include_graphics("tableau/CalculatedMean.png")
+```
+
+**Comments**
+
+1. We used `TOTAL` function in the above definition of the mean of the variable `Tail` (i.e., all values of variable `Tail` in the data table).
+
+2. Tableau also provides a function `FIXED` that allows the calculation of grouped sum, mean, etc. For example, we can count the observations in each `year` using the following functions. Note that `F1` is the observation ID of the data.
+
+```{r fig.align='center', out.width="40%", echo = FALSE}
+include_graphics("tableau/groupedMeasures.png")
+```
+
+3. Create `bin value` so that the histograms of `Tail` and `normalCurve` will use the same bin width.
+
+```{r fig.align='center', out.width="40%", echo = FALSE}
+include_graphics("tableau/BinValue.png")
+```
+
+
+
+4. `ATTR()` is a special Tableau function that effectively **returns a record-level result as an aggregation**. If there are multiple values of the record-level field in the current context then `ATTR()` will return the number of values instead of a single value.
+
+
+Next, we use the formula of the density to calculate normal density scores and save them in the field `normalCurve`. The Tableau formula is given by
+
+```{r fig.align='center', out.width="70%", echo = FALSE}
+include_graphics("tableau/NormalCurveScore.png")
+```
+
+
+Steps for creating a histogram with a density curve being placed on the top of it.
+
+1. Create two histograms: `Tail` and `normalCurve`.
+
+```{r fig.align='center', out.width="90%", echo = FALSE}
+include_graphics("tableau/twoHistogram.png")
+```
+
+2. Change the histogram of `normalCurve` to a density curve by changing the mark type from `Bar` to `Line` in the Marks panel
+
+```{r fig.align='center', out.width="90%", echo = FALSE}
+include_graphics("tableau/densityCurve.png")
+```
+
+3. Right-click the left-hand side and select `Dual Axis` to place the density curve on the histogram
+
+
+```{r fig.align='center', out.width="90%", echo = FALSE}
+include_graphics("tableau/ChoosingDualAxis.png")
+```
+
+4. Right-click the right-hand side axis of the resulting overlay graph and uncheck `Show Header` to get the following.
+
+```{r fig.align='center', out.width="90%", echo = FALSE}
+include_graphics("tableau/FinalDensityCurve.png")
+```
+
+5. **Wrap-up** After finishing the above steps, go to `file` and select `Save to Tableau Public...` or `Save to Tableau Public As` and fill in the text box, click `Save` button to publish the graph on the Tableau Public server. 
+
+
+```{r fig.align='center', out.width="90%", echo = FALSE}
+include_graphics("tableau/FinalDensityCurve.png")
+```
+
+
+6. To embed the Tableau graph in the RMD and then render it in an HTML format, click the bottom-right **share** button.
+
+```{r fig.align='center', out.width="40%", echo = FALSE}
+include_graphics("tableau/TableauShare.png")
+```
+
+We copy the embed code and paste it to the cell of the single-cell HTML table in the RMD document and edit it with the correct indention.  
+
+
+````{verbatim}
+<table border = 0 bordercolor="darkgreen" bgcolor='#f6f6f6'  width=100%  align = center>
+<tr>
+<td>
+embedding JS code from Tableau...
+</td>
+</tr>
+</table>
+````
+
+The following is the embedded interactive Tableau from the Tableau Public server.
+
+<table border = 0 bordercolor="darkgreen" bgcolor='#f6f6f6'  width=100%  align = center>
+<tr>
+<td>
+
+<div class='tableauPlaceholder' id='viz1711297426029' style='position: relative'>
+
+<noscript><a href='#'><img alt='Histogram With A Normal Density Curve ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Ha&#47;Hawks_17112947852290&#47;HistDensity&#47;1_rss.png' style='border: none' /></a>
+</noscript>
+
+<object class='tableauViz'  style='display:none;'>
+<param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> 
+<param name='embed_code_version' value='3' /> 
+<param name='site_root' value='' />
+<param name='name' value='Hawks_17112947852290&#47;HistDensity' />
+<param name='tabs' value='no' />
+<param name='toolbar' value='yes' />
+<param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Ha&#47;Hawks_17112947852290&#47;HistDensity&#47;1.png' /> 
+<param name='animate_transition' value='yes' />
+<param name='display_static_image' value='yes' />
+<param name='display_spinner' value='yes' />
+<param name='display_overlay' value='yes' />
+<param name='display_count' value='yes' />
+<param name='language' value='en-US' />
+</object></div>                
+
+<script type='text/javascript'>                    
+var divElement = document.getElementById('viz1711297426029');                    
+var vizElement = divElement.getElementsByTagName('object')[0];                    vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';    
+var scriptElement = document.createElement('script'); scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                
+</script>
+
+</td>
+</tr>
+</table>
+
+
+## Practice - Reproduce The Following
+
+<table border = 0 bordercolor="darkgreen" bgcolor='#f6f6f6'  width=100%  align = center>
+<tr>
+<td>
+<div class='tableauPlaceholder' id='viz1711258738612' style='position: relative'>
+<noscript><a href='#'><img alt='HistogramPrice ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;w0&#47;w09HoneyProdDashImage&#47;HistogramPrice&#47;1_rss.png' style='border: none' /></a>
+</noscript>
+
+<object class='tableauViz'  style='display:none;'>
+<param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> 
+<param name='embed_code_version' value='3' /> 
+<param name='site_root' value='' />
+<param name='name' value='w09HoneyProdDashImage&#47;HistogramPrice' />
+<param name='tabs' value='no' /><param name='toolbar' value='yes' />
+<param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;w0&#47;w09HoneyProdDashImage&#47;HistogramPrice&#47;1.png' /> 
+<param name='animate_transition' value='yes' />
+<param name='display_static_image' value='yes' />
+<param name='display_spinner' value='yes' />
+<param name='display_overlay' value='yes' />
+<param name='display_count' value='yes' />
+<param name='language' value='en-US' />
+</object>
+</div>                
+
+<script type='text/javascript'>                    
+var divElement = document.getElementById('viz1711258738612');                   
+var vizElement = divElement.getElementsByTagName('object')[0];                    vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';                   
+var scriptElement = document.createElement('script');   scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js'; 
+vizElement.parentNode.insertBefore(scriptElement, vizElement);                
+</script>
+</td>
+</tr>
+</table>
+
+# Animations, Annotations, Images and Tooltip Visuals
+
+As we did in visualization with R, we can also animate Tableau graphics, insert annotations, images tooltip popups, etc. in Tableau graphics. Some of these graphical tasks are only one click away, and some of them require multi-step procedures. 
+
+We can create static images as new shapes, additional worksheets to place in the tooltip, etc. to make more interactive Tableau graphics.  
+
+The following Tableau graph contains several features. We can download the workbook through the bottom-right `download` icon.
+
+
+<table border = 0 bordercolor="darkgreen" bgcolor='#f6f6f6'  width=100%  align = center>
+<tr>
+<td>
+<div class='tableauPlaceholder' id='viz1711178458694' style='position: relative'>
+  <noscript><a href='#'><img alt='DashImage ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;w0&#47;w09HoneyProdDashImage&#47;DashImage&#47;1_rss.png' style='border: none' /></a></noscript>
+  <object class='tableauViz'  style='display:none;'>
+  <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> 
+  <param name='embed_code_version' value='3' /> 
+  <param name='site_root' value='' />
+  <param name='name' value='w09HoneyProdDashImage&#47;DashImage' />
+  param name='tabs' value='no' /><param name='toolbar' value='yes' />
+  <param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;w0&#47;w09HoneyProdDashImage&#47;DashImage&#47;1.png' /> 
+  <param name='animate_transition' value='yes' />
+  <param name='display_static_image' value='yes' />
+  <param name='display_spinner' value='yes' />
+  <param name='display_overlay' value='yes' />
+  <param name='display_count' value='yes' />
+  <param name='language' value='en-US' />
+  </object></div>                
+  
+  <script type='text/javascript'>                    
+  var divElement = document.getElementById('viz1711178458694');                    
+  var vizElement = divElement.getElementsByTagName('object')[0];                    vizElement.style.minWidth='420px';vizElement.style.maxWidth='1250px';vizElement.style.width='100%';vizElement.style.minHeight='587px';vizElement.style.maxHeight='1187px';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';                    
+  var scriptElement = document.createElement('script');                    
+  scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                
+  </script>
+</td>
+</tr>
+</table>
+
+One way to Animate a Tableau graph is to select a variable and place it in the field of `Page`. One of the above worksheets contains an animated graph. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \
 
