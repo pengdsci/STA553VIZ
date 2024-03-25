@@ -182,9 +182,11 @@ var sgr_main = {"sgr_site_key":"6LcmTAcaAAAAAEELVElChVbNtpYH8TxjxPvYq9gv"};
             </ul> 
        <li> Derived variables and Tableau built-in functions</li>
        <li> Filters</li>
-     <li> Tableau working data set:
+            
+     <!--li> Tableau working data set:
      <a href="https://github.com/pengdsci/sta553/raw/main/Tableau/GlobalSuperstore.xlsx" target="popup" 
-        onclick="window.open('https://github.com/pengdsci/sta553/raw/main/Tableau/GlobalSuperstore.xlsx', 'name','width=900,height=500')"> <link-btn> Superstore Data</link-btn></a> </li>
+        onclick="window.open('https://github.com/pengdsci/sta553/raw/main/Tableau/GlobalSuperstore.xlsx', 'name','width=900,height=500')"> <link-btn> Superstore Data</link-btn></a> </li-->
+            
       <li> A Brief Note on Basic Statistical Charts with Tableau
             <a href="w09/w09-BasicChartsWithTableauUpdate.html" target="popup" 
         onclick="window.open('w09/w09-BasicChartsWithTableauUpdate.html', 'name','width=900,height=500')"> <link-btn> HTML</link-btn></a>
@@ -198,27 +200,55 @@ var sgr_main = {"sgr_site_key":"6LcmTAcaAAAAAEELVElChVbNtpYH8TxjxPvYq9gv"};
   Recreate the presidential election map using Tableau.
   <ol>
      <li> <b>Data sets</b>: 
-         <a href="https://pengdsci.github.io/datasets/countypresidential_election_2000-2020.csv" target="popup" 
-        onclick="window.open('https://pengdsci.github.io/datasets/countypresidential_election_2000-2020.csv', 'name','width=900,height=500')"> <link-btn> Presidential Election Data</link-btn></a>
-       <a href="https://pengdsci.github.io/datasets/fips2geocode.csv" target="popup" 
-         onclick="window.open('https://pengdsci.github.io/datasets/fips2geocode.csv', 'name','width=900,height=500')">
-           <link-btn> FIPS to Geocode</link-btn></a></li>
+         <a href="https://pengdsci.github.io/STA553VIZ/w09/PresidentialElection2000To2020.csv" target="popup" onclick="window.open('https://pengdsci.github.io/STA553VIZ/w09/PresidentialElection2000To2020.csv', 'name','width=900,height=500')"> <link-btn> Presidential Election 2000-2020</link-btn></a></li>
       
-      <li>Data management and visual creation tasks: </li>
+      <li>Data management: Create two subsets - county and state level elections results </li>
         <ul>
-           <li>a. Extract on 2020 presidential election data: <font color = "blue">year</font></li> 
-           <li>b. Only include Democrats and Republican votes: <font color = "blue">party</font></li>
-           <li>c. Include variables: state_po, county_name, county_fips, party, candidatevotes</li>
-           <li>d. Merge the above data with <font color = "blue"> FIPS to Geocode Data</font>using the FIPS as the primary key.</li>
-            <br>
-           <li> <font color="purple"><b>Hint: </b>You can simply load the data set you created in the last assignment to Tableau and create a Tableau map that satisfies the following conditions. </font></li>
-            <br>
-           <li>e. Create an interactive choropleth map to display the presidential election results at the county level using two different colors to represent the two parties. After finishing the Tableau map, you save it to the Tableau Public Server (need to sign in to your account) and submit the URL of your map on the Tableau server to the D2L drop box.</li>
-      </ul>
+           <li>a. <b>County-level Data</b></li> 
+              <ul>
+               <li> (1). Calculate the percentage of each participating party within each <b>county</b>.</li>
+               <li> (2). Keep only the winning party in the data set</li>
+              </ul>
+            <li>b. <b>State-level Data</b></li>
+              <uL>
+               <li> (1). Calculate the percentage of each participating party within each <b>state</b>.</li>
+               <li> (2). Keep only the winning party in the data set</li>
+              </uL>
+           <li> <font color="purple"><b>Hint: </b>Each county has a unique record for county-level data (there are about 3200 counties in the US). Similarly, in the state-level data set, each state has only one record. </font></li>
+         </ul>
+      
+        <li><font color="red"><b>Submission Requirements</b> </font>
+            <uL>
+             <li>a. <font color = "red">[Required]</font> Create an interactive choropleth map to display the presidential election results at the county level using two different colors to represent the two major parties. </li>
+                <ul>
+                <li>(1). The map title must be descriptive and aligned appropriately based using visual design principles </li>
+                <li>(2). The hover text should contain <b>year, state, county, the winning party, winner's name, votes received, and percentage of the total votes.</b></li>
+                <li>(3). Steps for making a map using county FIPS can be found at 
+                    <a href="https://kb.tableau.com/articles/howto/plotting-u-s-5-digit-fips-county-code" target="popup" onclick="window.open('https://kb.tableau.com/articles/howto/plotting-u-s-5-digit-fips-county-code', 'name','width=900,height=500')"> <link-btn>Web Link</link-btn></a></li>
+                </ul>
+                
+             <li>b. <font color = "red">[Optional but encouraged]</font> Create an interactive choropleth map to display the presidential election results at the county level using two different colors to represent the two major parties. </li>
+                <ul>
+                <li>(1). The map title must be descriptive and aligned appropriately based using visual design principles </li>
+                <li>(2). The hover text should contain <b>year, state, winning party, votes received, and percentage of the total votes.</b></li>
+                <li>Using <b>year</b> as a filter</li>
+                </ul>
+             <li>c. After finishing the Tableau map, you save it to the Tableau Public Server (need to sign in to your account). </li>
+                 
+             <li>d. Write an RMD document using my suggested YAML and CSS that contains the following components (sections).</li>
+               <ul>
+                <li>(1). an introduction to the data set and what your plan to visualize</li>
+                <li>(2). A description of your data management process.</li>
+                <li>(3). Use Tableau-generated embedding code to embed your interactive maps in the RMD (keep in mind, that you need a single-cell HTML table).</li>
+                <li>(4). Storytelling.</li>
+               </ul>
+           </uL>
+
+      
 
       
       
-     <b><font color = "red">Assignment Due: Sunday, 11:30 PM </font></b>
+     <b><font color = "red">Assignment Due: Wednesday, 11:30 PM </font></b>
   </ol> 
         
  <!-- go to top button -->           
