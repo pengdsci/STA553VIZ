@@ -660,15 +660,6 @@ One way to Animate a Tableau graph is to select a variable and place it in the f
 
 
 
-
-
-
-
-
-
-
-
-
 \
 
 \
