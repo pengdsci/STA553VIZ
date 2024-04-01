@@ -1,12 +1,17 @@
 ---
-title: "Dashboards with Tableau"
+title: "Analytic Dashboards with Tableau"
 author: "Cheng Peng"
 date: "West Chester University"
 output: 
   html_document: 
-    number_sections: yes
     toc: yes
-    toc_float: yes
+    toc_depth: 4
+    toc_float: no
+    code_folding: hide
+    code_download: yes
+    smooth_scroll: yes
+    number_sections: yes
+    theme: readable
 ---
 
 <style type="text/css">
@@ -71,139 +76,227 @@ h4 {
 </style>
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = TRUE,       
+                      warning = FALSE,   
+                      result = TRUE,   
+                      message = FALSE,
+                      comment = NA)
 ```
 
 \
 
-\
 
 # Introduction
 
+A dashboard is a collection of several (interactive) graphics that allow viewers to compare a variety of data simultaneously in one place. For example, in the presidential election data, we can create a county-level election map and a state-level map and place both of them on the same graphical page and both maps are coordinated simultaneously. In other words, we can create a dashboard that displays all the views at once, rather than navigate to separate Tableau graphics.
+
+If data in sheets and dashboards is connected to a real-time database, both sheets and dashboards will update in real-time with the latest available data from the data source. There are different types of dashboards used for different purposes.
+
+**Operational Dashboards** – provide a comprehensive snapshot of the performance of a business process that allows us to incorporate a large amount of detail without using too many drill-downs.
+
+**Analytical Dashboards** – use historical data to identify future trends for decision-making. Users with a level of technical understanding of data can interact with the data on an analytical dashboard.
+
+**Strategic Dashboards** – track performance in relation to key performance indicators, to better align actions with strategy. 
+
+You can name other different dashboards that are used on different occasions. 
+
+
+
+# Dashboard Design and Case Study
+
+This section provides some details on dashboard type, designs, and implementation with a widely used data set.
+
+## Some Design Considerations
+
+Several considerations need to be kept in mind when designing an analytical dashboard.
+
+**Audience/Users** - the types of audience and target users determine the level of granularity of information and technical complexities.   
+
+**Important and Related Information** - what is the key information? What other information explains or augments the key information? relevant patterns impacted by the key information, etc.  
+
+**Appropriate Charts** - refer to the directory of graphics and maps to create individual graphics and put them together to make a dashboard. Each individual graphic should designed based on the basic principles of visual designs that include but are not limited to titles, labels, annotations, color schemes, use of marks and channels, movement, interactivity, etc. 
+
+**Dashboard Layout** - is about how to place different but related graphics on the appropriate spots so that the dashboard is easy to understand for users and can effectively deliver coherent information among individual charts. As a convention in analytic dashboards, the key information should be placed on the top, and supporting information should be at the bottom of the dashboards.
+
+**Filters and Animations** - are good for displaying more granular information. However, they should be used only if it is necessary. 
+
+**Avoid Cluttered Dashboards** - It is easy to overload a dashboard designer because too much important information is worth being displayed, in particular, when a data set contains rich information. However, dashboard clutter will decrease the efficiency of delivering the key information.
+
+
+## Working Data Set
+
+We use a widely used Stationery Superstore data set to illustrate the logic and common practices in designing an analytical dashboard.
+
+```{r}
+SuperStore = read.csv("https://pengdsci.github.io/STA553VIZ/w10/SuperstoreOrdersData.csv")
+summary(SuperStore)
+```
+There are three types of variables related to Product information, order information, and sales information. Some variables can be used as geo-variables.
+
+
+## Superstore Profits and Sales
+
+The following dashboard was designed based on the following considerations:
+
+**Users/Clients**: sales manager or similar roles
+
+**Key Information**: Look at the process generation from different perspectives and identify the patterns for making business decisions. For example,  
+
+* Sales KPI
+* Total revenue (profit)
+* Total sales by time period
+* Revenue per sale
+* Revenue by product types
+* Market penetration
+* Revenue generation by customer segments
+* Average customer lifetime
+* Customer satisfaction (net promotor scores, etc.)
+* Number of sales lost to competition
+* Revenue by territory (regions, customer segments, etc.)
+* Revenue by market
+* Ratio of selling cost and revenue generation
+* and more.....
+
+
+<table border = 0 bordercolor="darkgreen" bgcolor='#f6f6f6'  width=110%  align = center>
+<tr>
+<td>
+
+<div class='tableauPlaceholder' id='viz1711934771348' style='position: relative'>
+
+<noscript><a href='#'><img alt='Sales and Profit of A Stationery Superstore ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Su&#47;SuperstoreDataStoryPoint&#47;Dashboard&#47;1_rss.png' style='border: none' /></a>
+
+</noscript>
+<object class='tableauViz'  style='display:none;'>
+<param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> 
+<param name='embed_code_version' value='3' /> 
+<param name='site_root' value='' />
+<param name='name' value='SuperstoreDataStoryPoint&#47;Dashboard' />
+<param name='tabs' value='no' /><param name='toolbar' value='yes' />
+<param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Su&#47;SuperstoreDataStoryPoint&#47;Dashboard&#47;1.png' /> 
+<param name='animate_transition' value='yes' />
+<param name='display_static_image' value='yes' />
+<param name='display_spinner' value='yes' />
+<param name='display_overlay' value='yes' />
+<param name='display_count' value='yes' />
+<param name='language' value='en-US' />
+<param name='filter' value='publish=yes' />
+</object>
+
+</div>                
+
+<script type='text/javascript'>                    
+var divElement = document.getElementById('viz1711934771348');                    
+var vizElement = divElement.getElementsByTagName('object')[0];                    
+if ( divElement.offsetWidth > 800 ) { vizElement.style.minWidth='420px';vizElement.style.maxWidth='1550px';vizElement.style.width='100%';vizElement.style.minHeight='487px';vizElement.style.maxHeight='1087px';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';} else if ( divElement.offsetWidth > 500 ) { vizElement.style.minWidth='420px';vizElement.style.maxWidth='1550px';vizElement.style.width='100%';vizElement.style.minHeight='487px';vizElement.style.maxHeight='1087px';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';} else { vizElement.style.width='100%';vizElement.style.height='1827px';}                     
+var scriptElement = document.createElement('script');                    
+scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                
+</script>
+
+</td>
+</tr>
+</table>
+
 \
 
-This note outlines the design of dashboards using Tableau. The data set is to be used in this case study. The visualization with be created using Tableau. 
+\
 
-We first load the working data to R and perform a simple exploratory data analysis and then decide what specific visualizations will be created.
+**Critiques and Recommendations for Improvement**
+\
 
-The description of the data can be found at: <https://github.com/pengdsci/sta553/raw/main/dash/mushroom-description.pdf>
-
-The data set can be found at: <https://github.com/pengdsci/sta553/raw/main/dash/mushroom-data.csv>
-
-```{r}
-mushroom = read.csv("https://github.com/pengdsci/sta553/raw/main/dash/mushroom-data.csv")
-names(mushroom)
-```
-
-Three numerical variables are summarized in the following.
-
-```{r}
-summary(mushroom[,c(2,10,11)])
-```
- 
-```{r}
-char.var = mushroom[,-c(2,10,11)]
-names(char.var)
-```
-
-```{r}
-list(class = table(char.var$class),
-     cap.shape = table(char.var$cap.shape),
-     cap.surface = table(char.var$cap.surface),
-     cap.color = table(char.var$cap.color),
-     does.bruise.or.bleed = table(char.var$does.bruise.or.bleed),
-     gill.attachment = table(char.var$gill.attachment),
-     gill.spacing = table(char.var$gill.spacing),
-     gill.color = table(char.var$gill.color),
-     stem.root = table(char.var$stem.root),
-     stem.surface = table(char.var$stem.surface),
-     stem.color = table(char.var$stem.color),
-     veil.type = table(char.var$veil.type),
-     veil.color = table(char.var$veil.color),
-     has.ring = table(char.var$has.ring),
-     ring.type = table(char.var$ring.type),
-     spore.print.color = table(char.var$spore.print.color),
-     habitat = table(char.var$habitat),
-     season = table(char.var$season)
-)
-```
+* Selection of information for visualization
+* Design perspectives
+  + individual charts
+  + Overall design of dashboard (layout)
+  + orchestration of individual charts
+  + design aesthetics
 
 
-The above frequency table indicates that several categorical variables have a significantly high percentage of missing values. Since we only perform visual analytics to illustrate how to use Tableau to create dashboards, we will not perform any data management for modeling purposes.
-
-
-# Design Dashboards with Tableau
-
-We briefly introduced the basic statistics charts using Tableau. In this note, we choose both categorical and quantitative variables in the working data set to construct individual charts with Tableau and then use these charts to construct a dashboard. 
-
-## Individual Charts
-
-We will construct five descriptive charts: a two-way contingency table, donuts chart (a variation pie chart), scatter plot, box plots, and histogram. 
-
-## Reactive Dashboard
-
-We will use four individual charts to construct a dashboard that includes a reactive filter to update all charts in the dashboard.
 
 
 # Tableau Story Points
 
-Tableau can create a form presentation of the existing individual chart so we can tell the story based on the Tableau charts.
+Tableau can create a form of presentation of the existing individual chart so we can tell the story based on the individual Tableau charts. In terms of design, it is relatively less challenging since the `story point` uses a sequence of logically connected individual Tableau visual sheets to tell a data story. 
+
+
+Although a little design effort is needed for the story point, the same level of significant design effort needs to be put into individual visual sheets.
+
+The following is an incomplete sample of a story point based on the previous dashboard. Each individual visual sheet should have a brief and descriptive caption about the information.
+
+
+\
+
+<table border = 0 bordercolor="darkgreen" bgcolor='#f6f6f6'  width=110%  align = center>
+<tr>
+<td>
+
+<div class='tableauPlaceholder' id='viz1711798810589' style='position: relative'>
+<noscript>
+<a href='#'><img alt='StoryPoint ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Su&#47;SuperstoreDataStoryPoint&#47;StoryPoint&#47;1_rss.png' style='border: none' /></a>
+</noscript>
+
+<object class='tableauViz'  style='display:none;'>
+<param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> 
+<param name='embed_code_version' value='3' /> 
+<param name='site_root' value='' />
+<param name='name' value='SuperstoreDataStoryPoint&#47;StoryPoint' />
+<param name='tabs' value='no' />
+<param name='toolbar' value='yes' />
+<param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Su&#47;SuperstoreDataStoryPoint&#47;StoryPoint&#47;1.png' /> 
+<param name='animate_transition' value='yes' />
+<param name='display_static_image' value='yes' />
+<param name='display_spinner' value='yes' />
+<param name='display_overlay' value='yes' />
+<param name='display_count' value='yes' />
+<param name='language' value='en-US' />
+<param name='filter' value='publish=yes' />
+</object></div>                
+
+<script type='text/javascript'>                   
+var divElement = document.getElementById('viz1711798810589');                    
+var vizElement = divElement.getElementsByTagName('object')[0];                    vizElement.style.width='916px';vizElement.style.height='691px';                    
+var scriptElement = document.createElement('script');                    
+scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);               
+</script>
+</td>
+</tr>
+</table>
+
 
 
 # Assignments of This Week
 
 This assignment focuses on Tableau dashboards and story points. You can choose a data set that has both numerical and categorical variables so you can create several charts such as histograms, scatter plots, frequency tables, pie charts, etc. using both types of variables. 
 
+
 ## The Minimum Requirements
 
 1. Choose a data set with at least two numerical variables so you can construct a histogram and scatter plots.
 
-2. The data set should have at least three categorical variables so you can create pie charts, donuts charts, and box plots.
+2. The data set should have at least three categorical variables so you can create pie charts, bar plots, etc.
 
 3. You are expected to use at least one filter that updates all charts in the dashboard (reactive dashboard).
 
-4. Give a descriptive tile and axis labels to individual chart and dashboard respectively.
+4. Give a descriptive title and axis labels to individual charts and dashboards respectively.
 
 5. Adjust the margins of the individual chart and make the dashboard tidy and informative.
 
 6. Create a story point and provide informative captions for storytelling.
 
-7. (optional) if you have geo-information in your data set, you can create maps including animated maps.
+7. (optional) If you have geo-information in your data set, you can create maps including animated maps.
 
-8. (optional) if you want to use more advanced topics such as derived variables and parameters to enhance your dashboard, you are very welcome to do so.
+8. (optional) If you want to use more advanced topics such as derived variables and parameters to enhance your dashboard, you are very welcome to do so.
 
 
 ## Submission Requirements:
 
 1. Publish your dashboard and story point on the Tableau Public server.
 
-2. Write a simple plain HTML OR RMD document to include both Tableau dashboard and story-point on the same web page.
+2. Write a report using an RMD document to include both the Tableau dashboard and story-point on the same web page.
 
-3. You have two options to prepare a single document to publish on either RPubs or Github. 
+3. You publish the report on either RPubs or Github. 
 
-4. update your online CV with the link to your assignment.
+4. update your online CV with the link to your assignment (optional).
 
 5. Submit the URL of your online CV and the RMD source to the D2L dropbox if you use RMD to generate the web.
-
-
-**Option 1: HTML Template and Publish It on GitHub - Embedding Tableau Charts on Web**
-
-1. The HTML template of the assignment: <https://raw.githubusercontent.com/pengdsci/sta553/main/dash/index-html-template>
-
-2. After finishing writing the HTML, you need to save it as HTML file, like `TableauDashboard.html` in a local folder and upload it to the designate directory, say, `STA553 `. <font color = "red"><b>Caution:</b> The file must be saved with an extension <b> .html</b></font>
-
-
-3.URL of the file of your assignment: See the steps of configuration of URL described in Week one if you have not done it. Assume your placed all visualization assignments including `TableauDashboard.html` in folder `sta553`. The URL of `TableauDashboard.html` is `https://your-github-account-name.github.io/sta553/TableauDashboard.html`. As an example, I placed file `LifeExp.gif` in my `sta553` folder. The URL of this GIF image is given by <https://pengdsci.github.io/sta553/LifeExp.gif>
-
-
-4. Submit the web link to D2L.
-
-**Option 2: Writing Narrative Using RMD and Publish HTML on RPubs**
-
-1. Write a brief explanation (mini-report) in RMD and simply include the links to your Tableau charts in the RMD.
-
-2. Publish your viz report on RPubs.
-
-3. Submit the web link and the RMD source to D2L.
-
 
