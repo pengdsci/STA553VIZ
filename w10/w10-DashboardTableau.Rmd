@@ -269,7 +269,11 @@ scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';     
 This assignment focuses on Tableau dashboards and story points. You can choose a data set that has both numerical and categorical variables so you can create several charts such as histograms, scatter plots, frequency tables, pie charts, etc. using both types of variables. 
 
 
+
 ## The Minimum Requirements
+
+I will not give you a data set for this assignment. You can find a data set from any sources including my project data page (<https://pengdsci.github.io/datasets/>) that meets the following requirement.
+
 
 1. Choose a data set with at least two numerical variables so you can construct a histogram and scatter plots.
 
@@ -294,9 +298,99 @@ This assignment focuses on Tableau dashboards and story points. You can choose a
 
 2. Write a report using an RMD document to include both the Tableau dashboard and story-point on the same web page.
 
-3. You publish the report on either RPubs or Github. 
+3. You publish the report on either RPubs or placed it in your GitHub repository. 
 
 4. update your online CV with the link to your assignment (optional).
 
-5. Submit the URL of your online CV and the RMD source to the D2L dropbox if you use RMD to generate the web.
+5. Submit the URL of your HTML report generated from RMD and make sure your RMD source is downloadable from your HTML report.
+
+## Suggested YAML Header Output Set-up
+
+````{verbatim}
+---
+title: "You Report Title (concise and descriptive)"
+author: "Your Name"
+date: "West Chester University"
+output: 
+  html_document: 
+    toc: yes
+    toc_depth: 4
+    toc_float: no
+    code_folding: hide
+    code_download: yes
+    smooth_scroll: yes
+    number_sections: yes
+    theme: readable
+---
+      
+<style type="text/css">
+div#TOC li {
+    list-style:none;
+    background-image:none;
+    background-repeat:none;
+    background-position:0;
+}
+h1.title {
+  font-size: 24px;
+  color: DarkRed;
+  text-align: center;
+}
+h4.author { 
+  /* Header 4 - and the author and data headers use this too  */
+  font-size: 18px;
+  font-family: "Times New Roman", Times, serif;
+  color: DarkRed;
+  text-align: center;
+}
+h4.date { 
+  /* Header 4 - and the author and data headers use this too  */
+  font-size: 18px;
+  font-family: "Times New Roman", Times, serif;
+  color: DarkBlue;
+  text-align: center;
+}
+h1 { 
+    /* Header 3 - and the author and data headers use this too  */
+    font-size: 22px;
+    font-family: "Times New Roman", Times, serif;
+    color: darkred;
+    text-align: center;
+}
+h2 { 
+    /* Header 3 - and the author and data headers use this too  */
+    font-size: 18px;
+    font-family: "Times New Roman", Times, serif;
+    color: navy;
+    text-align: left;
+}
+h3 { 
+    /* Header 3 - and the author and data headers use this too  */
+    font-size: 15px;
+    font-family: "Times New Roman", Times, serif;
+    color: darkred;
+    font-face: bold;
+    text-align: left;
+}
+h4 { 
+    /* Header 4 - and the author and data headers use this too  */
+    font-size: 18px;
+    font-family: "Times New Roman", Times, serif;
+    color: darkred;
+    text-align: left;
+}
+   /* center maps using chunk option: fig.align='center' */
+.html-widget {
+    margin: auto;
+}
+</style>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,       
+                      warning = FALSE,   
+                      result = TRUE,   
+                      message = FALSE,
+                      comment = NA)
+```
+````
+
 
