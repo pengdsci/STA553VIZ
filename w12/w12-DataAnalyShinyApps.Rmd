@@ -1,10 +1,14 @@
 ---
 title: "Data Analysis with R Shiny Apps"
 author: "Cheng Peng"
-date: "4/16/2022"
+date: "West Chester Univeristy"
 output: 
   html_document: 
     toc: yes
+    toc_float: yes
+    code_folding: hide
+    code_download: yes
+    smooth_scroll: yes
     number_sections: yes
 runtime: shiny
 ---
@@ -83,12 +87,11 @@ if (!require("dplyr")) {
    install.packages("dplyr")
    library(dplyr)
 }
+##
 knitr::opts_chunk$set(echo = TRUE,       
                       warning = FALSE,   
                       result = TRUE,   
-                      message = FALSE,
-                      fig.align='center', 
-                      fig.pos = 'ht')
+                      message = FALSE)
 ```
 
 
@@ -134,11 +137,13 @@ In this note, I use the well-known `iris data set` to illustrate how to create s
 
 We create two code chunks to explain the two modules (ui and server) separately.
 
+\
 
 # UI Module: Front-end Design
 
+In order to design shiny applications, we need to know exactly what to visually present and what related information is needed to input for the visual representation. To illustrate, we use iris data as an example. The primary information to present is regression between two numberical variables adjusted by a a categorical variable *Species*. To be more specific,
 
-**Graphical Analysis Plan* ()**
+**Graphical Analysis Plan**
 
   1. Scatter plot
   
@@ -168,52 +173,72 @@ y.names =names(iris0)[-1]
 ##
 # Define UI for random distribution app ----
 ui <- fluidPage(
+  withMathJax(),
+  ### Important: The following tag allows inline equation in MathJax
+  tags$div(HTML("<script type='text/x-mathjax-config' >
+            MathJax.Hub.Config({
+            tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+            });
+            </script >
+            ")),
+  ### 
+  br(), br(), 
+  wellPanel(style = "background-color:#acdfe6;",
   # App title ----
-    titlePanel("Analysis of Iris Data"),
+    titlePanel(h2("Analysis of Iris Data", align = "center",
+                          style = "color:darkred; font-family:verdana; 
+                      font-variant: small-caps; font-weight: bold;")),
   ############
+  ),
+  
+  ####
   # Sidebar layout with input and output definitions ----
     sidebarLayout(
     # Sidebar panel for inputs ----
-      sidebarPanel(
+      sidebarPanel(style = "background-color:#acdfe6;", 
          # Input: Select the random distribution type ----
-         radioButtons("species", "Species",
-                   c("setosa",
-                     "versicolor",
-                     "virginica",
-                     "all"),
-                   inline = FALSE,
-                   selected = "all"),
-
+         radioButtons(inputId = "species", 
+                      label = "Species",
+                      choices = c("setosa",
+                                  "versicolor",
+                                  "virginica",
+                                  "all"),
+                      inline = FALSE,
+                    selected = "all"),
       # br() element to introduce extra vertical spacing ----
-      hr(),
-
+      br(),
       # Input: Slider for the number of observations to generate ----
-      selectInput("Y",
-                  "Response Variable: Y",
-                  y.names),
+       selectInput(inputId = "Y",
+                     label = "Response Variable: Y",
+                     choices = y.names),
 
-      selectInput("X",
-                  "Predictor Variable: X",
-                  x.names),
+       selectInput(inputId = "X",
+                     label =  "Predictor Variable: X",
+                   choices = x.names,
+                  selected = x.names[2]),
       ####
-       hr(),
+      hr(),
       ###
-        sliderInput("newX", "New Value for Prediction:", 2.5, min = 0, max = 20, step = 0.1)
+      sliderInput(inputId = "newX", 
+                  label = "New Value for Prediction:", 
+                  value = 2.5, 
+                  min = 0, 
+                  max = 20, 
+                  step = 0.1),
        ),
-    # Main panel for displaying outputs ----
-    mainPanel(
+      # Main panel for displaying outputs ----
+      mainPanel(style = "background-color:lightgray; text-align: center;", 
       # Output: Tabset w/ plot, summary, and table ----
       tabsetPanel(type = "tabs",
-                  tabPanel("Scatter Plot", plotOutput("plot")),
-                  tabPanel("Regression Coefficients", tableOutput("table")),
-                  tabPanel("Diagnostics",plotOutput("diagnosis")),
-                  tabPanel("Prediction", plotOutput("predPlt"))
-                  
-      )
+                  tabPanel(h5("Scatter Plot", style ="color:darkred;"), plotOutput("plot")),
+                  tabPanel(h5("Regression Coefficients", style ="color:darkred;"), tableOutput("table")),
+                  tabPanel(h5("Diagnostics", style ="color:darkred;"), plotOutput("diagnosis")),
+                  tabPanel(h5("Prediction", style ="color:darkred;"), plotOutput("predPlt"))
+                )
 
-    )
+            )
+       )
   )
-)
 ##
 ## Server function
 server <- function(input, output) {}
@@ -221,13 +246,14 @@ server <- function(input, output) {}
 shinyApp(ui = ui, server = server)
 ```
 
-
+\
 
 # Server Module: Back-end Coding
 
 In the next code chunk, I copy the UI function and draft the server function. I use species a filter variable. I also allow users to choose response and predictor variables to build a linear regression model and use the model to make prediction by providing new values of the predictor variable.
 
 I choose `tabset` layout to design this shiny app.
+
 
 ```{r}
 library(shiny)
@@ -239,44 +265,61 @@ y.names =names(iris0)[-1]
 ##
 # Define UI for random distribution app ----
 ui <- fluidPage(
-
+  withMathJax(),
+  ### Important: The following tag allows inline equation in MathJax
+  tags$div(HTML("<script type='text/x-mathjax-config' >
+            MathJax.Hub.Config({
+            tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+            });
+            </script >
+            ")),
+  ### 
+  br(), br(), 
+  wellPanel(style = "background-color:#acdfe6;",
   # App title ----
-        titlePanel(
-           h4("Analysis of Iris Data", 
-                  align = "left", style = "color:navy", br(), br())),
+    titlePanel(h2("Analysis of Iris Data", align = "center",
+                          style = "color:darkred; font-family:verdana; 
+                      font-variant: small-caps; font-weight: bold;")),
+  ############
+  ),
   ############
   # Sidebar layout with input and output definitions ----
     sidebarLayout(
     # Sidebar panel for inputs ----
-      sidebarPanel(
-
+      sidebarPanel(style = "background-color:#acdfe6;",
             tags$head(
-               tags$style("body {background-color: white }")),
+               tags$style("body {background-color:white }")  # 
+               ),
               
          # Input: Select the random distribution type ----
-         radioButtons("species", "Species",
-                   c("setosa",
-                     "versicolor",
-                     "virginica",
-                     "all"),
-                   inline = FALSE,
-                   selected = "all"),
-
+         radioButtons(inputId = "species", 
+                      label = "Species",
+                      choices = c("setosa",
+                                  "versicolor",
+                                  "virginica",
+                                  "all"),
+                      inline = FALSE,
+                    selected = "all"),
       # br() element to introduce extra vertical spacing ----
       br(),
       # Input: Slider for the number of observations to generate ----
-       selectInput("Y",
-                  "Response Variable: Y",
-                  y.names),
+       selectInput(inputId = "Y",
+                     label = "Response Variable: Y",
+                     choices = y.names),
 
-       selectInput("X",
-                  "Predictor Variable: X",
-                  x.names,
+       selectInput(inputId = "X",
+                     label =  "Predictor Variable: X",
+                   choices = x.names,
                   selected = x.names[2]),
-        ####
-       hr(),
+      ####
+      hr(),
       ###
-      sliderInput("newX", "New Value for Prediction:", 2.5, min = 0, max = 20, step = 0.1),
+      sliderInput(inputId = "newX", 
+                  label = "New Value for Prediction:", 
+                  value = 2.5, 
+                  min = 0, 
+                  max = 20, 
+                  step = 0.1),
       ###
        hr(),
        HTML('<p><center><img src="https://github.com/pengdsci/sta553/blob/main/image/goldenRamLogo.png?raw=true"  
@@ -289,10 +332,10 @@ ui <- fluidPage(
     mainPanel(
       # Output: Tabset w/ plot, summary, and table ----
       tabsetPanel(type = "tabs",
-                  tabPanel("Scatter Plot", plotOutput("plot")),
-                  tabPanel("Regression Coefficients", tableOutput("table")),
-                  tabPanel("Diagnostics",plotOutput("diagnosis")),
-                  tabPanel("Prediction", plotOutput("predPlt"))
+                  tabPanel(h5("Scatter Plot", style ="color:darkgreen; font-weight: bold;"), plotOutput("plot")),
+                  tabPanel(h5("Regression Coefficients", style ="color:darkgreen; font-weight: bold;"), tableOutput("table")),
+                  tabPanel(h5("Diagnostics", style ="color:darkgreen; font-weight: bold;"), plotOutput("diagnosis")),
+                  tabPanel(h5("Prediction", style ="color:darkgreen; font-weight: bold;"), plotOutput("predPlt"))
               )
           )      # close mainPanel
       )          # close sideLayout
@@ -324,6 +367,7 @@ server <- function(input, output) {
   #######   Scatter Plots
   ######################################
   output$plot <- renderPlot({
+    par(bg="lightgray")
     dataset = workDat()[,-1]   # define the working data set
     #####
     plot(dataset[,input$X], dataset[,input$Y], 
@@ -360,6 +404,7 @@ server <- function(input, output) {
   #######   Diagnostics
   ######################################
   output$diagnosis <- renderPlot({
+    par(bg="lightgray")
     dataset = workDat()[,-1]   # define the working data set
     #####
     m1=lm(dataset[,input$Y] ~ dataset[,input$X])
@@ -371,6 +416,7 @@ server <- function(input, output) {
   #######       Scatter Plots
   ######################################
   output$predPlt <- renderPlot({
+    par(bg="lightgray")
     dataset = workDat()[,-1]   # define the working data set
 
     ###
@@ -405,7 +451,8 @@ You can run the the shiny app demo to get a sample code.
 
 ```{r}
 source("https://raw.githubusercontent.com/pengdsci/sta553/main/shiny/shinyCodeExtractor.txt")
-#runExample2("01_hello")        # a histogram
+library(shiny)
+#runExample2("01_hello")       # a histogram
 #runExample("02_text")         # tables and data frames
 #runExample("03_reactivity")   # a reactive expression
 #runExample("04_mpg")          # global variables
@@ -413,7 +460,7 @@ source("https://raw.githubusercontent.com/pengdsci/sta553/main/shiny/shinyCodeEx
 #runExample("06_tabsets")      # tabbed panels
 #runExample("07_widgets")      # help text and submit buttons
 #runExample("08_html")         # Shiny app built from HTML
-runExample("09_upload")       # file upload wizard
+#runExample("09_upload")       # file upload wizard
 #runExample("10_download")     # file download wizard
 #runExample("11_timer")        # an automated timer
 ```
@@ -421,11 +468,269 @@ runExample("09_upload")       # file upload wizard
 
 
 
+```{r}
+library(shiny)
+##  Working data set
+##  The iris data set will be used in this app.
+iris0 = read.table("https://raw.githubusercontent.com/pengdsci/sta553/main/shiny/iris0.txt", header = TRUE)
+x.names = names(iris0)[-c(1,6)]
+y.names =names(iris0)[-1]
+##
+# Define UI for random distribution app ----
+ui <- fluidPage(
+  withMathJax(),
+  ### Important: The following tag allows inline equation in MathJax
+  tags$div(HTML("<script type='text/x-mathjax-config' >
+            MathJax.Hub.Config({
+            tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+            });
+            </script >
+            ")),
+  ### 
+  br(), br(), 
+  wellPanel(style = "background-color:#acdfe6;",
+  # App title ----
+    titlePanel(h2("Analysis of Iris Data", align = "center",
+                          style = "color:darkred; font-family:verdana; 
+                      font-variant: small-caps; font-weight: bold;")),
+  ############
+  ),
+  ############
+  # Sidebar layout with input and output definitions ----
+    sidebarLayout(
+    # Sidebar panel for inputs ----
+      sidebarPanel(style = "background-color:#acdfe6;",
+            ## file upload
+            fileInput('file1', 'Choose CSV File',
+                accept=c('text/csv',
+                         'text/comma-separated-values,text/plain',
+                         '.csv')
+            ),    
+         # Input: Select the random distribution type ----
+         radioButtons(inputId = "species", 
+                      label = "Species",
+                      choices = c("setosa",
+                                  "versicolor",
+                                  "virginica",
+                                  "all"),
+                      inline = FALSE,
+                    selected = "all"),
+      # br() element to introduce extra vertical spacing ----
+      br(),
+      # Input: Slider for the number of observations to generate ----
+       selectInput(inputId = "Y",
+                     label = "Response Variable: Y",
+                     choices = y.names),
+
+       selectInput(inputId = "X",
+                     label =  "Predictor Variable: X",
+                   choices = x.names,
+                  selected = x.names[2]),
+      ####
+      hr(),
+      ###
+      sliderInput(inputId = "newX", 
+                  label = "New Value for Prediction:", 
+                  value = 2.5, 
+                  min = 0, 
+                  max = 20, 
+                  step = 0.1),
+      ###
+       hr(),
+      ),   # close sidebarPanel
+    # Main panel for displaying outputs ----
+    mainPanel(
+      # Output: Tabset w/ plot, summary, and table ----
+      tabsetPanel(type = "tabs",
+                  tabPanel(h5("Scatter Plot", style ="color:darkgreen; font-weight: bold;"), plotOutput("plot")),
+                  tabPanel(h5("Regression Coefficients", style ="color:darkgreen; font-weight: bold;"), tableOutput("table")),
+                  tabPanel(h5("Diagnostics", style ="color:darkgreen; font-weight: bold;"), plotOutput("diagnosis")),
+                  tabPanel(h5("Prediction", style ="color:darkgreen; font-weight: bold;"), plotOutput("predPlt"))
+              )
+          )      # close mainPanel
+      )          # close sideLayout
+  )              # close fluidPage
+
+###################################
+###################################
+##       Server function
+###################################
+###################################
+server <- function(input, output) {
+####################################
+##     Some R functions 
+####################################
+#### Subsetting data based on Species
+  workDat = function(){
+      if (input$species == "setosa") {
+          workingData = iris0[which(iris0$Species == "setosa"),]
+      } else if (input$species == "versicolor") {
+          workingData = iris0[which(iris0$Species == "versicolor"),]
+      } else if (input$species == "virginica") {
+          workingData = iris0[which(iris0$Species == "virginica"),]
+      } else {
+          workingData = iris0
+      }
+   workingData 
+  }
+  ######################################
+  #######   Scatter Plots
+  ######################################
+  output$plot <- renderPlot({
+    par(bg="lightgray")
+    dataset = workDat()[,-1]   # define the working data set
+    #####
+    plot(dataset[,input$X], dataset[,input$Y], 
+         xlab = input$X,
+         ylab = input$Y,
+         main = paste("Relationship between", input$Y, "and", input$X)
+        )
+    ## adding a regression line to the plot
+     abline(lm(dataset[,input$Y] ~ dataset[,input$X]),
+            col = "blue",
+            lwd = 2)
+  })
+  
+   ######################################
+  #######   Scatter Plots
+  ######################################
+  output$table <- renderTable({
+    br()
+    br()
+    dataset = workDat()[,-1]
+    # define the working data set
+    m0 = lm(dataset[,input$Y] ~ dataset[,input$X])
+    #summary(m0)
+    regcoef = data.frame(coef(summary(m0)))
+    
+    ##
+    regcoef$Pvalue = regcoef[,names(regcoef)[4]]
+    ###
+    regcoef$Variable = c("Intercept", input$X)
+    regcoef[,c(6, 1:3, 5)]
+    
+  })
+  ######################################
+  #######   Diagnostics
+  ######################################
+  output$diagnosis <- renderPlot({
+    par(bg="lightgray")
+    dataset = workDat()[,-1]   # define the working data set
+    #####
+    m1=lm(dataset[,input$Y] ~ dataset[,input$X])
+    par(mfrow=c(2,2))
+    plot(m1)
+  })   
+
+  ######################################
+  #######       Scatter Plots
+  ######################################
+  output$predPlt <- renderPlot({
+    par(bg="lightgray")
+    dataset = workDat()[,-1]   # define the working data set
+
+    ###
+    m3 = lm(dataset[,input$Y] ~ dataset[,input$X])
+
+    pred.y = coef(m3)[1] + coef(m3)[2]*input$newX
+         #####
+    plot(dataset[,input$X], dataset[,input$Y], 
+    #    xlab = input$X,
+         ylab = input$Y,
+         main = paste("Relationship between", input$Y, "and", input$X)
+       )
+        ## adding a regression line to the plot
+     abline(m3,
+            col = "red",
+            lwd = 1,
+            lty=2)
+    points(input$newX, pred.y, pch = 19, col = "red", cex = 2)
+  })
+}
+
+## 
+shinyApp(ui = ui, server = server)
+```
 
 
 
+```{r}
+library(shiny)
+library(DT)
+
+# Define UI
+ui <- shinyUI(fluidPage(
+
+  fileInput('target_upload', 'Choose file to upload',
+            accept = c(
+              'text/csv',
+              'text/comma-separated-values',
+              '.csv'
+            )),
+  radioButtons("separator","Separator: ",choices = c(";",",",":"), selected=";",inline=TRUE),
+  DT::dataTableOutput("sample_table")
+)
+)
+
+# Define server logic
+server <- shinyServer(function(input, output) {
+
+  df_products_upload <- reactive({
+    inFile <- input$target_upload
+    if (is.null(inFile))
+      return(NULL)
+    df <- read.csv(inFile$datapath, header = TRUE,sep = input$separator)
+    return(df)
+  })
+
+  output$sample_table<- DT::renderDataTable({
+    df <- df_products_upload()
+    DT::datatable(df)
+  })
+
+}
+)
+
+# Run the application 
+shinyApp(ui = ui, server = server)
+```
 
 
 
+```{r}
+library(shiny)
+
+ui <- fluidPage(
+  selectInput("dataset", "select a dataset", choices = c("cars", "mtcars")),
+  uiOutput("dropdown"),
+  verbatimTextOutput("head"),
+  plotOutput("hist")
+)
+
+server <- function(input, output) {
+
+  data <- reactive({
+    if(input$dataset == "cars")
+      cars
+    else
+      mtcars
+  })
+
+  output$dropdown <- renderUI({
+    selectInput("variables", "Select a variable", names(data()))
+  })
+
+  output$head <- renderPrint({
+    head(data())
+  })
+
+  output$hist <- renderPlot({
+    hist(data()[[input$variables]])
+  })
+
+}
+
+shinyApp(ui, server)
+```
 
 
