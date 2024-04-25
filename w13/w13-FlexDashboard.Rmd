@@ -2,23 +2,76 @@
 title: "Some Visual Analyses of Iris Data Using FlexDashboard"
 output: 
   flexdashboard::flex_dashboard:
+    theme: united
+    # available themes include: default, cerulean, journal, flatly, darkly, 
+    #                           readable, spacelab, united, cosmo, lumen, 
+    #                           paper, sandstone, simplex, yeti.
     orientation: columns
     vertical_layout: fill
 runtime: shiny
 ---
 
+<style type="text/css">
+/* Get a fancy font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Yusei+Magic&display=swap');
+
+body {
+  background-color: lightgray;
+  color: darkgreen; /* text color */
+  text-align: left;
+}
+
+.navbar {
+	position: fixed;
+	display: flex;
+	justify-content: center;
+	width: 100%;
+}
+
+/* Make text visible on inputs */
+.shiny-input-container {
+  color: purple;
+}
+
+.navbg {
+  background-color: blue;
+  color: white;
+}
+
+</style>                    
+
+\
+
+
+
+
 ```{r setup, include=FALSE}
-library(flexdashboard)
-library(shiny)
-library(plotly)
-library(ggplot2)
-library(tidyverse)
+if (!require("flexdashboard")) {
+   install.packages("flexdashboard")
+   library(flexdashboard)
+}
+if (!require("shiny")) {
+   install.packages("shiny")
+   library(shiny)
+}
+if (!require("plotly")) {
+   install.packages("plotly")
+   library(plotly)
+}
+if (!require("ggplot2")) {
+   install.packages("ggplot2")
+   library(ggplot2)
+}
+if (!require("tidyverse")) {
+   install.packages("tidyverse")
+   library(tidyverse)
+}
 ```
 
 
-
 ```{r data}
-
+## loading data set
+## one could also allow use to upload a data file to work with.
 iris1 = read.table("https://raw.githubusercontent.com/pengdsci/sta553/main/shiny/iris0.txt", header = TRUE)[,-1]
 y.names = names(iris1)
 x.names = names(iris1)
@@ -26,16 +79,12 @@ spec = unique(iris1$Species)
 ```
 
 
-\
 
 
-Column {.sidebar data-width=200}
+Column {.sidebar .navbg data-width=200}
 -------------------------------------------------------------------
 
-\
-
-<hr>
-
+<br><br>
 
 ```{r}
 radioButtons(inputId = "species",
@@ -46,6 +95,8 @@ radioButtons(inputId = "species",
 
 <hr>
 
+<!-- put all input widgets in the same R code chunk.
+     The code is the same as we used in the regular R shiny apps-->
 ```{r}
 selectInput(inputId="Y", 
             label = strong("Response Variable: Y"), 
@@ -65,12 +116,21 @@ sliderInput("newX", strong("New Value for Prediction:"), 2.5, min = 0, max = 20,
 \
 
 <hr>
-
+<!-- We the plain HTML tags to include images or other contents -->
 <center><img src="https://github.com/pengdsci/sta553/blob/main/image/goldenRamLogo.png?raw=true" width="80" height="80"></center>
 <p style="font-family:Courier; color:Red; font-size: 20px;"><center>
                  <font size =2> <a href="mailto:cpeng@wcupa.edu">
                  <font color="purple">Report bugs to C. Peng </font></a> </font></center></p>
 
+
+
+
+<!-- END of left navigation panel -->
+
+<!-- Although no explicit server function was use this this flexdashboard, 
+     we still need to define a dynamic data set
+     based on the user's input input information.
+-->
 
 ```{r}
   workDat = function(){
@@ -87,12 +147,22 @@ sliderInput("newX", strong("New Value for Prediction:"), 2.5, min = 0, max = 20,
   }
 ```
 
+<!--
+The middle panel set up: width = 450px (100px = 1.04 inches),
+the overall width of flexdashboard is 1000px (including sidebar)
+-->
 
-
-Column {data-width=400 .tabset .tabset-fade}
+Column {data-width=450  .tabset .tabset-pills} 
 -------------------------------------------------------------------
 
+
 ### **plotly Scatterplot** 
+
+<!--
+This is the first tab in the tabset. The same shiny graphica function rederPlotly({code for plot....}) needs to be used
+as we did in writing graphical functions inside the server function in the standard R shiny apps..
+-->
+
 ```{r}
 renderPlotly({
 # hist(workDat()[[input$X]]) 
@@ -121,7 +191,13 @@ plot_ly(data = workDat(),
 ```
 
 
+
 ### **Regression** 
+
+<!--
+This is the second tab in the tabset. The same rederPlot({code for plot....})
+-->
+
 
 ```{r}
 renderPlot({
@@ -151,6 +227,8 @@ renderPlot({
   }
 })
 ```
+
+
 
 ### **Residual Plots**
 
@@ -198,12 +276,17 @@ renderPlot({
 
 
 
-Column {data-width=400}
+
+<!-- The third panel with width 350px, -->
+
+Column {data-width=350}
 -------------------------------------------------------------------
 
 
 ### **ggplot**-Boxplot
-```{r}
+
+
+```{r fig.align='center', fig.width=4, fig.height=3}
 renderPlot({
  #plot(workDat()[[input$X]], workDat()[[input$Y]]) 
  ggplot(data=workDat(), aes(x=workDat()$Species, y=workDat()[[input$X]])) +
@@ -212,13 +295,18 @@ renderPlot({
         xlab("Species") + 
         #ggtitle(paste("Boxplot of the response variable: ", input$X )) +
         labs(fill = "Species") +
-        stat_summary(fun.y=mean, geom="point", shape=5, size=4)  
+        stat_summary(fun=mean, geom="point", shape=5, size=4)  
 })
 ```
 
 
-### **Ridge Plot** - Distribution of response: Y
-```{r}
+<br>
+
+
+### **plotly Overlaid Plot** - Distribution of response: Y
+
+
+```{r fig.align='center', fig.width=4, fig.height=3}
 renderPlotly({
   if(input$species == "all"){
     sepal.len.setosa <- iris1[which(iris1$Species == "setosa"),]
@@ -260,3 +348,10 @@ renderPlotly({
   
 })
 ```
+
+<br>
+
+
+
+
+

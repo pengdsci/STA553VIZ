@@ -1,66 +1,112 @@
 ---
-title: "Storyline: HTML Widgets Showcase"
+title:  'STA553 Data Visualization Recap with Storyboard' 
 output: 
   flexdashboard::flex_dashboard:
     storyboard: true
     social: menu
     source: embed
+    orientation: rows
+runtime: shiny
 ---
 
-<style type="text/css">
-div#TOC li {
-    list-style:none;
-    background-image:none;
-    background-repeat:none;
-    background-position:0;
-}
-
-h1.title {
-  font-size: 20px;
-  color: DarkRed;
-  text-align: center;
-}
-h4.author { /* Header 4 - and the author and data headers use this too  */
-    font-size: 18px;
-  font-family: "Times New Roman", Times, serif;
-  color: DarkRed;
-  text-align: center;
-}
-h4.date { /* Header 4 - and the author and data headers use this too  */
-  font-size: 18px;
-  font-family: "Times New Roman", Times, serif;
-  color: DarkBlue;
-  text-align: center;
-}
-h1 { /* Header 3 - and the author and data headers use this too  */
-    font-size: 22px;
-    font-family: "Times New Roman", Times, serif;
-    color: darkred;
-    text-align: center;
-}
-h2 { /* Header 3 - and the author and data headers use this too  */
-    font-size: 18px;
-    font-family: "Times New Roman", Times, serif;
-    color: navy;
-    text-align: left;
-}
-
-h3 { /* Header 3 - and the author and data headers use this too  */
-    font-size: 15px;
-    font-family: "Times New Roman", Times, serif;
-    color: navy;
-    text-align: left;
-}
-
-h4 { /* Header 4 - and the author and data headers use this too  */
-    font-size: 18px;
-    font-family: "Times New Roman", Times, serif;
-    color: darkred;
-    text-align: left;
-}
-</style>
 
 ```{r setup, include=FALSE}
+if (!require("tidyverse")) {
+   install.packages("tidyverse")
+   library(tidyverse)
+}
+if (!require("knitr")) {
+   install.packages("knitr")
+   library(knitr)
+}
+if (!require("sf")) {
+   install.packages("sf")
+   library(sf)
+}
+if (!require("plotly")) {
+   install.packages("plotly")
+   library(plotly)
+}
+if (!require("dplyr")) {
+   install.packages("dplyr")
+   library(dplyr)
+}
+if (!require("png")) {
+    install.packages("png")             
+    library("png")
+}
+if (!require("colourpicker")) {
+    install.packages("colourpicker")              
+    library("colourpicker")
+}
+if (!require("gifski")) {
+    install.packages("gifski")              
+    library("gifski")
+}
+
+### ggplot and extensions
+if (!require("ggplot2")) {
+    install.packages("ggplot2")              
+    library("ggplot2")
+}
+
+if (!require("pander")) {
+    install.packages("pander")              
+    library("pander")
+}
+
+if (!require("leaflet")) {
+    install.packages("leaflet")
+library("leaflet")
+}
+if (!require("leafpop")) {
+    install.packages("leafpop")
+library("leafpop")
+}
+if (!require("leafem")) {
+    install.packages("leafem")
+library("leafem")
+}
+if (!require("htmlwidgets")) {
+    install.packages("htmlwidgets")
+library("htmlwidgets")
+}
+if (!require("leaflet.extras")) {
+    install.packages("leaflet.extras")
+library("leaflet.extras")
+}
+if (!require("htmltools")) {
+    install.packages("htmltools")
+library("htmltools")
+}
+if(!require("viridis")){
+  install.packages("viridis")
+  library(viridis)
+}
+if(!require("ggmap")){
+  install.packages("ggmap")
+  library(ggmap)
+}
+if(!require("htmlwidgets")){
+  install.packages("htmlwidgets")
+  library(htmlwidgets)
+}
+if(!require("animation")){
+  install.packages("animation")
+  library(animation)
+}
+if(!require("gifski")){
+  install.packages("gifski")
+  library(gifski)
+}
+if(!require("htmlTable")){
+  install.packages("htmlTable")
+  library(htmlTable)
+}
+if(!require("magrittr")){
+  install.packages("magrittr")
+  library(magrittr)
+}
 if (!require("knitr")) {
    install.packages("knitr")
    library(knitr)
@@ -85,83 +131,300 @@ if (!require("flexdashboard")) {
    install.packages("flexdashboard")
    library(flexdashboard)
 }
-if (!require("leaflet")) {
-   install.packages("leaflet")
-   library(leaflet)
+if (!require("shinyjs")) {
+   install.packages("shinyjs")
+   library(shinyjs)
 }
 if (!require("beanplot")) {
    install.packages("beanplot")
    library(beanplot)
 }
-
+if (!require("leaflet")) {
+   install.packages("leaflet")
+   library(leaflet)
+}
 
 knitr::opts_chunk$set(echo = FALSE,       
                       warning = FALSE,   
                       result = TRUE,   
                       message = FALSE,
-                      fig.align='center', 
-                      fig.pos = 'ht')
+                      comment = NA)
 ```
 
 
-### **WCU Applied Statistics** 
+### <font size=3, color="darkred"><b>Storyboard Code Structure</b></font>
+
+<center><font style="text-size:32px; color:darkred; text-weight:bold; font-variant:small-caps"><font size = 5><b> R Storyboard Is NOT A Shinyapp!</b></font></font></center>
+
+<br>
+<br>
+
+<table width = "100%" border = 1, color = "red">
+<tr><td>
+
+* <font style="text-size:32px; color:darkred; text-weight:bold; font-variant:small-caps"><b> YAML Header (Required)</b></font>
+
+
+
+
+```{}
+---
+title:  'STA553 Data Visualization Recap with Storyboard' 
+output: 
+  flexdashboard::flex_dashboard:
+    storyboard: true
+    social: menu
+    source: embed
+    orientation: rows
+---
+```
+</td>
+<td>
+
+* <font style="text-size:32px; color:darkred; text-weight:bold; font-variant:small-caps"><b> Setup Code Chunk (Required)</b></font>
+
+
+```{}
+{setup, include=FALSE}
+if (!require("knitr")) {
+   install.packages("knitr")
+   library(knitr)
+}
+knitr::opts_chunk$set(echo = FALSE,       
+                      warning = FALSE,   
+                      result = TRUE,   
+                      message = FALSE)
+```
+
+</td>
+</tr>
+
+<tr>
+<td>
+
+* <font style="text-size:32px; color:darkred; text-weight:bold; font-variant:small-caps"><b> Storyboard Code Structure</b></font>
+
+```{}
+### Title of Individual Chart
+
+****
+Annotation (shown on the right of the chart)
+
+
+```
+</td>
+
+<td>
+
+* <font style="text-size:32px; color:darkred; text-weight:bold; font-variant:small-caps"><b> Example Annotation</b></font>
+
+
+
+****
+
+This is an example annotation .....
+
+</td>
+</tr>
+
+</table>
+
+****
+
+<br><br>
+
+<center><font style="text-size:32px; color:darkred; text-weight:bold; font-variant:small-caps"><b> Example Annotation</b></font></center>
+
+<br>
+
+The left-hand side table illustrates the steps and the code structure of a storyboard.
+
+<br>
+
+* A YAML header specifies the document type
+
+* A setup code chunk that include all libraries to be used to generate R chart(s).
+
+* Coding structure of storyboard.
+
+  + Title of the individual graph (board)
+  + (optional but recommended) annotation
+
+
+
+
+
+### <font size=3, color="darkred"><b>Base R Plots</b></font>
 
 
 
 ```{r}
-wcuicon <- makeIcon(
-  iconUrl = "https://github.com/pengdsci/sta553/blob/main/image/goldenRamLogo.png?raw=true", 
-  iconWidth = 60, iconHeight = 60)
-# define a leaflet map 
-  leaflet() %>% setView(lng=-75.5978, lat=39.9522, zoom = 20) %>%
-     addTiles() %>%   # Add default OpenStreetMap map tiles
-     addMarkers(lng=-75.5978, lat=39.9522,  icon = wcuicon)
+## Data Partition
+Sepal.L.set = iris$Sepal.Length[which(iris$Species=="setosa")]
+Sepal.L.ver = iris$Sepal.Length[which(iris$Species=="versicolor")]
+Sepal.L.vir = iris$Sepal.Length[which(iris$Species=="virginica")]
+#
+Sepal.W.set = iris$Sepal.Width[which(iris$Species=="setosa")]
+Sepal.W.ver = iris$Sepal.Width[which(iris$Species=="versicolor")]
+Sepal.W.vir = iris$Sepal.Width[which(iris$Species=="virginica")]
+#
+Petal.L.set = iris$Petal.Length[which(iris$Species=="setosa")]
+Petal.L.ver = iris$Petal.Length[which(iris$Species=="versicolor")]
+Petal.L.vir = iris$Petal.Length[which(iris$Species=="virginica")]
+#
+Petal.W.set = iris$Petal.Width[which(iris$Species=="setosa")]
+Petal.W.ver = iris$Petal.Width[which(iris$Species=="versicolor")]
+Petal.W.vir = iris$Petal.Width[which(iris$Species=="virginica")]
+###
+par(mfrow=c(2,2))
+###
+##########################   plot #1: 
+plot(density(Sepal.L.set), col="brown4", lty=1, lwd=2,  xlim=c(3,9), ylim=c(0,1.8), xlab="Sepal Length", main="Distributions Sepal Length")
+lines(density(Sepal.L.ver), col="blue", lty=1, lwd=2)
+lines(density(Sepal.L.vir), col="darkcyan", lty=1, lwd=2)
+legend("topright", c("setosa", "versicolor","virginica"),
+       col=c("brown4","blue","darkcyan"), lty=c(1,1,1),
+       lwd=c(1,1,1), bty="n", cex=0.7)
+##
+##########################   plot #1: 
+plot(density(Sepal.W.set), col="brown4", lty=1, lwd=2,  xlim=c(1,5), ylim=c(0,2), xlab="Sepal Width", main="Distributions Sepal Width")
+lines(density(Sepal.W.ver), col="blue", lty=1, lwd=2)
+lines(density(Sepal.W.vir), col="darkcyan", lty=1, lwd=2)
+legend("topright", c("setosa", "versicolor","virginica"),
+       col=c("brown4","blue","darkcyan"), lty=c(1,1,1),
+       lwd=c(1,1,1), bty="n", cex=0.7)
+##
+##########################   plot #1: 
+plot(density(Petal.L.set), col="brown4", lty=1, lwd=2,  xlim=c(1,8), ylim=c(0,2.8), xlab="Petal Length", main="Distributions Petal Length")
+lines(density(Petal.L.ver), col="blue", lty=1, lwd=2)
+lines(density(Petal.L.vir), col="darkcyan", lty=1, lwd=2)
+legend("topright", c("setosa", "versicolor","virginica"),
+       col=c("brown4","blue","darkcyan"), lty=c(1,1,1),
+       lwd=c(1,1,1), bty="n", cex=0.7)
+##
+##########################   plot #1: 
+plot(density(Petal.W.set), col="brown4", lty=1, lwd=2,  xlim=c(0,3), ylim=c(0,8), xlab="Petal Width", main="Distributions Petal Width")
+lines(density(Petal.W.ver), col="blue", lty=1, lwd=2)
+lines(density(Petal.W.vir), col="darkcyan", lty=1, lwd=2)
+legend("topright", c("setosa", "versicolor","virginica"),
+       col=c("brown4","blue","darkcyan"), lty=c(1,1,1),
+       lwd=c(1,1,1), bty="n", cex=0.7)
 ```
 
 ***
 
-https://www.wcupa.edu/sciences-mathematics/mathematics/gradstat/
+Base plotting takes a canvas approach to plot construction, allowing you to paint layer after layer of detail onto your graphics. Base graphics are used most commonly and are a very powerful system for creating data graphics. There are two phases to creating a base plot:
 
-- WCU Applied Statistics Program offers the Master of Science Degree and Certificate in Applied Statistics.
+* Initializing a new plot by calling a primary base R graphical function such as `plot(), hist(),` etc.
 
-- The programs bring together statistics, computer science, scientific research, and communication skills using the latest state-of-the-art technologies. 
+* adding additional graphical features to an existing plot by calling secondary graphical functions such as `axis(), text(), title(),` etc.
 
-- The Programs prepare students for immediate employment in a variety of high-paying industry positions or doctoral study in applied statistics or a related field.
-
-
+The base graphics system has many global parameters that can set and tweaked. These parameters are documented in `?par` and are used to control the global behavior of plots, such as the margins, axis orientation, and other details. 
 
 
 
-### Iris Flowers
+### <font size=3, color="darkred"><b>ggplot and Variants</b></font>
+
 
 ```{r}
-include_graphics("https://raw.githubusercontent.com/pengdsci/sta553/main/shiny/iris-dataset.png")
+myplot.theme_new <- function() {
+  theme(
+    #ggplot margins
+     plot.margin = margin(t = 50,  # Top margin
+                          r = 30,  # Right margin
+                          b = 30,  # Bottom margin
+                          l = 30), # Left margin
+    ## ggplot titles
+    plot.title = element_text(face = "bold", 
+                              size = 12,
+                              family = "sans", 
+                              color = "navy",
+                              hjust = 0.5,
+                              margin=margin(0,0,30,0)), # left(0),right(1)
+    # add border 1)
+    panel.border = element_rect(colour = NA, 
+                                fill = NA, 
+                                linetype = 2),
+    # color background 2)
+    panel.background = element_rect(fill = "#f6f6f6"),
+    # modify grid 3)
+    panel.grid.major.x = element_line(colour = 'white', 
+                                      linetype = 3, 
+                                      size = 0.5),
+    panel.grid.minor.x = element_blank(),
+    panel.grid.major.y =  element_line(colour = 'white', 
+                                       linetype = 3, 
+                                       size = 0.5),
+    panel.grid.minor.y = element_blank(),
+    # modify text, axis and colour 4) and 5)
+    axis.text = element_text(colour = "navy", 
+                             #face = "italic", 
+                             size = 7,
+                             #family = "Times New Roman"
+                             ),
+    axis.title = element_text(colour = "navy", 
+                              size = 7,
+                              #family = "Times New Roman"
+                              ),
+    axis.ticks = element_line(colour = "navy"),
+    # legend at the bottom 6)
+    legend.position = "bottom",
+    legend.key.size = unit(0.6, 'cm'), #change legend key size
+    legend.key.height = unit(0.6, 'cm'), #change legend key height
+    legend.key.width = unit(0.6, 'cm'), #change legend key width
+    #legend.title = element_text(size=8), #change legend title font size
+    legend.title=element_blank(),  # remove all legend titles
+    legend.key = element_rect(fill = "white"),
+    #####
+    legend.text = element_text(size=8)) #change legend text font size
+}
 ```
 
-
-***
-
-This well-known data set has been used frequently in statistics and machine learning to illustrate 
-various classification models and algorithms. We use this data set to create various descriptive plots 
-to demonstrate to create visual storytelling presentation using `storyline` in **flexdashboard**.
-
-
-### Distribution of Numerical Variables
 
 ```{r}
-library(beanplot)
-xiris <- iris
-xiris$Species <- NULL
-beanplot(xiris, main = "Iris flowers",col=c('#ff8080','#0000FF','#0000FF','#FF00FF'), border = "#000000")
+# Change histogram plot line colors by groups
+ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width,
+                              color = factor(Species)), linetype = Species) +
+             geom_point(size = 2, alpha = 0.7) +
+             stat_smooth(method = lm, se=FALSE, size = 0.3) +
+             scale_color_manual(values=c("dodgerblue4", "darkolivegreen4", "darkorchid3")) +
+             labs(
+                 x = "Sepal Length",
+                 y = "Sepal Width",
+                 ## labels of color and size
+                 #size = "Sepal Length",
+                 #color = NA,
+                 title = "Association between Sepal Length and Width") +
+             myplot.theme_new() + 
+              annotate(geom="text" , 
+                       x=6.8, 
+                       y=2,
+                       label=paste("The Pearson correlation coefficient r = ",                          
+                                   round(cor(iris$Sepal.Length, iris$Sepal.Width),3)), 
+                          size = 2,
+                          color = "navy") + 
+               coord_fixed(1)    ## This changes the aspect ratio of the graph
 ```
+
+
 
 ***
 
-Some stories about the distribution of width and length of sepal and petal of iris flowers......
+<br><br>
+
+<center><font style="size:45px; color:darkred; text-weight:bold; font-variant:small-caps"><font size =3><b> What is ggplot?</b></font></font></center>
+
+<br>
+
+
+`ggplot2` is the most popular data visualization R package. Its `ggplot()` function is at the core of this package, and this whole approach is colloquially known as “ggplot” with the resulting figures sometimes affectionately called `ggplots`. The `gg` in these names reflects the `grammar of graphic`” used to construct the figures. `ggplot2` benefits from a wide variety of supplementary R packages that further enhance its functionality.
+
+The syntax is significantly different from base **R** plotting, and has a learning curve associated with it. Using `ggplot2` generally requires the user to format their data in a way that is highly `tidyvers`e compatible, which ultimately makes using these packages together very effective.
 
 
 
-### Plotly plots of regression related to iris data.
+### <font size=3, color="darkred"><b>Plotly and Ggplotly</b></font>
+
 
 ```{r}
 myplot.theme_new <- function() {
@@ -219,52 +482,204 @@ myplot.theme_new <- function() {
 
 
 
-
 ```{r}
 library(plotly)
-p <- ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width,
-                              color = factor(Species)), linetype = Species) +
-             geom_point(size = 2, alpha = 0.7) +
-             stat_smooth(method = lm, se=FALSE, size = 0.3) +
-             scale_color_manual(values=c("dodgerblue4", "darkolivegreen4", "darkorchid3")) +
-             labs(
-                 x = "Sepal Length",
-                 y = "Sepal Width",
-                 title = "Association between Sepal Length and Width") +
-             myplot.theme_new() + 
-              annotate(geom="text" , 
-                       x=6.8, 
-                       y=2,
-                       label=paste("The Pearson correlation coefficient r = ",                          
-                                   round(cor(iris$Sepal.Length, iris$Sepal.Width),3)), 
-                          size = 2,
-                          color = "navy") + 
-               coord_fixed(1)    ## This changes the aspect ratio of the graph
-ggplotly(p)
+plot_ly(data = iris,
+        x =  ~iris$Sepal.Length, 
+        y =  ~iris$Sepal.Width, 
+        color = ~ iris$Species, 
+        hovertemplate = paste('<i><b>',iris$Sepal.Width,'<b></i>: %{y}',
+                             '<br><b>',iris$Sepal.Length,'</b>:  %{x}',
+                             '<br><b>',iris$Species,'</b>'),
+        alpha  = 0.9,
+        size = ~iris$Sepal.Length,
+        type = "scatter",
+        mode = "markers")   %>%
+    layout(#title = paste( input$X, "vs", input$Y), 
+           plot_bgcolor = "#e5ecf6",
+           margin = list(l = 20, r = 20, b = 80, t = 10),
+           xaxis = list(title = paste(iris$Sepal.Length,'(cm)')), 
+           yaxis = list(title = paste(iris$Sepal.Width,'(cm)')), 
+           legend = list(title=list(text='<b> Species </b>'),
+                         orientation = "h",   # show entries horizontally
+                         xanchor = "center",  # use center of legend as anchor
+                         x = 0.5)             # put legend in center of x-axis
+        )
 ```
+
+
 
 ***
 
-https://plot.ly/ggplot2/
+\
 
-If you use ggplot2, `ggplotly()` converts your plots to an interactive, web-based version! It also provides sensible tooltips, which assists decoding of values encoded as visual properties in the plot.
+\
 
-plotly supports some chart types that ggplot2 doesn't (such as 3D surface, point, and line plots). You can create these (or any other plotly) charts using `plot_ly()`.
+<center>
+<font style="text-alignment: center; color: darkred; font-wight: bold; "> Plotly Library</font>
+</center>
+
+\
+
+Plotly's R graphing library makes interactive, publication-quality graphs. Examples of how to make line plots, 
+scatter plots, area charts, bar charts, error bars, box plots, histograms, heatmaps, subplots, multiple-axes, 
+and 3D (WebGL based) charts.
+
+The basic syntax is given in the following example code.
+
+`library(plotly)`
+
+`fig <- plot_ly(data = iris,` <br>
+`                  x = ~Sepal.Length,` <br>
+`                  y = ~Petal.Length,` <br>
+`                  color = ~Species)`<br>
+`fig`
 
 
-### MetricsGraphics enables easy creation of D3 scatterplots, line charts, and histograms.
+
+### <font size=3, color="darkred"><b>Interactive R Maps</b></font>
+
 
 ```{r}
-library(metricsgraphics)
-mjs_plot(mtcars, x=wt, y=mpg) %>%
-  mjs_point(color_accessor=carb, size_accessor=carb) %>%
-  mjs_labs(x="Weight of Car", y="Miles per Gallon")
+# Create data frame
+state_pop <- read.csv("https://raw.githubusercontent.com/pengdsci/sta553/main/data/USStatesFacts.csv")
+# Create hover text
+state_pop$hover <- with(state_pop, 
+                        paste(STName, '<br>', "Population:", Population,
+                              '<br>', "Income:", Income,
+                              '<br>', "Life.Exp:", Life.Exp,
+                              '<br>', "Murder:", Murder,
+                              '<br>', "HS.Grad:", HS.Grad))
+# Make state borders white
+borders <- list(color = toRGB("red"))
+# Set up some mapping options
+map_options <- list(
+  scope = 'usa',
+  projection = list(type = 'regular usa'),
+  showlakes = TRUE,
+  lakecolor = toRGB('white')
+)
+plot_ly(z = ~state_pop$Population, 
+        text = ~state_pop$hover, 
+        locations = ~state_pop$State, 
+        type = 'choropleth', 
+        locationmode = 'USA-states', 
+        color = state_pop$Population, 
+        colors = 'YlOrRd', 
+        marker = list(line = borders),
+        showscale=FALSE ) %>%
+  layout(title = 'US Population in 1975', geo = map_options)
 ```
 
-***
 
-https://hrbrmstr.github.io/metricsgraphics/
 
-Building metricsgraphics charts follows the “piping” idiom made popular through the magrittr, ggvis and dplyr packages. This makes it possible to avoid one giant function with a ton of parameters and facilitates breaking out the chart building into logical steps. 
+****
+<br>
+<center><font size=3, color="darkred"><b>Interactive R Maps</b></font></center>
+<br>
+<center><img src = "https://pengdsci.github.io/STA553VIZ/w13/img/RMap.png" width="200" height = "100"></center>
+<br>
 
-While MetricsGraphics.js charts may not have the flexibility of ggplot2, you can build functional, interactive [multi-]line, scatterplot, bar charts & histograms and + even link charts together.
+
+R has several libraries that allow to create elegant and beautiful interactive maps to visualize geo-information and related information through popups. The most commonly used R libraries are leaflet, plotly map and thematic map. Using shape files, one can create choropleth maps for visualize aggregated information.
+
+
+
+
+
+### <font size=3, color="darkred"><b>Tableau Charts and Dashboard</b></font>
+
+<br>
+<br>
+<center><img src = "https://pengdsci.github.io/STA553VIZ/w13/img/TableauVizScreenshot.png" width="500" height = "440"></center>
+<br>
+
+
+
+****
+<br>
+<br>
+<center><img src = "https://pengdsci.github.io/STA553VIZ/w13/img/TableauPublic.png" width="200" height = "60"></center>
+<br>
+
+Tableau is a popular data visualization and business intelligence tool used to analyze and present data. 
+
+Tableau Public is a free platform to explore, create and publicly share data visualizations online. With the largest repository of data visualizations in the world to learn from, Tableau Public makes developing data skills easy. Advance your career in analytics by learning from limitless data inspiration and creating an online portfolio of work.
+
+
+### <font size=3, color="darkred"><b>R Shiny</b></font>
+
+
+```{r}
+library(shiny)
+### global R code
+###
+### if you have R functions that are used repeatedly or the 
+### The function itself is sophisticated, you can put it here
+### to make your code tidy
+##
+##
+### user interface - layout web interface for input and outputs
+###
+ui <- fluidPage(
+   fluidRow(
+    column(3),  
+    column(6,
+     mainPanel(                                        # main panel, in general, we could add
+                                                      # a sidePanel for inputs
+        sliderInput(inputId = "obs",                  # sliderInput - one of the input widgets
+                                                      # 'obs' = input parameter via the slider
+                  label = "Number of observations",   # The title of the slider
+                   min = 1,                           # the minimum input value
+                   max = 1000,                        # the maximum input value
+                  value = 100,                        # the default input is set to be 100
+                animate = list(interval=550, loop=T)),# adding an animated control, interval = time in
+                                                      # millisecond. 1 second = 1000 milliseconds.
+        
+        plotOutput(outputId = "distPlot", height = "100%", width = "100%")         
+                                                  # a placeholder for the output to be 
+                                                  # created inside the server function.
+                                                  # "distPlot" is the reference of the plot output.
+      )
+    ),
+    column(3), 
+  )
+)
+####### information to be processed and computed from the server side. 
+####### All code we wrote for visualization can be placed inside the server function as needed.
+server <- function(input, output) {    # sever function passes two parameters:
+                                       # 'input' = value from UI's sliderInput "obs",                                            
+                                       # 'output' = 'disPlot' in the output placeholder.
+    output$distPlot <- renderPlot({    # 'renderPlot' prepares output plot - pay attention to the reference function.
+                                       # This is how we pass the input information to the server
+                                       # and render the computed information to display in the output panel.
+    generatedData <- rnorm(input$obs)  # simulate standard normal random numbers
+                                       # 'obs' = from sliderInput in the UI
+        hist(generatedData,            # make a histogram use the regular plot function hist()
+             breaks = 12,              # number of intervals.....
+              col="purple",            # fill the vertical bar with a color
+            xlab="Standard Normal Random Numbers ",  # add a horizontal label to the plot
+            main = paste("Sample Size:", input$obs)  # Add a title to the plot. 'input$obs'
+                                                     # pass the input sample size to the title.
+            )      
+    }, height = 300, width = 400 )
+}
+### link the ui and server functions
+shinyApp(ui = ui, server = server)  
+```
+
+
+
+****
+<br>
+<center><img src = "https://pengdsci.github.io/STA553VIZ/w13/img/RShinyIcon.png" width="100" height = "100"></center>
+<br>
+
+Shiny is an open source R package that provides an elegant and powerful web framework for building web applications using R. Shiny helps you turn your analyses into interactive web applications without requiring HTML, CSS, or JavaScript programming. However, it is beneficial to have some basic knowledge in these markup languages.  
+
+
+
+
+
+
+
