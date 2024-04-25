@@ -1276,6 +1276,96 @@ window.buildTabsets = function(tocID) {
 };
 
 </script>
+<script>
+window.initializeCodeFolding = function(show) {
+
+  // handlers for show-all and hide all
+  $("#rmd-show-all-code").click(function() {
+    $('div.r-code-collapse').each(function() {
+      $(this).collapse('show');
+    });
+  });
+  $("#rmd-hide-all-code").click(function() {
+    $('div.r-code-collapse').each(function() {
+      $(this).collapse('hide');
+    });
+  });
+
+  // index for unique code element ids
+  var currentIndex = 1;
+
+  // select all R code blocks
+  var rCodeBlocks = $('pre.r, pre.python, pre.bash, pre.sql, pre.cpp, pre.stan, pre.julia, pre.foldable');
+  rCodeBlocks.each(function() {
+    // skip if the block has fold-none class
+    if ($(this).hasClass('fold-none')) return;
+
+    // create a collapsable div to wrap the code in
+    var div = $('<div class="collapse r-code-collapse"></div>');
+    var showThis = (show || $(this).hasClass('fold-show')) && !$(this).hasClass('fold-hide');
+    var id = 'rcode-643E0F36' + currentIndex++;
+    div.attr('id', id);
+    $(this).before(div);
+    $(this).detach().appendTo(div);
+
+    // add a show code button right above
+    var showCodeText = $('<span>' + (showThis ? 'Hide' : 'Show') + '</span>');
+    var showCodeButton = $('<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm code-folding-btn pull-right float-right"></button>');
+    showCodeButton.append(showCodeText);
+    showCodeButton
+        .attr('data-toggle', 'collapse')
+        .attr('data-bs-toggle', 'collapse') // BS5
+        .attr('data-target', '#' + id)
+        .attr('data-bs-target', '#' + id)   // BS5
+        .attr('aria-expanded', showThis)
+        .attr('aria-controls', id);
+
+    var buttonRow = $('<div class="row"></div>');
+    var buttonCol = $('<div class="col-md-12"></div>');
+
+    buttonCol.append(showCodeButton);
+    buttonRow.append(buttonCol);
+
+    div.before(buttonRow);
+
+    // show the div if necessary
+    if (showThis) div.collapse('show');
+
+    // update state of button on show/hide
+    //   * Change text
+    //   * add a class for intermediate states styling
+    div.on('hide.bs.collapse', function () {
+      showCodeText.text('Show');
+      showCodeButton.addClass('btn-collapsing');
+    });
+    div.on('hidden.bs.collapse', function () {
+      showCodeButton.removeClass('btn-collapsing');
+    });
+    div.on('show.bs.collapse', function () {
+      showCodeText.text('Hide');
+      showCodeButton.addClass('btn-expanding');
+    });
+    div.on('shown.bs.collapse', function () {
+      showCodeButton.removeClass('btn-expanding');
+    });
+
+  });
+
+}
+</script>
+<script>
+window.initializeSourceEmbed = function(filename) {
+  $("#rmd-download-source").click(function() {
+    var src = $("#rmd-source-code").html();
+    var a = document.createElement('a');
+    a.href = "data:text/x-r-markdown;base64," + src;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  });
+};
+</script>
 <style type="text/css">.hljs-literal {
 color: #990073;
 }
@@ -1319,6 +1409,11 @@ if (window.hljs) {
 
 
 
+<style type="text/css">
+#rmd-source-code {
+display: none;
+}
+</style>
 
 
 
@@ -1399,6 +1494,9 @@ display: none;
 </style>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
 
 
 
@@ -1475,6 +1573,16 @@ border-radius: 0px;
 
 
 <div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+<li role="separator" class="divider"></li>
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
 
 
 
@@ -1754,6 +1862,7 @@ in a commentary sidebar to the right.</p>
 </div>
 </div>
 
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIkludHJvZHVjdGlvbiB0byBTaGlueSBEYXNoYm9hcmQgYW5kIFN0b3J5Ym9hcmQiDQphdXRob3I6ICJDaGVuZyBQZW5nIg0KZGF0ZTogIldlc3QgQ2hlc3RlciBVbml2ZXJzaXR5Ig0Kb3V0cHV0Og0KICBodG1sX2RvY3VtZW50OiANCiAgICB0b2M6IHllcw0KICAgIHRvY19mbG9hdDogeWVzDQogICAgY29kZV9mb2xkaW5nOiBoaWRlDQogICAgY29kZV9kb3dubG9hZDogeWVzDQogICAgc21vb3RoX3Njcm9sbDogeWVzDQogICAgbnVtYmVyX3NlY3Rpb25zOiB5ZXMNCiAgcGRmX2RvY3VtZW50Og0KICAgIHRvYzogeWVzDQotLS0NCg0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4NCmRpdiNUT0MgbGkgew0KICAgIGxpc3Qtc3R5bGU6bm9uZTsNCiAgICBiYWNrZ3JvdW5kLWltYWdlOm5vbmU7DQogICAgYmFja2dyb3VuZC1yZXBlYXQ6bm9uZTsNCiAgICBiYWNrZ3JvdW5kLXBvc2l0aW9uOjA7DQp9DQoNCmgxLnRpdGxlIHsNCiAgZm9udC1zaXplOiAyMHB4Ow0KICBjb2xvcjogRGFya1JlZDsNCiAgdGV4dC1hbGlnbjogY2VudGVyOw0KfQ0KaDQuYXV0aG9yIHsgLyogSGVhZGVyIDQgLSBhbmQgdGhlIGF1dGhvciBhbmQgZGF0YSBoZWFkZXJzIHVzZSB0aGlzIHRvbyAgKi8NCiAgICBmb250LXNpemU6IDE4cHg7DQogIGZvbnQtZmFtaWx5OiAiVGltZXMgTmV3IFJvbWFuIiwgVGltZXMsIHNlcmlmOw0KICBjb2xvcjogRGFya1JlZDsNCiAgdGV4dC1hbGlnbjogY2VudGVyOw0KfQ0KaDQuZGF0ZSB7IC8qIEhlYWRlciA0IC0gYW5kIHRoZSBhdXRob3IgYW5kIGRhdGEgaGVhZGVycyB1c2UgdGhpcyB0b28gICovDQogIGZvbnQtc2l6ZTogMThweDsNCiAgZm9udC1mYW1pbHk6ICJUaW1lcyBOZXcgUm9tYW4iLCBUaW1lcywgc2VyaWY7DQogIGNvbG9yOiBEYXJrQmx1ZTsNCiAgdGV4dC1hbGlnbjogY2VudGVyOw0KfQ0KaDEgeyAvKiBIZWFkZXIgMyAtIGFuZCB0aGUgYXV0aG9yIGFuZCBkYXRhIGhlYWRlcnMgdXNlIHRoaXMgdG9vICAqLw0KICAgIGZvbnQtc2l6ZTogMjJweDsNCiAgICBmb250LWZhbWlseTogIlRpbWVzIE5ldyBSb21hbiIsIFRpbWVzLCBzZXJpZjsNCiAgICBjb2xvcjogZGFya3JlZDsNCiAgICB0ZXh0LWFsaWduOiBjZW50ZXI7DQp9DQpoMiB7IC8qIEhlYWRlciAzIC0gYW5kIHRoZSBhdXRob3IgYW5kIGRhdGEgaGVhZGVycyB1c2UgdGhpcyB0b28gICovDQogICAgZm9udC1zaXplOiAxOHB4Ow0KICAgIGZvbnQtZmFtaWx5OiAiVGltZXMgTmV3IFJvbWFuIiwgVGltZXMsIHNlcmlmOw0KICAgIGNvbG9yOiBuYXZ5Ow0KICAgIHRleHQtYWxpZ246IGxlZnQ7DQp9DQoNCmgzIHsgLyogSGVhZGVyIDMgLSBhbmQgdGhlIGF1dGhvciBhbmQgZGF0YSBoZWFkZXJzIHVzZSB0aGlzIHRvbyAgKi8NCiAgICBmb250LXNpemU6IDE1cHg7DQogICAgZm9udC1mYW1pbHk6ICJUaW1lcyBOZXcgUm9tYW4iLCBUaW1lcywgc2VyaWY7DQogICAgY29sb3I6IG5hdnk7DQogICAgdGV4dC1hbGlnbjogbGVmdDsNCn0NCg0KaDQgeyAvKiBIZWFkZXIgNCAtIGFuZCB0aGUgYXV0aG9yIGFuZCBkYXRhIGhlYWRlcnMgdXNlIHRoaXMgdG9vICAqLw0KICAgIGZvbnQtc2l6ZTogMThweDsNCiAgICBmb250LWZhbWlseTogIlRpbWVzIE5ldyBSb21hbiIsIFRpbWVzLCBzZXJpZjsNCiAgICBjb2xvcjogZGFya3JlZDsNCiAgICB0ZXh0LWFsaWduOiBsZWZ0Ow0KfQ0KPC9zdHlsZT4NCg0KYGBge3Igc2V0dXAsIGluY2x1ZGU9RkFMU0V9DQppZiAoIXJlcXVpcmUoImtuaXRyIikpIHsNCiAgIGluc3RhbGwucGFja2FnZXMoImtuaXRyIikNCiAgIGxpYnJhcnkoa25pdHIpDQp9DQppZiAoIXJlcXVpcmUoInNoaW55IikpIHsNCiAgIGluc3RhbGwucGFja2FnZXMoInNoaW55IikNCiAgIGxpYnJhcnkoc2hpbnkpDQp9DQppZiAoIXJlcXVpcmUoImdncGxvdDIiKSkgew0KICAgaW5zdGFsbC5wYWNrYWdlcygiZ2dwbG90MiIpDQogICBsaWJyYXJ5KGdncGxvdDIpDQp9DQppZiAoIXJlcXVpcmUoInRpZHl2ZXJzZSIpKSB7DQogICBpbnN0YWxsLnBhY2thZ2VzKCJ0aWR5dmVyc2UiKQ0KICAgbGlicmFyeSh0aWR5dmVyc2UpDQp9DQppZiAoIXJlcXVpcmUoImRwbHlyIikpIHsNCiAgIGluc3RhbGwucGFja2FnZXMoImRwbHlyIikNCiAgIGxpYnJhcnkoZHBseXIpDQp9DQprbml0cjo6b3B0c19jaHVuayRzZXQoZWNobyA9IFRSVUUsICAgICAgIA0KICAgICAgICAgICAgICAgICAgICAgIHdhcm5pbmcgPSBGQUxTRSwgICANCiAgICAgICAgICAgICAgICAgICAgICByZXN1bHQgPSBUUlVFLCAgIA0KICAgICAgICAgICAgICAgICAgICAgIG1lc3NhZ2UgPSBGQUxTRSwNCiAgICAgICAgICAgICAgICAgICAgICBmaWcuYWxpZ249J2NlbnRlcicsIA0KICAgICAgICAgICAgICAgICAgICAgIGZpZy5wb3MgPSAnaHQnKQ0KYGBgDQoNCg0KDQojIEludHJvZHVjdGlvbg0KDQpZb3UgaGF2ZSB0d28gcGFja2FnZSBvcHRpb25zIGZvciBidWlsZGluZyBTaGlueSBkYXNoYm9hcmRzOiBmbGV4ZGFzaGJvYXJkIGFuZCBzaGlueWRhc2hib2FyZC4NCg0KIyMgKipmbGV4ZGFzaGJvYXJkKioNCg0KRWFzeSBpbnRlcmFjdGl2ZSBkYXNoYm9hcmRzIGZvciBSIHRoYXQgYGB1c2UgUiBNYXJrZG93biB0byBwdWJsaXNoYGAgYSBncm91cCBvZiAqKnJlbGF0ZWQgZGF0YSB2aXN1YWxpemF0aW9ucyoqIGFzIGEgZGFzaGJvYXJkLCBzdXBwb3J0IGEgd2lkZSB2YXJpZXR5IG9mIGNvbXBvbmVudHMgaW5jbHVkaW5nDQoNCiogYGh0bWx3aWRnZXRzYCAtIEEgZnJhbWV3b3JrIGZvciBlbWJlZGRpbmcgSmF2YVNjcmlwdCB2aXN1YWxpemF0aW9ucyBpbnRvIFI7IA0KDQoqIGBiYXNlYCwgYGxhdHRpY2VgLCBhbmQgYGdyaWRgIGdyYXBoaWNzOyANCg0KKiBgdGFidWxhciBkYXRhYDsgDQoNCiogYGdhdWdlc2AgYW5kIGB2YWx1ZSBib3hlc2A7IA0KDQoqIGB0ZXh0IGFubm90YXRpb25zYC4gDQoNCg0KQSBmbGV4ZGFzaGJvYXJkIGlzIGZsZXhpYmxlIGFuZCBlYXN5IHRvIHNwZWNpZnkgYSByb3cgYW5kIGNvbHVtbi1iYXNlZCBsYXlvdXRzIHdpdGggcmUtc2l6aW5nIHRvIGZpbGwgdGhlIGJyb3dzZXIuIGBJdCBpcyBqdXN0IGEgZG9jdW1lbnQgdGhhdCBsb29rcyBsaWtlIGEgZGFzaGJvYXJkLiBIb3dldmVyLCBpdA0KDQoqIGNvbnRhaW5zIHNvbWUgc3BlY2lmaWMgd2lkZ2V0cyBkZXNpZ25lZCB0byB3b3JrIGluIGEgZGFzaGJvYXJkIGxheW91dC4NCg0KKiBvZmZlcnMgc3Rvcnlib2FyZCBsYXlvdXRzIGZvciBwcmVzZW50aW5nIHNlcXVlbmNlcyBvZiB2aXN1YWxpemF0aW9ucyBhbmQgcmVsYXRlZCBjb21tZW50YXJ5IA0KDQoqIGNhbiB1c2Ugc2hpbnkgdG8gZHJpdmUgdmlzdWFsaXphdGlvbnMgZHluYW1pY2FsbHkgYnkgc3BlY2lmeWluZyBgcnVudGltZTogc2hpbnlgIGluIHRoZSBZQU1MIGhlYWQuIA0KDQoqIGNhbiBvbmx5IHJ1biBpbnRlcmFjdGl2ZSBjb2RlIGNsaWVudC1zaWRlIChpbiBlbWJlZGRlZCBKYXZhU2NyaXB0KS4NCg0KDQoNCiMjICoqc2hpbnlkYXNoYm9hcmQqKg0KDQpBbiBSIHBhY2thZ2UgZm9yIGNyZWF0aW5nIGRhc2hib2FyZC1zdHlsZSBsYXlvdXRzIHdpdGggU2hpbnkgdGhhdCB1c2VzDQoNCiogQm9vdHN0cmFwIChhIGZyZWUgb3BlbiBzb3VyY2UgZnJvbnQtZW5kLWZyYW1ld29yayBkZXZlbG9wIGZhc3RlciwgZWFzaWVyLCByZXNwb25zaXZlIHdlYiBwYWdlcykgZm9yIGxheW91dDsNCg0KKiB1c2VzIEFkbWluTFRFLCB3aGljaCBpcyBhIHRoZW1lIGJ1aWx0IG9uIHRvcCBvZiBCb290c3RyYXAuDQoNClVubGlrZSBgZmxleGRhc2hib2FyZGAsICoqc2hpbnlkYXNoYm9hcmQqKiBoYXMgdGhyZWUgc3RydWN0dXJlZCBjb21wb25lbnRzOg0KDQpgYGANCiMjIGFwcC5SICMjDQpsaWJyYXJ5KHNoaW55KQ0KbGlicmFyeShzaGlueWRhc2hib2FyZCkNCg0KdWkgPC0gZGFzaGJvYXJkUGFnZSgNCiAgZGFzaGJvYXJkSGVhZGVyKCksDQogIGRhc2hib2FyZFNpZGViYXIoKSwNCiAgZGFzaGJvYXJkQm9keSgpDQopDQoNCnNlcnZlciA8LSBmdW5jdGlvbihpbnB1dCwgb3V0cHV0KSB7IH0NCg0Kc2hpbnlBcHAodWksIHNlcnZlcikNCmBgYA0KDQpgc2hpbnlkYXNoYm9hcmRgIG5lZWRzIGEgc2VydmVyIGJlaGluZCBpdCB0byBleGVjdXRlIFIgY29kZSBvbiB1c2VyIGlucHV0LiBJdCBjYW4gaW1wbGVtZW50IGEgZGFzaGJvYXJkIGxheW91dCB0aGF0IGNvbnRhaW5zIHNvbWUgc3BlY2lmaWMgd2lkZ2V0cyBkZXNpZ25lZCB0byB3b3JrIGluIGEgZGFzaGJvYXJkIGxheW91dC4gSXQgY2FuIGFsc28gcnVuIGludGVyYWN0aXZlIGNvZGUgZWl0aGVyIGJ5IHByb2Nlc3Npbmcgc2VydmVyLXNpZGUgKGluIFIpIG9yIGNsaWVudC1zaWRlIChpbiBlbWJlZGRlZCBKYXZhU2NyaXB0KS4NCg0KIyMgVGhyZWUgV2ViIEFwcGxpY2F0aW9uIFRlcm1zDQoNCiogKipSZXNwb25zaXZlKio6IGFkYXB0aW5nIGxheW91dHMgdG8gYSB2YXJpZXR5IG9mIHNjcmVlbiBhbmQgd2luZG93IHNpemVzLg0KDQoqICoqSW50ZXJhY3RpdmUqKjogZWxlbWVudHMgdGhhdCByZWFjdCB0byB5b3VyIGFjdGlvbnMgb24gdGhlIHNpdGUuDQoNCiogKipSZWFjdGl2ZSoqOiBhdXRvbWF0aWNhbGx5IGNoZWNraW5nIGFuZCB1cGRhdGluZyBkYXRhIGZyb20gdGhlIHNlcnZlciB3aXRob3V0IHJlZnJlc2hpbmcgdGhlIHdlYnNpdGUuDQoNCg0KIyBVc2luZyBGbGV4ZGFzaGJvYXJkIA0KDQpUaGlzIG5vdGUgb3V0bGluZXMgdGhlIGZsZXhkYXNoYm9hcmQgdXNpbmcgc2hpbnkuDQoNCiMjIENvbXBvbmVudHMNCg0KV2UgY2FuIHVzZSBmbGV4ZGFzaGJvYXJkIHRvIHB1Ymxpc2ggZ3JvdXBzIG9mIGByZWxhdGVkIGRhdGEgdmlzdWFsaXphdGlvbnNgIGFzIGEgZGFzaGJvYXJkLiBBIGZsZXhkYXNoYm9hcmQgY2FuIGVpdGhlciBiZSBzdGF0aWMgKGEgc3RhbmRhcmQgd2ViIHBhZ2UpIG9yIGR5bmFtaWMgKGEgU2hpbnkgaW50ZXJhY3RpdmUgZG9jdW1lbnQpLiBBIHdpZGUgdmFyaWV0eSBvZiBjb21wb25lbnRzIGNhbiBiZSBpbmNsdWRlZCBpbiBmbGV4ZGFzaGJvYXJkIGxheW91dHMsIGluY2x1ZGluZzoNCg0KKiBJbnRlcmFjdGl2ZSBkYXRhIHZpc3VhbGl6YXRpb25zIGJhc2VkIG9uIGh0bWx3aWRnZXRzLg0KDQoqIFIgZ3JhcGhpY2FsIG91dHB1dCBpbmNsdWRpbmcgYmFzZSwgbGF0dGljZSwgYW5kIGdyaWQgZ3JhcGhpY3MuDQoNCiogVGFidWxhciBkYXRhICh3aXRoIG9wdGlvbmFsIHNvcnRpbmcsIGZpbHRlcmluZywgYW5kIHBhZ2luZykuDQoNCiogVmFsdWUgYm94ZXMgZm9yIGhpZ2hsaWdodGluZyBpbXBvcnRhbnQgc3VtbWFyeSBkYXRhLg0KDQoqIEdhdWdlcyBmb3IgZGlzcGxheWluZyB2YWx1ZXMgb24gYSBtZXRlciB3aXRoaW4gYSBzcGVjaWZpZWQgcmFuZ2UuDQoNCiogVGV4dCBhbm5vdGF0aW9ucyBvZiB2YXJpb3VzIGtpbmRzLg0KDQojIyBCYXNpYyBGbGV4ZGFzaGJvYXIgTGF5b3V0DQoNClRoZSBsYXlvdXQgZGVzaWduIGlzIHJlbGF0aXZlbHkgc2ltcGxlciB0aGFuIHRoYXQgb2Ygc2hpbnlkYXNoYm9hcmQuIA0KDQojIyMgU2luZ2xlIENvbHVtbg0KDQpGbGV4ZGFzaGJvYXJkcyBhcmUgZGl2aWRlZCBpbnRvIGNvbHVtbnMgYW5kIHJvd3MsIHdpdGggb3V0cHV0IGNvbXBvbmVudHMgZGVsaW5lYXRlZCB1c2luZyBgbGV2ZWwgMyBtYXJrZG93biBoZWFkZXJzICgjIyMpYC4gQnkgZGVmYXVsdCwgZGFzaGJvYXJkcyBhcmUgbGFpZCBvdXQgd2l0aGluIGEgc2luZ2xlIGNvbHVtbiwgd2l0aCBjaGFydHMgc3RhY2tlZCB2ZXJ0aWNhbGx5IHdpdGhpbiBhIGNvbHVtbiBhbmQgc2l6ZWQgdG8gZmlsbCBhdmFpbGFibGUgYnJvd3NlciBoZWlnaHQuIA0KDQo8Y2VudGVyPjxpbWcgc3JjID0gImltZy9mbGV4U2luZ2xlQ29sdW1uLnBuZyIgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyNTAiPiA8L2NlbnRlcj4NCg0KDQoNCiMjIyBNdWx0aXBsZSBDb2x1bW4NCg0KVG8gbGF5b3V0IGNoYXJ0cyB1c2luZyBtdWx0aXBsZSBjb2x1bW5zIHlvdSBpbnRyb2R1Y2UgYSBgbGV2ZWwgMiBtYXJrZG93biBoZWFkZXIgKC0tLS0tLS0tLS0tLS0tKWAgZm9yIGVhY2ggY29sdW1uLiANCg0KPGNlbnRlcj48aW1nIHNyYyA9ICJpbWcvZmxleE11bHRpcGxlQ29sdW1uLnBuZyIgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyNTAiPiA8L2NlbnRlcj4NCg0KIyMjIFJvdyBPcmllbnRhdGlvbg0KDQpXZSBjYW4gYWxzbyBjaG9vc2UgdG8gb3JpZW50IGRhc2hib2FyZHMgcm93LXdpc2UgcmF0aGVyIHRoYW4gY29sdW1uLXdpc2UgYnkgc3BlY2lmeWluZyB0aGUgYG9yaWVudGF0aW9uOiByb3dzYCBvcHRpb24uDQoNCjxjZW50ZXI+PGltZyBzcmMgPSAiaW1nL2ZsZXhSb3dPcmllbnRhdGlvbi5wbmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjUwIj4gPC9jZW50ZXI+DQoNCiMjIyBHcmlkIExheW91dA0KDQpUaGlzIGxheW91dCB1c2VzIHRoZSBkZWZhdWx0IGB2ZXJ0aWNhbF9zY3JvbGw6IGZpbGxgIGJlaGF2aW9yLiBJdCBtaWdodCBiZSBwcmVmZXJhYmxlIHRvIGFsbG93IHRoZSBwYWdlIHRvIHNjcm9sbCAodmVydGljYWxfbGF5b3V0OiBzY3JvbGwpLiANCg0KYG9yaWVudGF0aW9uOiByb3dzYCBpcyB1c2VkIHRvIGVuc3VyZSB0aGF0IHRoZSBjaGFydCBiYXNlbGluZXMgbGluZSB1cCBob3Jpem9udGFsbHkuDQoNCjxjZW50ZXI+PGltZyBzcmMgPSAiaW1nL2ZsZXhHcmlkLnBuZyIgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyNTAiPiA8L2NlbnRlcj4NCg0KDQoNCiMjIyBUYWJzZXQgQ29sdW1uDQoNClRoaXMgbGF5b3V0IGRpc3BsYXlzIHRoZSByaWdodCBjb2x1bW4gYXMgYSBzZXQgb2YgdHdvIHRhYnMuIFRhYnMgYXJlIGVzcGVjaWFsbHkgdXNlZnVsIHdoZW4geW91IGhhdmUgYSBsYXJnZSBudW1iZXIgb2YgY29tcG9uZW50cyB0byBkaXNwbGF5IGFuZCBwcmVmZXIgbm90IHRvIHJlcXVpcmUgdGhlIHVzZXIgdG8gc2Nyb2xsIHRvIGFjY2VzcyBldmVyeXRoaW5nLg0KDQo8Y2VudGVyPjxpbWcgc3JjID0gImltZy9mbGV4VGFic2V0Q29sdW1uLnBuZyIgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyNTAiPiA8L2NlbnRlcj4NCg0KDQoNCiMjIyBJbnB1dCBTaWRlYmFyDQoNClRoaXMgbGF5b3V0IGRlbW9uc3RyYXRlcyBob3cgdG8gYWRkIGEgc2lkZWJhciB0byBhIGZsZXhkYXNoYm9hcmQgcGFnZSAoU2hpbnktYmFzZWQgZGFzaGJvYXJkcyB3aWxsIG9mdGVuIHByZXNlbnQgdXNlciBpbnB1dCBjb250cm9scyBpbiBhIHNpZGViYXIpLiBUbyBpbmNsdWRlIGEgc2lkZWJhciB5b3UgYWRkIHRoZSBgLnNpZGViYXJgIGNsYXNzIHRvIGEgYGxldmVsIDIgaGVhZGVyICgtLS0tLS0tLS0tLS0tLS0tLS0tKWA6DQoNCjxjZW50ZXI+PGltZyBzcmMgPSAiaW1nL2ZsZXhJbnB1dFNpZGViYXIucG5nIiB3aWR0aD0iNDAwIiBoZWlnaHQ9IjI1MCI+IDwvY2VudGVyPg0KDQoNCiMjIyBHbG9iYWwgSW5wdXQgU2lkZWJhcg0KDQpJZiB3ZSBoYXZlIGEgbGF5b3V0IHRoYXQgdXNlcyBNdWx0aXBsZSBQYWdlcyB5b3UgbWF5IHdhbnQgdGhlIHNpZGViYXIgdG8gYmUgZ2xvYmFsIChpLmUuIHByZXNlbnQgZm9yIGFsbCBwYWdlcykuIFRvIGluY2x1ZGUgYSBnbG9iYWwgc2lkZWJhciB5b3UgYWRkIHRoZSAuc2lkZWJhciBjbGFzcyB0byBhIGBsZXZlbCAxIGhlYWRlciAoPT09PT09PT09PT09PT09PT09PT09PSlgOg0KDQo8Y2VudGVyPjxpbWcgc3JjID0gImltZy9mbGV4R2xvYmFsSW5wdXRTaWRlYmFyLnBuZyIgd2lkdGg9IjYwMCIgaGVpZ2h0PSIzMDAiPiA8L2NlbnRlcj4NCg0KDQojIFN0b3J5Ym9hcmRzDQoNClN0b3J5Ym9hcmRzIGFyZSBhbiBhbHRlcm5hdGl2ZSB0byB0aGUgcm93IGFuZCBjb2x1bW4tYmFzZWQgbGF5b3V0IHNjaGVtZXMgZGVzY3JpYmVkIGFib3ZlIHRoYXQgYXJlIHdlbGwgc3VpdGVkIHRvIHByZXNlbnRpbmcgYSBzZXF1ZW5jZSBvZiBkYXRhIHZpc3VhbGl6YXRpb25zIGFuZCByZWxhdGVkIGNvbW1lbnRhcnkuDQoNCiMjIFN0b3J5Ym9hcmQgQmFzaWNzDQoNClRvIGNyZWF0ZSBhIHN0b3J5Ym9hcmQgbGF5b3V0IHlvdSBkbyB0aGUgZm9sbG93aW5nOg0KDQoqIEFkZCB0aGUgc3Rvcnlib2FyZDogdHJ1ZSBvcHRpb24gdG8gdGhlIGRhc2hib2FyZC4NCg0KKiBJbmNsdWRlIGEgc2V0IG9mIGBsZXZlbCAzICgjIyMpYCBkYXNoYm9hcmQgY29tcG9uZW50cy4gRWFjaCBjb21wb25lbnQgd2lsbCBiZSBhbGxvY2F0ZWQgaXRzIG93biBmcmFtZSBpbiB0aGUgc3Rvcnlib2FyZCwgd2l0aCB0aGUgc2VjdGlvbiB0aXRsZSB1c2VkIGFzIHRoZSBuYXZpZ2F0aW9uIGNhcHRpb24uDQoNClRoZSBiYXNpY3Mgb2YgY3JlYXRpbmcgc3Rvcnlib2FyZHMgYXJlIGV4cGxhaW5lZCBiZWxvdy4gRm9yIGEgbW9yZSBjb21wbGV0ZSBleGFtcGxlLCBzZWUgdGhlIEhUTUwgV2lkZ2V0cyBTaG93Y2FzZSBzdG9yeWJvYXJkLg0KDQoNCiMjIFN0b3J5Ym9hcmQgUGFnZXMNCg0KV2UgY2FuIGxheW91dCBvbmUgb3IgbW9yZSBwYWdlcyBvZiBhIGRhc2hib2FyZCBhcyBzdG9yeWJvYXJkcyBhbmQgdGhlbiB1c2UgdHJhZGl0aW9uYWwgcm93IGFuZCBjb2x1bW4gbGF5b3V0cyBvbiB0aGUgb3RoZXIgcGFnZXMuIFRvIGRvIHRoaXMsIHlvdSBleGNsdWRlIHRoZSBzdG9yeWJvYXJkOiB0cnVlIG9wdGlvbiBhbmQgaW5zdGVhZCBhZGQgdGhlIGB7LnN0b3J5Ym9hcmR9YCBjbGFzcyB0byBwYWdlcyB5b3Ugd2FudCB0byBsYXlvdXQgYXMgc3Rvcnlib2FyZHMuDQoNCiMjIENvbW1lbnRhcnkNCg0KV2UgbWF5IHdpc2ggdG8gYWRkIGNvbW1lbnRhcnkgYWxvbmdzaWRlIHRoZSBmcmFtZXMgaW4geW91ciBzdG9yeWJvYXJkLiBUbyBkbyB0aGlzIHlvdSBhZGQgYSBob3Jpem9udGFsIHJ1bGUgc2VwYXJhdG9yICgqKiopIGFmdGVyIHRoZSBtYWluIGJvZHkgb2YgZnJhbWUgY29udGVudC4gQ29udGVudCBhZnRlciB0aGUgc2VwYXJhdG9yIHdpbGwgYXBwZWFyIGluIGEgY29tbWVudGFyeSBzaWRlYmFyIHRvIHRoZSByaWdodC4NCg0KXA0KDQpcDQoNCg0KDQoNCg0KDQo=</div>
 
 
 </div>
@@ -1789,7 +1898,16 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("w13-IntroShinyDashBoard.Rmd");
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
 
+    
+    
+    
 <script>
 $(document).ready(function ()  {
 
@@ -1819,7 +1937,7 @@ $(document).ready(function ()  {
     var toc = $("#TOC").tocify(options).data("toc-tocify");
 });
 </script>
-
+    
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
   (function () {
